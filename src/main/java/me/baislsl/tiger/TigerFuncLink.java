@@ -44,7 +44,7 @@ public class TigerFuncLink {
     }
 
     public static String subString(String s, int first, int n) {
-        return s.substring(first, n);
+        return s.substring(first, first + n);
     }
 
     public static String concat(String s1, String s2) {
