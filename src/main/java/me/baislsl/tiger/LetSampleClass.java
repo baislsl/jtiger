@@ -15,12 +15,10 @@ public class LetSampleClass {
     // dec
 
     // vardec
-    int var1;
+    public int var1;
 
     // tyDec
     // generate class
-
-    /* func_params init */
 
     // Object should be parent type
     public LetSampleClass(Object parent) {

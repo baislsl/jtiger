@@ -15,6 +15,6 @@ class TypeClassGenTest {
         Map<String, String> member = new HashMap<>();
         member.put("element", "int");
         member.put("next", "List");
-        TypeClassGen.produce(name, member, "./target/classes/List.class");
+        TypeClassGen.generateClass(name, member);
     }
 }

@@ -8,6 +8,6 @@ public abstract class Ty implements Tiger {
 
     @Override
     public Type type() {
-        return null;
+        return type;
     }
 }

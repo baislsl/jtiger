@@ -1,5 +1,6 @@
 package me.baislsl.tiger;
 
+import me.baislsl.tiger.structure.*;
 import org.apache.bcel.Const;
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.generic.*;
@@ -7,6 +8,7 @@ import org.apache.bcel.generic.*;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class TypeClassGen {
@@ -18,7 +20,7 @@ public class TypeClassGen {
     private TypeClassGen(String name, Map<String, String> fields) {
         this.fields = fields;
         cg = new ClassGen(name,
-               // "java.lang.Object",
+                // "java.lang.Object",
                 TigerObject.class.getName(),
                 name + ".class",
                 Const.ACC_PUBLIC,
@@ -43,24 +45,38 @@ public class TypeClassGen {
     }
 
 
+    public static void generateClass(TigerEnv env, TyDec tyDec) {
+        Map<String, String> fields = new HashMap<>();
+        if (tyDec.isSingleTypeId) {
+            fields.put(tyDec.tyOfTyId.name, env.getTypeTable().query(tyDec.tyOfTyId.name).symbol.name());
+        } else {
+            if (tyDec.ty instanceof RecTy) {
+                RecTy recTy = (RecTy) tyDec.ty;
+                for (FieldDec f : recTy.decs) {
+                    fields.put(f.id.name, f.tyId.name);
+                }
+            }
+        }
+        generateClass(tyDec.tyId.name, fields);
+    }
+
     /**
      * generate *.class file of the target object class
      *
      * @param name   new type name
      * @param fields field-name -> type
      *               type can be int, string  and new type declared
-     * @param path   where the *.class file will be saved
      */
 
-    public static void produce(String name, Map<String, String> fields, String path) {
+    public static void generateClass(String name, Map<String, String> fields) {
         TypeClassGen factory = new TypeClassGen(name, fields);
         factory.addFieldDeclare();
         factory.addInit();
         JavaClass javaClass = factory.cg.getJavaClass();
         try {
-            javaClass.dump(new BufferedOutputStream(new FileOutputStream(path)));
+            javaClass.dump(Util.classPath + name + ".class");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CompileException(e);
         }
     }
 

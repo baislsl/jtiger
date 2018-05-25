@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 public class FuncDecGen {
     private TigerEnv env;
     private FunDec funDec;
-    private String header;
     private String parent;
 
     private ClassGen cg;

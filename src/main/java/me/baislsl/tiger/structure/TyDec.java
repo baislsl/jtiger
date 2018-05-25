@@ -7,8 +7,13 @@ public class TyDec extends Dec {
     public Token tyId;
     public Token equal;
 
+    public boolean isSingleTypeId = false;
+    public Token tyOfTyId; // use when isSingleTypeId is true;
+                            // type any = int
+
     // ty of tyId
     public Ty ty;
+
     @Override
     public Type type() {
         return null;

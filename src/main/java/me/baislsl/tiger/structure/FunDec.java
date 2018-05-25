@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FunDec implements Tiger {
+public class FunDec extends Dec implements Tiger {
     public Token function;
     public Token id;
     public List<FieldDec> decs = new ArrayList<>();
