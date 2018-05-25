@@ -2,7 +2,7 @@ package me.baislsl.tiger;
 
 import me.baislsl.tiger.structure.*;
 import me.baislsl.tiger.symbol.DecFunSymbol;
-import me.baislsl.tiger.symbol.FieldSymbol;
+import me.baislsl.tiger.symbol.ClassFieldSymbol;
 import me.baislsl.tiger.symbol.GenerateTypeSymbol;
 import me.baislsl.tiger.symbol.UserTypeSymbol;
 import org.apache.bcel.Const;
@@ -67,7 +67,7 @@ public class LetExpGen {
             FieldDec fieldDec = new FieldDec();
             fieldDec.id = v.id;
             fieldDec.tyId = v.tyId;
-            env.getFieldTable().put(v.id.name, new FieldSymbol(fieldDec));
+            env.getFieldTable().put(v.id.name, new ClassFieldSymbol(fieldDec));
         }
         for (FunDec f : funDecs) {
             env.getFuncTable().put(f.id.name, new DecFunSymbol(f));

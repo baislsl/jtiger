@@ -5,8 +5,7 @@ import me.baislsl.tiger.symbol.*;
 import org.apache.bcel.Const;
 import org.apache.bcel.generic.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class TigerVisitorImpl implements TigerVisitor {
 
@@ -40,9 +39,46 @@ public class TigerVisitorImpl implements TigerVisitor {
         throw new CompileException("Unsupported to compile " + e.getClass().getSimpleName());
     }
 
+    // this symbol should be the left most one
+    private void pushSymbol(String name) {
+        SymbolTable.QueryResult<FieldSymbol> r = fieldTable.query(name);
+        if (r.symbol.isLocalVariable()) {    // local value
+            LocalFieldSymbol symbol = (LocalFieldSymbol) r.symbol;
+            il.append(InstructionFactory.createLoad(symbol.type(), symbol.index()));
+        } else {    // field of class
+            ClassFieldSymbol symbol = (ClassFieldSymbol) r.symbol;
+            int depth = r.depth;
+            // TODO: 需要记录下parent的类型
+
+            il.append(InstructionConst.THIS);
+            il.append(factory.createGetField(cg.getClassName(), symbol.name(), symbol.type()));
+        }
+    }
+
     @Override
     public void visit(Assignment e) {
-        throw new CompileException("Unsupported to compile " + e.getClass().getSimpleName());
+        if (e.lvOnlyId) {
+            SymbolTable.QueryResult<FieldSymbol> r = fieldTable.query(e.lvid.name);
+            if (r.symbol.isLocalVariable()) {    // local value
+                LocalFieldSymbol symbol = (LocalFieldSymbol) r.symbol;
+                e.exp.accept(this);
+                il.append(InstructionFactory.createStore(symbol.type(), symbol.index()));
+            } else {    // field of class
+                ClassFieldSymbol symbol = (ClassFieldSymbol) r.symbol;
+                il.append(InstructionConst.THIS);
+                il.append(factory.createPutField(cg.getClassName(), symbol.name(), symbol.type()));
+            }
+        } else {
+            if (e.lv instanceof Subscript) throw new CompileException("Unsupported for Subscript");
+            FieldExp exp = (FieldExp) e.lv;
+            if (exp.lvalue instanceof Subscript) throw new CompileException("Unsupported for Subscript");
+            if (exp.lvOnlyId) {
+
+            } else {    // fieldExp
+                exp.lvalue.accept(this);
+            }
+
+        }
     }
 
     @Override
@@ -82,7 +118,6 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(FieldCreate e) {
-        throw new CompileException("Unsupported to compile " + e.getClass().getSimpleName());
     }
 
     @Override
@@ -92,12 +127,25 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(FieldExp e) {
-        throw new CompileException("Unsupported to compile " + e.getClass().getSimpleName());
     }
 
     @Override
     public void visit(ForExp e) {
-        throw new CompileException("Unsupported to compile " + e.getClass().getSimpleName());
+        LocalVariableGen lg = mg.addLocalVariable(e.id.name, Type.INT, null, null);
+        lg.setStart(il.append(InstructionConst.NOP));
+        e.fromExp.accept(this);
+        il.append(InstructionFactory.createStore(Type.INT, lg.getIndex()));
+        e.toExp.accept(this);
+        InstructionHandle loop = il.append(InstructionConst.DUP);
+        il.append(InstructionFactory.createBinaryOperation("-", Type.INT));
+        BranchInstruction br = InstructionFactory.createBranchInstruction(Const.IFGT, null);
+        e.doExp.accept(this);
+        if (e.doExp.type() != Type.VOID) {
+            il.append(InstructionConst.POP);
+        }
+        il.append(new GOTO(loop));
+        br.setTarget(il.append(InstructionConst.POP)); // pop out the "toExp" value
+        lg.setEnd(il.getEnd());
     }
 
     @Override
@@ -128,9 +176,56 @@ public class TigerVisitorImpl implements TigerVisitor {
         gt.setTarget(il.append(InstructionConst.NOP));
     }
 
+    private static Map<String, Short> branchMap = new HashMap<>();
+
+    static {
+        branchMap.put("<", Const.IFLT);
+        branchMap.put(">", Const.IFGT);
+        branchMap.put("<=", Const.IFLE);
+        branchMap.put(">=", Const.IFGE);
+        branchMap.put("=", Const.IFEQ);
+        branchMap.put("<>", Const.IFNE);
+    }
+
     @Override
     public void visit(InfixExp e) {
-        throw new CompileException("Unsupported to compile " + e.getClass().getSimpleName());
+        // *, /, +, -,
+        // =, <>, >, <, >=, <=,
+        // &, |
+        String oper = e.infixOp.name;
+        if (Arrays.asList("*", "/", "+", "-").contains(oper)) {
+            e.exp1.accept(this);
+            e.exp2.accept(this);
+            il.append(InstructionFactory.createBinaryOperation(oper, Type.INT));
+        } else if (Arrays.asList("=", "<>", ">", "<", ">=", "<=").contains(oper)) {
+            e.exp1.accept(this);
+            e.exp2.accept(this);
+            if (e.exp1.type().equals(Type.INT)) {
+                il.append(InstructionFactory.createBinaryOperation("-", Type.INT));
+            } else {    //  invoke String::compareTo
+                il.append(factory.createInvoke("java.lang.String",
+                        "compareTo", Type.INT, new Type[]{Type.STRING}, Const.INVOKEVIRTUAL));
+            }
+            BranchInstruction br = InstructionFactory.createBranchInstruction(branchMap.get(oper), null);
+            il.append(br);
+            il.append(factory.createConstant(0));
+            GOTO g = new GOTO(null);
+            il.append(g);
+            br.setTarget(il.append(factory.createConstant(1)));
+            g.setTarget(il.append(InstructionConst.NOP));
+        } else if (oper.equals("&")) {    // "&", "|"
+            e.exp1.accept(this);
+            BranchInstruction br = InstructionFactory.createBranchInstruction(Const.IFEQ, null);
+            il.append(br);
+            e.exp2.accept(this);
+            br.setTarget(il.append(InstructionConst.NOP));
+        } else {    // "|"
+            e.exp1.accept(this);
+            BranchInstruction br = InstructionFactory.createBranchInstruction(Const.IFNE, null);
+            il.append(br);
+            e.exp2.accept(this);
+            br.setTarget(il.append(InstructionConst.NOP));
+        }
     }
 
     @Override
@@ -180,7 +275,6 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(RecCreate e) {
-        throw new CompileException("Unsupported to compile " + e.getClass().getSimpleName());
     }
 
     @Override

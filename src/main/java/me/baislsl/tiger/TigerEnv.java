@@ -1,7 +1,6 @@
 package me.baislsl.tiger;
 
 import me.baislsl.tiger.symbol.*;
-import org.apache.bcel.generic.Type;
 
 public class TigerEnv {
 

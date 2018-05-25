@@ -2,16 +2,13 @@ package me.baislsl.tiger;
 
 import me.baislsl.tiger.structure.FieldDec;
 import me.baislsl.tiger.structure.FunDec;
-import me.baislsl.tiger.structure.Token;
-import me.baislsl.tiger.symbol.FieldSymbol;
-import me.baislsl.tiger.symbol.TypeSymbol;
+import me.baislsl.tiger.symbol.ClassFieldSymbol;
 import org.apache.bcel.Const;
 import org.apache.bcel.generic.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FuncDecGen {
     private TigerEnv env;
@@ -48,7 +45,7 @@ public class FuncDecGen {
 
     private void updateFieldTable() {
         for(FieldDec f : funDec.decs) {
-            env.getFieldTable().put(f.id.name, new FieldSymbol(f));
+            env.getFieldTable().put(f.id.name, new ClassFieldSymbol(f));
         }
     }
 
