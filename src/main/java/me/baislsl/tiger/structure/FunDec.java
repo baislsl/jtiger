@@ -18,6 +18,9 @@ public class FunDec extends Dec implements Tiger {
     public Token equal;
     public Exp exp;
 
+    // this should be fill after generate func class
+    public String parent;
+
     @Override
     public Type type() {
         return exp.type();

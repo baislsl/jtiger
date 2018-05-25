@@ -26,6 +26,7 @@ public class DecFunSymbol implements FunSymbol {
 
     @Override
     public List<Type> paramsType() {
+        // do not contain parent
         List<Type> types = new ArrayList<>();
         for (FieldDec f : dec.decs) {
             types.add(f.type());

@@ -32,6 +32,7 @@ public class LetSampleClass {
 
 
     public void invoke() {
+        int i = new Object().hashCode();
     }
 
 

@@ -29,6 +29,7 @@ public class LetExpGen {
     public static void generateClass(TigerEnv env, LetExp letExp, String parent) {
         LetExpGen gen = new LetExpGen(env, letExp, parent);
         gen.updateEnv();
+        gen.generateParentField();
         gen.generateField();
         gen.generateConstructor();
         gen.generateInvoke();
@@ -40,7 +41,7 @@ public class LetExpGen {
     }
 
     private LetExpGen(TigerEnv env, LetExp letExp, String parent) {
-        this.env = env;
+        this.env = new TigerEnv(env);
         this.letExp = letExp;
         this.parent = parent;
         this.className = letExp.className;
@@ -73,6 +74,13 @@ public class LetExpGen {
             FuncDecGen.generateClass(env, f, className);
         }
     }
+
+    private void generateParentField() {
+        FieldGen fg = new FieldGen(Const.ACC_PUBLIC, env.getTypeTable().query(parent).symbol.type(),
+                Util.parentFieldName, cp);
+        cg.addField(fg.getField());
+    }
+
 
     private void generateField() {
         for (VarDec v : varDecs) {
@@ -113,6 +121,7 @@ public class LetExpGen {
         }
 
         il.append(InstructionConst.RETURN);
+        mg.setMaxStack();   // TODO:
         cg.addMethod(mg.getMethod());
     }
 
@@ -131,6 +140,14 @@ public class LetExpGen {
                 il.append(InstructionConst.POP);
             }
         }
+
+        if(!letExp.exps.isEmpty() && letExp.exps.get(letExp.exps.size() - 1).type() != Type.VOID) {
+            il.append(InstructionFactory.createReturn(letExp.exps.get(letExp.exps.size() - 1).type()));
+        } else {
+            il.append(InstructionConst.RETURN);
+        }
+
+        mg.setMaxStack();   // TODO:
         cg.addMethod(mg.getMethod());
     }
 

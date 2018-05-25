@@ -23,6 +23,7 @@ public class FuncDecGen {
 
 
     private FuncDecGen(TigerEnv env, FunDec funDec, String parent) {
+        funDec.parent = parent;
         this.funDec = funDec;
         this.env = new TigerEnv(env);
         this.parent = parent;
@@ -94,6 +95,7 @@ public class FuncDecGen {
             il.append(factory.createPutField(cg.getClassName(), argName.get(i), argType.get(i)));
         }
         il.append(InstructionConst.RETURN);
+        mg.setMaxStack();
         cg.addMethod(mg.getMethod());
     }
 
@@ -107,6 +109,12 @@ public class FuncDecGen {
 
         TigerVisitorImpl visitor = new TigerVisitorImpl(env, cg, mg, il);
         funDec.exp.accept(visitor);
+        if(funDec.exp.type() != Type.VOID) {
+            il.append(InstructionFactory.createReturn(funDec.exp.type()));
+        } else {
+            il.append(InstructionFactory.RETURN);
+        }
+        mg.setMaxStack();
         cg.addMethod(mg.getMethod());
     }
 

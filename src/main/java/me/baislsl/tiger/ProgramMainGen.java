@@ -1,6 +1,8 @@
 package me.baislsl.tiger;
 
 import me.baislsl.tiger.structure.Program;
+import me.baislsl.tiger.structure.Ty;
+import me.baislsl.tiger.symbol.GenerateTypeSymbol;
 import org.apache.bcel.Const;
 import org.apache.bcel.generic.*;
 
@@ -33,6 +35,9 @@ public class ProgramMainGen {
                 Const.ACC_SUPER,
                 null);
         ConstantPoolGen cp = cg.getConstantPool(); // cg creates constant pool
+        cg.addEmptyConstructor(Const.ACC_PUBLIC);
+
+        // main()
         InstructionList il = new InstructionList();
         MethodGen mg = new MethodGen(Const.ACC_STATIC |
                 Const.ACC_PUBLIC,// access flags
@@ -43,18 +48,32 @@ public class ProgramMainGen {
                 new String[]{"argv"}, // arg names
                 "main", className,    // method, class
                 il, cp);
-        TigerEnv env = new TigerEnv();
-        TigerVisitorImpl visitor = new TigerVisitorImpl(env, cg, mg, il);
+        InstructionFactory factory = new InstructionFactory(cp);
+        il.append(factory.createNew(className));
+        il.append(InstructionConst.DUP);
+        il.append(factory.createInvoke(className, "<init>", Type.VOID, Type.NO_ARGS,
+                Const.INVOKESPECIAL));
+        il.append(factory.createInvoke(className, Util.invokeFuncName, Type.VOID, Type.NO_ARGS,
+                Const.INVOKEVIRTUAL));
+        il.append(InstructionConst.RETURN);
+        mg.setMaxStack();
+        cg.addMethod(mg.getMethod());
 
+        // invoke()
+        il = new InstructionList();
+        mg = new MethodGen(Const.ACC_PUBLIC, Type.VOID, Type.NO_ARGS, new String[]{},
+                Util.invokeFuncName, className, il, cp);
+        TigerEnv env = new TigerEnv();
+        env.getTypeTable().put(className, new GenerateTypeSymbol(className));
+        TigerVisitorImpl visitor = new TigerVisitorImpl(env, cg, mg, il);
         p.exp.accept(visitor);
-        if (p.type() != Type.VOID) {
+        if (p.exp.type() != Type.VOID) {
             il.append(InstructionConst.POP);
         }
         il.append(InstructionConst.RETURN);
-        mg.setMaxStack();   // TODO:
+        mg.setMaxStack();
         cg.addMethod(mg.getMethod());
         il.dispose();
-        cg.addEmptyConstructor(Const.ACC_PUBLIC);
         try {
             cg.getJavaClass().dump(Util.classPath + className + ".class");
         } catch (IOException e) {

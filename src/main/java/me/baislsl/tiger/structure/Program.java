@@ -6,7 +6,7 @@ public class Program implements Tiger{
     public  Exp exp;
     @Override
     public Type type() {
-        return null;
+        return exp.type();
     }
 
     @Override

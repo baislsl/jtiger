@@ -6,20 +6,24 @@ import org.apache.bcel.generic.Type;
 
 public class GenerateTypeSymbol implements TypeSymbol {
 
-    private LetExp letExp;
+    private String name;
 
     public GenerateTypeSymbol(LetExp letExp) {
-        this.letExp = letExp;
+        this.name = letExp.className;
+    }
+
+    public GenerateTypeSymbol(String name) {
+        this.name = name;
     }
 
     @Override
     public String name() {
-        return letExp.className;
+        return name;
     }
 
     @Override
     public Type type() {
-        return new ObjectType(letExp.className);
+        return new ObjectType(name);
     }
 
     @Override
