@@ -1,6 +1,7 @@
 package me.baislsl.tiger;
 
 import me.baislsl.tiger.symbol.*;
+import org.apache.bcel.generic.Type;
 
 public class TigerEnv {
 
@@ -13,6 +14,7 @@ public class TigerEnv {
         fieldTable = new SymbolTable<>();
         funcTable = new SymbolTable<>();
         loadSystemFunc(funcTable);
+        loadSystemType(typeTable);
     }
 
     public TigerEnv(TigerEnv parent) {
@@ -22,12 +24,15 @@ public class TigerEnv {
     }
 
     private static void loadSystemFunc(SymbolTable<FunSymbol> funcTable) {
-        for(SystemFunSymbol s : SystemFunSymbol.symbols) {
+        for (SystemFunSymbol s : SystemFunSymbol.symbols) {
             funcTable.put(s.name(), s);
         }
     }
 
-
+    private static void loadSystemType(SymbolTable<TypeSymbol> typeTable) {
+        typeTable.put("int", PrimitiveType.INT);
+        typeTable.put("string", PrimitiveType.STRING);
+    }
 
 
     public SymbolTable<TypeSymbol> getTypeTable() {

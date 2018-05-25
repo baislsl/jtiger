@@ -1,17 +1,8 @@
 package me.baislsl.tiger.symbol;
 
-import me.baislsl.tiger.structure.TyDec;
+import org.apache.bcel.generic.Type;
 
-public class TypeSymbol implements Symbol {
-
-    private TyDec dec;
-
-    public TypeSymbol(TyDec dec) {
-        this.dec = dec;
-    }
-
-    @Override
-    public String name() {
-        return dec.tyId.name;
-    }
+public interface TypeSymbol extends Symbol {
+    boolean isPrimitiveType();
+    Type type();
 }

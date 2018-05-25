@@ -4,6 +4,7 @@ import me.baislsl.tiger.structure.*;
 import me.baislsl.tiger.symbol.FieldSymbol;
 import me.baislsl.tiger.symbol.FunSymbol;
 import me.baislsl.tiger.symbol.TypeSymbol;
+import me.baislsl.tiger.symbol.UserTypeSymbol;
 import org.apache.bcel.Const;
 import org.apache.bcel.generic.*;
 
@@ -46,7 +47,7 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(Call e) {
-        for(Exp param : e.exps) {
+        for (Exp param : e.exps) {
             param.accept(this);
         }
 
@@ -90,12 +91,24 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(IfThen e) {
-
+        e.ifExp.accept(this);
+        BranchInstruction br = InstructionFactory.createBranchInstruction(Const.IFEQ, null);
+        il.append(br);
+        e.thenExp.accept(this);
+        br.setTarget(il.append(InstructionConst.NOP));
     }
 
     @Override
     public void visit(IfThenElse e) {
-
+        e.ifExp.accept(this);
+        BranchInstruction br = InstructionFactory.createBranchInstruction(Const.IFEQ, null);
+        il.append(br);
+        e.thenExp.accept(this);
+        BranchInstruction gt = InstructionFactory.createBranchInstruction(Const.GOTO, null);
+        il.append(gt);
+        br.setTarget(il.append(InstructionConst.NOP));
+        e.elseExp.accept(this);
+        gt.setTarget(il.append(InstructionConst.NOP));
     }
 
     @Override
@@ -115,16 +128,22 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(Negation e) {
-
+        if (e.exp.type != Type.INT) {
+            throw new CompileException("Can not negation on a non int value");
+        }
+        il.append(factory.createConstant(0));
+        e.exp.accept(this);
+        il.append(InstructionFactory.createBinaryOperation("-", Type.INT));
     }
 
     @Override
     public void visit(Nil e) {
-        il.append(factory.createNull(e.type));
+        il.append(InstructionFactory.createNull(e.type));
     }
 
     @Override
     public void visit(Program e) {
+        throw new CompileException(new UnsupportedOperationException());
     }
 
     @Override
@@ -139,7 +158,12 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(SeqExp e) {
-
+        for (int i = 0; i < e.exps.size(); i++) {
+            e.exps.get(i).accept(this);
+            if (i != e.exps.size() - 1 && e.exps.get(i).type != Type.VOID) {
+                il.append(InstructionConst.POP);
+            }
+        }
     }
 
     @Override
@@ -149,7 +173,7 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(Subscript e) {
-
+        throw new CompileException(new UnsupportedOperationException());
     }
 
     @Override
@@ -164,7 +188,12 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(While e) {
-
+        InstructionHandle begin = il.append(InstructionConst.NOP);
+        e.whileExp.accept(this);
+        BranchInstruction br = InstructionFactory.createBranchInstruction(Const.IFEQ, null);
+        e.doExp.accept(this);
+        BranchInstruction gt = InstructionFactory.createBranchInstruction(Const.GOTO, begin);
+        br.setTarget(il.append(InstructionConst.NOP));
     }
 
 }

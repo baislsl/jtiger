@@ -9,6 +9,9 @@ public class FunctionSampleClass {
     // Object should be the type of parent
     Object parent;
 
+    // fieldDec
+
+
     public FunctionSampleClass(Object parent /*, fieldDec */) {
         // member init with fieldDec
     }

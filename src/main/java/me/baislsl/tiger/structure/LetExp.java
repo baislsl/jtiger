@@ -8,6 +8,9 @@ public class LetExp extends Exp {
     public List<Dec> decs;
     public List<Exp> exps;
 
+    // for translate
+    public String className;
+
     @Override
     public void accept(TigerVisitor visitor) {
         visitor.visit(this);

@@ -10,8 +10,8 @@ import java.io.IOException;
 
 /**
  * generate entry:
- * *
- * class Tiger{
+ *
+ * public class Tiger{
  * public static void main(String[] args) {
  * // exp
  * }
@@ -56,7 +56,7 @@ public class ProgramMainGen {
         il.dispose();
         cg.addEmptyConstructor(Const.ACC_PUBLIC);
         try {
-            cg.getJavaClass().dump("./target/classes/" + className + ".class");
+            cg.getJavaClass().dump(Util.classPath + className + ".class");
         } catch (IOException e) {
             e.printStackTrace();
         }

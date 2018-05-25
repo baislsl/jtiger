@@ -28,9 +28,9 @@ public class LetSampleClass {
     }
 
     // funcDec
-    public void funcDec(int p1, LetSampleClass l) {
-        // new Func(this, p1,l).invoke;
-    }
+    // generate function class
+    //  func(a1, a2) -> new func(this, a1, a2).invoke()
+
 
 
     public void invoke() {

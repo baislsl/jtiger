@@ -3,12 +3,14 @@ package me.baislsl.tiger.structure;
 import org.apache.bcel.generic.Type;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FunDec implements Tiger {
     public Token function;
     public Token id;
-    public List<FieldDec> decs;
+    public List<FieldDec> decs = new ArrayList<>();
 
     @Nullable
     public Token tyid;
@@ -18,7 +20,7 @@ public class FunDec implements Tiger {
 
     @Override
     public Type type() {
-        return null;
+        return exp.type();
     }
 
     @Override
