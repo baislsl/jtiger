@@ -1,10 +1,11 @@
 package me.baislsl.tiger;
 
 import me.baislsl.tiger.structure.*;
-import org.apache.bcel.generic.ClassGen;
-import org.apache.bcel.generic.InstructionFactory;
-import org.apache.bcel.generic.InstructionList;
-import org.apache.bcel.generic.MethodGen;
+import me.baislsl.tiger.symbol.FieldSymbol;
+import me.baislsl.tiger.symbol.FunSymbol;
+import me.baislsl.tiger.symbol.TypeSymbol;
+import org.apache.bcel.Const;
+import org.apache.bcel.generic.*;
 
 public class TigerVisitorImpl implements TigerVisitor {
 
@@ -13,6 +14,9 @@ public class TigerVisitorImpl implements TigerVisitor {
     private MethodGen mg;
     private InstructionFactory factory;
     private InstructionList il;
+    private SymbolTable<TypeSymbol> typeTable;
+    private SymbolTable<FieldSymbol> fieldTable;
+    private SymbolTable<FunSymbol> funcTable;
 
     public TigerVisitorImpl(TigerEnv env, ClassGen cg, MethodGen mg, InstructionList il) {
         this.env = new TigerEnv(env);
@@ -20,6 +24,9 @@ public class TigerVisitorImpl implements TigerVisitor {
         this.mg = mg;
         factory = new InstructionFactory(cg.getConstantPool());
         this.il = il;
+        typeTable = env.getTypeTable();
+        fieldTable = env.getFieldTable();
+        funcTable = env.getFuncTable();
     }
 
     @Override
@@ -39,7 +46,21 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(Call e) {
+        for(Exp param : e.exps) {
+            param.accept(this);
+        }
 
+        SymbolTable.QueryResult<FunSymbol> r = funcTable.query(e.id.name);
+        if (r == null) {
+            throw new CompileException("Can not find function " + e.id.name);
+        }
+        FunSymbol f = r.symbol;
+        if (f.isSystemFunc()) {
+            il.append(factory.createInvoke(TigerFuncLink.class.getName(), f.name(),
+                    f.retType(), f.paramsType().toArray(new Type[0]), Const.INVOKESTATIC));
+        } else {
+            // TODO:
+        }
     }
 
     @Override
@@ -84,7 +105,7 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(IntLit e) {
-
+        il.append(factory.createConstant(Integer.valueOf(e.value.name)));
     }
 
     @Override
@@ -99,13 +120,11 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(Nil e) {
-
+        il.append(factory.createNull(e.type));
     }
 
     @Override
     public void visit(Program e) {
-
-
     }
 
     @Override
@@ -125,16 +144,11 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(StringLit e) {
-
+        il.append(factory.createConstant(e.value));
     }
 
     @Override
     public void visit(Subscript e) {
-
-    }
-
-    @Override
-    public void visit(Token e) {
 
     }
 

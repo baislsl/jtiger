@@ -5,6 +5,10 @@ import org.apache.bcel.generic.Type;
 public class StringLit extends Exp {
     public String value;
 
+    public StringLit(String value){
+        this.value = value;
+    }
+
     @Override
     public void accept(TigerVisitor visitor) {
         visitor.visit(this);

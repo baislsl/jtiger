@@ -41,7 +41,7 @@ public class SystemFunSymbol implements FunSymbol {
 
     private static Type convert(Class<?> clazz) {
         if (clazz.equals(void.class)) {
-            return null;
+            return Type.VOID;
         } else if (clazz.equals(String.class)) {
             return Type.STRING;
         } else if (clazz.equals(int.class)) {

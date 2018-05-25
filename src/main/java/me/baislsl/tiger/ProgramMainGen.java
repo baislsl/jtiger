@@ -1,7 +1,6 @@
 package me.baislsl.tiger;
 
 import me.baislsl.tiger.structure.Program;
-import me.baislsl.tiger.structure.TigerVisitor;
 import org.apache.bcel.Const;
 import org.apache.bcel.generic.*;
 
@@ -22,9 +21,13 @@ import java.io.IOException;
 
 public class ProgramMainGen {
 
-    private static String className = "Tiger";
+    private static String DEFAULT_CLASSNAME = "Tiger";
 
-    public static void gen(Program p) {
+    public static void gen(Program p ){
+        gen(p, DEFAULT_CLASSNAME);
+    }
+
+    public static void gen(Program p, String className) {
         ClassGen cg = new ClassGen(className, "java.lang.Object",
                 "<generated>", Const.ACC_PUBLIC |
                 Const.ACC_SUPER,
@@ -53,7 +56,7 @@ public class ProgramMainGen {
         il.dispose();
         cg.addEmptyConstructor(Const.ACC_PUBLIC);
         try {
-            cg.getJavaClass().dump(className + ".class");
+            cg.getJavaClass().dump("./target/classes/" + className + ".class");
         } catch (IOException e) {
             e.printStackTrace();
         }

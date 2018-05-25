@@ -23,7 +23,6 @@ public interface TigerVisitor {
     void visit(SeqExp e);
     void visit(StringLit e);
     void visit(Subscript e);
-    void visit(Token e);
     void visit(TyDec e);
     void visit(VarDec e);
     void visit(While e);
