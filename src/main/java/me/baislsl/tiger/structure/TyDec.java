@@ -1,0 +1,23 @@
+package me.baislsl.tiger.structure;
+
+import org.apache.bcel.generic.Type;
+
+public class TyDec extends Dec {
+    public Token type;
+    public Token tyId;
+    public Token equal;
+
+    // ty of tyId
+    public Ty ty;
+    public Token tyid;
+    @Override
+    public Type type() {
+        return null;
+    }
+
+    @Override
+    public void accept(TigerVisitor visitor) {
+        visitor.visit(this);
+    }
+
+}

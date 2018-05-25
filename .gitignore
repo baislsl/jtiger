@@ -1,0 +1,35 @@
+
+将删除 .gitignore
+将删除 .idea/
+将删除 Tiger.class
+将删除 pom.xml
+将删除 src/
+将删除 target/
+将删除 tiger.iml
+将删除 tree.class
+将删除 treelist.class
+
+.idea/
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*

@@ -1,0 +1,23 @@
+package me.baislsl.tiger.structure;
+
+import org.apache.bcel.generic.Type;
+import org.jetbrains.annotations.Nullable;
+
+public class VarDec extends Dec {
+    public Token var;
+    public Token id;
+    @Nullable public Token tyId;
+    public Token assign;
+    public Exp exp;
+
+    @Override
+    public Type type() {
+        return null;
+    }
+
+    @Override
+    public void accept(TigerVisitor visitor) {
+        visitor.visit(this);
+    }
+
+}
