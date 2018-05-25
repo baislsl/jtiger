@@ -6,6 +6,13 @@ public class FieldDec implements Tiger {
     public Token id;
     public Token tyId;
 
+    public FieldDec(){}
+
+    public FieldDec(Token id, Token tyId) {
+        this.id = id;
+        this.tyId = tyId;
+    }
+
     @Override
     public Type type() {
         // TODO

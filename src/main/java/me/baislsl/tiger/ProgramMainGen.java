@@ -47,7 +47,7 @@ public class ProgramMainGen {
         TigerVisitorImpl visitor = new TigerVisitorImpl(env, cg, mg, il);
 
         p.exp.accept(visitor);
-        if (p.type() != null) {
+        if (p.type() != Type.VOID) {
             il.append(InstructionConst.POP);
         }
         il.append(InstructionConst.RETURN);

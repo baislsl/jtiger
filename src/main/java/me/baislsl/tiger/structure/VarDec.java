@@ -12,7 +12,7 @@ public class VarDec extends Dec {
 
     @Override
     public Type type() {
-        return null;
+        return exp.type();
     }
 
     @Override

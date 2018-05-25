@@ -60,7 +60,9 @@ public class TigerVisitorImpl implements TigerVisitor {
             il.append(factory.createInvoke(TigerFuncLink.class.getName(), f.name(),
                     f.retType(), f.paramsType().toArray(new Type[0]), Const.INVOKESTATIC));
         } else {
-            // TODO:
+            // new func(params).invoke
+            // il.append(factory.createNew(new ObjectType(f.name())));
+
         }
     }
 
