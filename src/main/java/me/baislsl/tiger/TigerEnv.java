@@ -1,6 +1,7 @@
 package me.baislsl.tiger;
 
 import me.baislsl.tiger.symbol.FieldSymbol;
+import me.baislsl.tiger.symbol.DecFunSymbol;
 import me.baislsl.tiger.symbol.FunSymbol;
 import me.baislsl.tiger.symbol.TypeSymbol;
 

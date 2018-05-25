@@ -3,7 +3,7 @@ package me.baislsl.tiger.symbol;
 import org.apache.bcel.generic.LocalVariableGen;
 import org.apache.bcel.generic.Type;
 
-public class LocalSymbol extends Symbol {
+public class LocalSymbol implements Symbol {
 
     private LocalVariableGen lg;
 

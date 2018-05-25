@@ -2,7 +2,7 @@ package me.baislsl.tiger.symbol;
 
 import me.baislsl.tiger.structure.TyDec;
 
-public class TypeSymbol extends Symbol {
+public class TypeSymbol implements Symbol {
 
     private TyDec dec;
 
@@ -12,6 +12,6 @@ public class TypeSymbol extends Symbol {
 
     @Override
     public String name() {
-        return null;
+        return dec.tyId.name;
     }
 }

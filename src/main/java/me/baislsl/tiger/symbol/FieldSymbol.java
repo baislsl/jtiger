@@ -3,7 +3,7 @@ package me.baislsl.tiger.symbol;
 import me.baislsl.tiger.structure.FieldDec;
 import org.apache.bcel.generic.Type;
 
-public class FieldSymbol extends Symbol {
+public class FieldSymbol implements Symbol {
 
     private FieldDec dec;
 

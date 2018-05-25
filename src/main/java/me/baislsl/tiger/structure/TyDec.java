@@ -9,7 +9,6 @@ public class TyDec extends Dec {
 
     // ty of tyId
     public Ty ty;
-    public Token tyid;
     @Override
     public Type type() {
         return null;
