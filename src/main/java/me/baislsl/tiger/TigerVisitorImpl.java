@@ -41,8 +41,8 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(Assignment e) {
-        if(e.lv instanceof IdOnlyLvalue) {  // Lvalue -> id
-            IdOnlyLvalue lv = (IdOnlyLvalue)e.lv;
+        if (e.lv instanceof IdOnlyLvalue) {  // Lvalue -> id
+            IdOnlyLvalue lv = (IdOnlyLvalue) e.lv;
             SymbolTable.QueryResult<FieldSymbol> r = fieldTable.query(lv.token.name);
             if (r.symbol.isLocalVariable()) {    // local value
                 LocalFieldSymbol symbol = (LocalFieldSymbol) r.symbol;
@@ -53,10 +53,10 @@ public class TigerVisitorImpl implements TigerVisitor {
                 il.append(InstructionConst.THIS);
                 il.append(factory.createPutField(cg.getClassName(), symbol.name(), symbol.type()));
             }
-        } else if(e.lv instanceof Subscript) {  // Lvalue -> Subsript
+        } else if (e.lv instanceof Subscript) {  // Lvalue -> Subsript
             throw new CompileException("Unsupported for Subscript");
         } else {    //  Lvalue -> FieldExp
-                    // lvalue.id
+            // lvalue.id
             FieldExp exp = (FieldExp) e.lv;
             exp.lvalue.accept(this);
             // should get the type of return value
@@ -153,10 +153,17 @@ public class TigerVisitorImpl implements TigerVisitor {
             il.append(InstructionFactory.createLoad(symbol.type(), symbol.index()));
         } else {    // field of class
             ClassFieldSymbol symbol = (ClassFieldSymbol) r.symbol;
-            int depth = r.depth;
-            // TODO: 需要记录下parent的类型
+            // this.parent.parent ...  .parent.(e)
+            // depth 个 parent
             il.append(InstructionConst.THIS);
-            il.append(factory.createGetField(cg.getClassName(), symbol.name(), symbol.type()));
+            int stackSize = env.getParentStack().size();
+            for (int i = 0; i < r.depth; i++) {
+                String className = env.getParentStack().get(stackSize - i - 1);
+                Type type = new ObjectType(env.getParentStack().get(stackSize - i - 2));
+                il.append(factory.createGetField(className, Util.parentFieldName, type));
+            }
+            il.append(factory.createGetField(env.getParentStack().get(stackSize - r.depth - 1),
+                    symbol.name(), symbol.type()));
         }
     }
 
