@@ -5,13 +5,7 @@ import org.apache.bcel.generic.Type;
 public class TyDec extends Dec {
     public Token type;
     public Token tyId;
-    public Token equal;
-
-    public boolean isSingleTypeId = false;
-    public Token tyOfTyId; // use when isSingleTypeId is true;
-                            // type any = int
-
-    // ty of tyId
+  //  public Token equal;
     public Ty ty;
 
     @Override

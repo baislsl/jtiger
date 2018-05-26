@@ -47,8 +47,9 @@ public class TypeClassGen {
 
     public static void generateClass(TigerEnv env, TyDec tyDec) {
         Map<String, String> fields = new HashMap<>();
-        if (tyDec.isSingleTypeId) {
-            fields.put(tyDec.tyOfTyId.name, env.getTypeTable().query(tyDec.tyOfTyId.name).symbol.name());
+        if (tyDec.ty instanceof IdOnlyTy) {
+            IdOnlyTy idty = (IdOnlyTy)tyDec.ty;
+            fields.put(idty.token.name, env.getTypeTable().query(idty.token.name).symbol.name());
         } else {
             if (tyDec.ty instanceof RecTy) {
                 RecTy recTy = (RecTy) tyDec.ty;

@@ -10,6 +10,8 @@ public interface TigerVisitor {
     void visit(FieldExp e);
     void visit(ForExp e);
     void visit(FunDec e);
+    void visit(IdOnlyLvalue e);
+    void visit(IdOnlyTy e);
     void visit(IfThen e);
     void visit(IfThenElse e);
     void visit(InfixExp e);

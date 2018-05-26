@@ -39,26 +39,11 @@ public class TigerVisitorImpl implements TigerVisitor {
         throw new CompileException("Unsupported to compile " + e.getClass().getSimpleName());
     }
 
-    // this symbol should be the left most one
-    private void pushSymbol(String name) {
-        SymbolTable.QueryResult<FieldSymbol> r = fieldTable.query(name);
-        if (r.symbol.isLocalVariable()) {    // local value
-            LocalFieldSymbol symbol = (LocalFieldSymbol) r.symbol;
-            il.append(InstructionFactory.createLoad(symbol.type(), symbol.index()));
-        } else {    // field of class
-            ClassFieldSymbol symbol = (ClassFieldSymbol) r.symbol;
-            int depth = r.depth;
-            // TODO: 需要记录下parent的类型
-
-            il.append(InstructionConst.THIS);
-            il.append(factory.createGetField(cg.getClassName(), symbol.name(), symbol.type()));
-        }
-    }
-
     @Override
     public void visit(Assignment e) {
-        if (e.lvOnlyId) {
-            SymbolTable.QueryResult<FieldSymbol> r = fieldTable.query(e.lvid.name);
+        if(e.lv instanceof IdOnlyLvalue) {  // Lvalue -> id
+            IdOnlyLvalue lv = (IdOnlyLvalue)e.lv;
+            SymbolTable.QueryResult<FieldSymbol> r = fieldTable.query(lv.token.name);
             if (r.symbol.isLocalVariable()) {    // local value
                 LocalFieldSymbol symbol = (LocalFieldSymbol) r.symbol;
                 e.exp.accept(this);
@@ -68,16 +53,17 @@ public class TigerVisitorImpl implements TigerVisitor {
                 il.append(InstructionConst.THIS);
                 il.append(factory.createPutField(cg.getClassName(), symbol.name(), symbol.type()));
             }
-        } else {
-            if (e.lv instanceof Subscript) throw new CompileException("Unsupported for Subscript");
+        } else if(e.lv instanceof Subscript) {  // Lvalue -> Subsript
+            throw new CompileException("Unsupported for Subscript");
+        } else {    //  Lvalue -> FieldExp
+                    // lvalue.id
             FieldExp exp = (FieldExp) e.lv;
-            if (exp.lvalue instanceof Subscript) throw new CompileException("Unsupported for Subscript");
-            if (exp.lvOnlyId) {
-
-            } else {    // fieldExp
-                exp.lvalue.accept(this);
-            }
-
+            exp.lvalue.accept(this);
+            // should get the type of return value
+            e.exp.accept(this);
+            Type t = exp.lvalue.type();
+            // TODO: bug ?
+            il.append(factory.createPutField(t.toString(), exp.id.name, e.exp.type()));
         }
     }
 
@@ -152,6 +138,26 @@ public class TigerVisitorImpl implements TigerVisitor {
     public void visit(FunDec e) {
         // fun dec can only appear in let block
         throw new CompileException("Unsupported to compile " + e.getClass().getSimpleName());
+    }
+
+    @Override
+    public void visit(IdOnlyTy e) {
+        throw new CompileException("Unsupported to compile " + e.getClass().getSimpleName());
+    }
+
+    @Override
+    public void visit(IdOnlyLvalue e) {
+        SymbolTable.QueryResult<FieldSymbol> r = fieldTable.query(e.token.name);
+        if (r.symbol.isLocalVariable()) {    // local value
+            LocalFieldSymbol symbol = (LocalFieldSymbol) r.symbol;
+            il.append(InstructionFactory.createLoad(symbol.type(), symbol.index()));
+        } else {    // field of class
+            ClassFieldSymbol symbol = (ClassFieldSymbol) r.symbol;
+            int depth = r.depth;
+            // TODO: 需要记录下parent的类型
+            il.append(InstructionConst.THIS);
+            il.append(factory.createGetField(cg.getClassName(), symbol.name(), symbol.type()));
+        }
     }
 
     @Override
