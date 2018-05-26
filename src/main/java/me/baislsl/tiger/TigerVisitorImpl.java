@@ -19,7 +19,7 @@ public class TigerVisitorImpl implements TigerVisitor {
     private SymbolTable<FunSymbol> funcTable;
 
     public TigerVisitorImpl(TigerEnv env, ClassGen cg, MethodGen mg, InstructionList il) {
-        this.env = new TigerEnv(env);
+        this.env = new TigerEnv(env, cg.getClassName());
         this.cg = cg;
         this.mg = mg;
         factory = new InstructionFactory(cg.getConstantPool());

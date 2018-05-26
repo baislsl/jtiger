@@ -56,7 +56,7 @@ class LetExpGenTest {
         // TODO: use func call instead
         letExp.exps.add(c);
 
-        LetExpGen.generateClass(new TigerEnv(), letExp, "string" );
+        LetExpGen.generateClass(new TigerEnv(letExp.className), letExp, "string" );
 
 
 

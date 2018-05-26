@@ -41,7 +41,7 @@ public class LetExpGen {
     }
 
     private LetExpGen(TigerEnv env, LetExp letExp, String parent) {
-        this.env = new TigerEnv(env);
+        this.env = new TigerEnv(env, letExp.className);
         this.letExp = letExp;
         this.parent = parent;
         this.className = letExp.className;

@@ -22,7 +22,7 @@ public class FuncDecGen {
     private FuncDecGen(TigerEnv env, FunDec funDec, String parent) {
         funDec.parent = parent;
         this.funDec = funDec;
-        this.env = new TigerEnv(env);
+        this.env = new TigerEnv(env, funDec.id.name);
         this.parent = parent;
         cg = new ClassGen( funDec.id.name, "java.lang.Object", "<generated>",
                 Const.ACC_PUBLIC | Const.ACC_SUPER, null);

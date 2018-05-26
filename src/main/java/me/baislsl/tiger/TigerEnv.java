@@ -2,13 +2,19 @@ package me.baislsl.tiger;
 
 import me.baislsl.tiger.symbol.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TigerEnv {
 
     private SymbolTable<TypeSymbol> typeTable;
     private SymbolTable<FieldSymbol> fieldTable;
     private SymbolTable<FunSymbol> funcTable;
+    private List<String> parentStack;   // store the call link
 
-    public TigerEnv() {
+    public TigerEnv(String currentClass) {
+        parentStack = new ArrayList<>();
+        parentStack.add(currentClass);
         typeTable = new SymbolTable<>();
         fieldTable = new SymbolTable<>();
         funcTable = new SymbolTable<>();
@@ -16,7 +22,9 @@ public class TigerEnv {
         loadSystemType(typeTable);
     }
 
-    public TigerEnv(TigerEnv parent) {
+    public TigerEnv(TigerEnv parent, String currentClass) {
+        parentStack = new ArrayList<>(parent.parentStack);  // perform deep copy
+        parentStack.add(currentClass);
         typeTable = new SymbolTable<>(parent.typeTable);
         fieldTable = new SymbolTable<>(parent.fieldTable);
         funcTable = new SymbolTable<>(parent.funcTable);
@@ -44,5 +52,9 @@ public class TigerEnv {
 
     public SymbolTable<FieldSymbol> getFieldTable() {
         return fieldTable;
+    }
+
+    public List<String> getParentStack() {
+        return parentStack;
     }
 }

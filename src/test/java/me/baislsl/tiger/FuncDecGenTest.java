@@ -10,7 +10,6 @@ class FuncDecGenTest {
 
     @Test
     void generateClass() {
-        TigerEnv env = new TigerEnv();
         FunDec funDec = new FunDec();
         funDec.id = new Token("myprint");
         FieldDec f1 = new FieldDec(); f1.id = new Token("f1"); f1.tyId = new Token("int");
@@ -22,7 +21,7 @@ class FuncDecGenTest {
         c.exps.add(new StringLit("Hello World"));
         c.type = Type.VOID;
         funDec.exp = c;
-
+        TigerEnv env = new TigerEnv(funDec.id.name);
         FuncDecGen.generateClass(env, funDec, "string");
 
     }
