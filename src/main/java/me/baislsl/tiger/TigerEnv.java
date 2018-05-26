@@ -10,7 +10,7 @@ public class TigerEnv {
     private SymbolTable<TypeSymbol> typeTable;
     private SymbolTable<FieldSymbol> fieldTable;
     private SymbolTable<FunSymbol> funcTable;
-    private List<String> parentStack;   // store the call link
+    private List<String> parentStack;   // store the call link, 不包含当前访问的类名
 
     public TigerEnv(String currentClass) {
         parentStack = new ArrayList<>();

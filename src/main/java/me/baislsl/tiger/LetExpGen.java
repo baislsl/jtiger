@@ -26,6 +26,7 @@ public class LetExpGen {
     private List<VarDec> varDecs = new ArrayList<>();
     private List<FunDec> funDecs = new ArrayList<>();
 
+    // env parentStack should not contain env
     public static void generateClass(TigerEnv env, LetExp letExp, String parent) {
         LetExpGen gen = new LetExpGen(env, letExp, parent);
         gen.updateEnv();
@@ -41,7 +42,7 @@ public class LetExpGen {
     }
 
     private LetExpGen(TigerEnv env, LetExp letExp, String parent) {
-        this.env = new TigerEnv(env, letExp.className);
+        this.env = env;
         this.letExp = letExp;
         this.parent = parent;
         this.className = letExp.className;
@@ -67,11 +68,11 @@ public class LetExpGen {
             FieldDec fieldDec = new FieldDec();
             fieldDec.id = v.id;
             fieldDec.tyId = v.tyId;
-            env.getFieldTable().put(v.id.name, new ClassFieldSymbol(fieldDec));
+            env.getFieldTable().put(v.id.name, new ClassFieldSymbol(fieldDec, v.type()));
         }
         for (FunDec f : funDecs) {
             env.getFuncTable().put(f.id.name, new DecFunSymbol(f));
-            FuncDecGen.generateClass(env, f, className);
+            FuncDecGen.generateClass(new TigerEnv(env, className), f, className);
         }
     }
 

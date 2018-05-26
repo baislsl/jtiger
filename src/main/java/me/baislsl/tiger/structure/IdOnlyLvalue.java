@@ -5,6 +5,12 @@ import org.apache.bcel.generic.Type;
 public class IdOnlyLvalue extends Lvalue {
     public Token token;
 
+    public IdOnlyLvalue(){}
+
+    public IdOnlyLvalue(Token token) {
+        this.token = token;
+    }
+
     @Override
     public Type type() {
         return null;

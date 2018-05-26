@@ -4,10 +4,10 @@ import org.apache.bcel.generic.Type;
 import org.jetbrains.annotations.Nullable;
 
 public class VarDec extends Dec {
-    public Token var;
+    // public Token var;
     public Token id;
     @Nullable public Token tyId;
-    public Token assign;
+    // public Token assign;
     public Exp exp;
 
     @Override

@@ -19,7 +19,8 @@ public class TigerVisitorImpl implements TigerVisitor {
     private SymbolTable<FunSymbol> funcTable;
 
     public TigerVisitorImpl(TigerEnv env, ClassGen cg, MethodGen mg, InstructionList il) {
-        this.env = new TigerEnv(env, cg.getClassName());
+        // this.env = new TigerEnv(env, cg.getClassName());
+        this.env = env;
         this.cg = cg;
         this.mg = mg;
         factory = new InstructionFactory(cg.getConstantPool());
@@ -158,11 +159,11 @@ public class TigerVisitorImpl implements TigerVisitor {
             il.append(InstructionConst.THIS);
             int stackSize = env.getParentStack().size();
             for (int i = 0; i < r.depth; i++) {
-                String className = env.getParentStack().get(stackSize - i - 1);
-                Type type = new ObjectType(env.getParentStack().get(stackSize - i - 2));
+                String className = (i == 0) ? cg.getClassName() : env.getParentStack().get(stackSize - i);
+                Type type = new ObjectType(env.getParentStack().get(stackSize - i - 1));
                 il.append(factory.createGetField(className, Util.parentFieldName, type));
             }
-            il.append(factory.createGetField(env.getParentStack().get(stackSize - r.depth - 1),
+            il.append(factory.createGetField(env.getParentStack().get(stackSize - r.depth),
                     symbol.name(), symbol.type()));
         }
     }
@@ -248,8 +249,8 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(LetExp e) {
-        e.className = LetNameFactory.newLetName();
-        LetExpGen.generateClass(env, e, cg.getClassName());
+        if(e.className == null ) e.className = LetNameFactory.newLetName();
+        LetExpGen.generateClass(new TigerEnv(env, cg.getClassName()), e, cg.getClassName());
         env.getTypeTable().put(e.className, new GenerateTypeSymbol(e));
 
         // let  -> new Let00(parent).invoke()

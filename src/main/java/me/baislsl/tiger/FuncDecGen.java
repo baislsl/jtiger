@@ -22,13 +22,14 @@ public class FuncDecGen {
     private FuncDecGen(TigerEnv env, FunDec funDec, String parent) {
         funDec.parent = parent;
         this.funDec = funDec;
-        this.env = new TigerEnv(env, funDec.id.name);
+        this.env = env;
         this.parent = parent;
         cg = new ClassGen( funDec.id.name, "java.lang.Object", "<generated>",
                 Const.ACC_PUBLIC | Const.ACC_SUPER, null);
         cp = cg.getConstantPool();
     }
 
+    // env should not contain func in stack
     public static void generateClass(TigerEnv env, FunDec funDec, String parent) {
         FuncDecGen gen = new FuncDecGen(env, funDec,  parent);
         gen.updateFieldTable();
