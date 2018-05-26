@@ -44,7 +44,7 @@ public class TigerVisitorImpl implements TigerVisitor {
     public void visit(Assignment e) {
         if (e.lv instanceof IdOnlyLvalue) {  // Lvalue -> id
             IdOnlyLvalue lv = (IdOnlyLvalue) e.lv;
-            SymbolTable.QueryResult<FieldSymbol> r = fieldTable.query(lv.token.name);
+            SymbolTable.QueryResult<FieldSymbol> r = fieldTable.query(lv.id.name);
             if (r.symbol.isLocalVariable()) {    // local value
                 LocalFieldSymbol symbol = (LocalFieldSymbol) r.symbol;
                 e.exp.accept(this);
@@ -148,7 +148,7 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(IdOnlyLvalue e) {
-        SymbolTable.QueryResult<FieldSymbol> r = fieldTable.query(e.token.name);
+        SymbolTable.QueryResult<FieldSymbol> r = fieldTable.query(e.id.name);
         if (r.symbol.isLocalVariable()) {    // local value
             LocalFieldSymbol symbol = (LocalFieldSymbol) r.symbol;
             il.append(InstructionFactory.createLoad(symbol.type(), symbol.index()));

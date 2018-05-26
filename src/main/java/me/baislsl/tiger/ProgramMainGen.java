@@ -63,7 +63,7 @@ public class ProgramMainGen {
         il = new InstructionList();
         mg = new MethodGen(Const.ACC_PUBLIC, Type.VOID, Type.NO_ARGS, new String[]{},
                 Util.invokeFuncName, className, il, cp);
-        TigerEnv env = new TigerEnv(className);
+        TigerEnv env = new TigerEnv();
         env.getTypeTable().put(className, new GenerateTypeSymbol(className));
         TigerVisitorImpl visitor = new TigerVisitorImpl(env, cg, mg, il);
         p.exp.accept(visitor);

@@ -5,8 +5,6 @@ import org.apache.bcel.Const;
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.generic.*;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,7 +47,7 @@ public class TypeClassGen {
         Map<String, String> fields = new HashMap<>();
         if (tyDec.ty instanceof IdOnlyTy) {
             IdOnlyTy idty = (IdOnlyTy)tyDec.ty;
-            fields.put(idty.token.name, env.getTypeTable().query(idty.token.name).symbol.name());
+            fields.put(idty.id.name, env.getTypeTable().query(idty.id.name).symbol.name());
         } else {
             if (tyDec.ty instanceof RecTy) {
                 RecTy recTy = (RecTy) tyDec.ty;

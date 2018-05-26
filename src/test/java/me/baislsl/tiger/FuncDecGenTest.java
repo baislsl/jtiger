@@ -21,7 +21,7 @@ class FuncDecGenTest {
         c.exps.add(new StringLit("Hello World"));
         c.type = Type.VOID;
         funDec.exp = c;
-        TigerEnv env = new TigerEnv(funDec.id.name);
+        TigerEnv env = new TigerEnv();
         FuncDecGen.generateClass(env, funDec, "string");
 
     }

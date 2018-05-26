@@ -3,7 +3,7 @@ package me.baislsl.tiger.structure;
 import org.apache.bcel.generic.Type;
 
 public class IdOnlyTy extends Ty {
-    public Token token;
+    public Token id;
 
 
     @Override
@@ -15,5 +15,10 @@ public class IdOnlyTy extends Ty {
     @Override
     public void accept(TigerVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public String toString() {
+        return id.name;
     }
 }
