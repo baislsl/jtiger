@@ -52,7 +52,15 @@ public class TigerVisitorImpl implements TigerVisitor {
             } else {    // field of class
                 ClassFieldSymbol symbol = (ClassFieldSymbol) r.symbol;
                 il.append(InstructionConst.THIS);
-                il.append(factory.createPutField(cg.getClassName(), symbol.name(), symbol.type()));
+                int stackSize = env.getParentStack().size();
+                for (int i = 0; i < r.depth; i++) {
+                    String className = (i == 0) ? cg.getClassName() : env.getParentStack().get(stackSize - i);
+                    Type type = new ObjectType(env.getParentStack().get(stackSize - i - 1));
+                    il.append(factory.createGetField(className, Util.parentFieldName, type));
+                }
+                String className = (r.depth == 0) ? cg.getClassName()
+                        : env.getParentStack().get(stackSize - r.depth);
+                il.append(factory.createPutField(className, symbol.name(), symbol.type()));
             }
         } else if (e.lv instanceof Subscript) {  // Lvalue -> Subsript
             throw new CompileException("Unsupported for Subscript");
@@ -62,9 +70,8 @@ public class TigerVisitorImpl implements TigerVisitor {
             exp.lvalue.accept(this);
             // should get the type of return value
             e.exp.accept(this);
-            Type t = exp.lvalue.type();
-            // TODO: bug ?
-            il.append(factory.createPutField(t.toString(), exp.id.name, e.exp.type()));
+            ObjectType t = (ObjectType) exp.lvalue.type();
+            il.append(factory.createPutField(t.getClassName(), exp.id.name, e.exp.type()));
         }
     }
 
@@ -105,6 +112,8 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(FieldCreate e) {
+        // FieldCreate only appear in recCreate
+        throw new CompileException("Unsupported to visit " + e.getClass().getSimpleName());
     }
 
     @Override
@@ -114,6 +123,11 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(FieldExp e) {
+        e.lvalue.accept(this);
+        if(!(e.lvalue.type() instanceof ObjectType))
+            throw new CompileException("Can not get field in a primitive type");
+        ObjectType ot = (ObjectType)e.lvalue.type();
+        il.append(factory.createGetField(ot.getClassName(), e.id.name, e.type()));
     }
 
     @Override
@@ -249,7 +263,7 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(LetExp e) {
-        if(e.className == null ) e.className = LetNameFactory.newLetName();
+        if (e.className == null) e.className = LetNameFactory.newLetName();
         LetExpGen.generateClass(new TigerEnv(env, cg.getClassName()), e, cg.getClassName());
         env.getTypeTable().put(e.className, new GenerateTypeSymbol(e));
 
@@ -289,6 +303,19 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(RecCreate e) {
+        // new TypeObject();
+        il.append(factory.createNew(new ObjectType(e.tyId.name)));
+        il.append(InstructionConst.DUP);
+        List<Type> types = new ArrayList<>();
+        for(FieldCreate fc : e.fieldCreates) {
+            // 这里位置需要已经对上
+            fc.exp.accept(this);
+            types.add(fc.type());
+        }
+        il.append(factory.createInvoke(e.tyId.name, "<init>",
+                Type.VOID,
+                types.toArray(new Type[0]),
+                Const.INVOKESPECIAL));
     }
 
     @Override
