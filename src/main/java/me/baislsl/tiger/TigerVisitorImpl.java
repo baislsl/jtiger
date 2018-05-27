@@ -124,9 +124,9 @@ public class TigerVisitorImpl implements TigerVisitor {
     @Override
     public void visit(FieldExp e) {
         e.lvalue.accept(this);
-        if(!(e.lvalue.type() instanceof ObjectType))
+        if (!(e.lvalue.type() instanceof ObjectType))
             throw new CompileException("Can not get field in a primitive type");
-        ObjectType ot = (ObjectType)e.lvalue.type();
+        ObjectType ot = (ObjectType) e.lvalue.type();
         il.append(factory.createGetField(ot.getClassName(), e.id.name, e.type()));
     }
 
@@ -138,12 +138,19 @@ public class TigerVisitorImpl implements TigerVisitor {
         il.append(InstructionFactory.createStore(Type.INT, lg.getIndex()));
         e.toExp.accept(this);
         InstructionHandle loop = il.append(InstructionConst.DUP);
+        il.append(InstructionFactory.createLoad(Type.INT, lg.getIndex()));
         il.append(InstructionFactory.createBinaryOperation("-", Type.INT));
-        BranchInstruction br = InstructionFactory.createBranchInstruction(Const.IFGT, null);
+        BranchInstruction br = InstructionFactory.createBranchInstruction(Const.IFLE, null);
+        il.append(br);
         e.doExp.accept(this);
         if (e.doExp.type() != Type.VOID) {
             il.append(InstructionConst.POP);
         }
+        // i++
+        il.append(InstructionFactory.createLoad(Type.INT, lg.getIndex()));
+        il.append(factory.createConstant(1));
+        il.append(InstructionFactory.createBinaryOperation("+", Type.INT));
+        il.append(InstructionFactory.createStore(Type.INT, lg.getIndex()));
         il.append(new GOTO(loop));
         br.setTarget(il.append(InstructionConst.POP)); // pop out the "toExp" value
         lg.setEnd(il.getEnd());
@@ -177,7 +184,9 @@ public class TigerVisitorImpl implements TigerVisitor {
                 Type type = new ObjectType(env.getParentStack().get(stackSize - i - 1));
                 il.append(factory.createGetField(className, Util.parentFieldName, type));
             }
-            il.append(factory.createGetField(env.getParentStack().get(stackSize - r.depth),
+            String className = (r.depth == 0) ? cg.getClassName()
+                    : env.getParentStack().get(stackSize - r.depth);
+            il.append(factory.createGetField(className,
                     symbol.name(), symbol.type()));
         }
     }
@@ -307,7 +316,7 @@ public class TigerVisitorImpl implements TigerVisitor {
         il.append(factory.createNew(new ObjectType(e.tyId.name)));
         il.append(InstructionConst.DUP);
         List<Type> types = new ArrayList<>();
-        for(FieldCreate fc : e.fieldCreates) {
+        for (FieldCreate fc : e.fieldCreates) {
             // 这里位置需要已经对上
             fc.exp.accept(this);
             types.add(fc.type());

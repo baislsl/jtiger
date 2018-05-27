@@ -21,17 +21,16 @@ class TigerVisitorImplTest {
 
     /**
      * let
-     *  a := "Hello World"
+     * a := "Hello World"
      * in
-     *  let
-     *     function printa(){
-     *         print(a)
-     *     }
-     *  in
-     *      printa()
-     *  end
+     * let
+     * function printa(){
+     * print(a)
+     * }
+     * in
+     * printa()
      * end
-     *
+     * end
      */
     @Test
     void visitIdOnlyLValue() {
@@ -70,6 +69,60 @@ class TigerVisitorImplTest {
         p.exp = letExpTop;
 
         ProgramMainGen.gen(p, "TestVisitIdOnlyLValue");
+    }
+
+
+    /**
+     * let
+     *  a = "Hello World"
+     *  repeat = 5
+     * in
+     *  for i := 0 to repeat:
+     *      print(a)
+     *
+     * end
+     *
+     */
+    @Test
+    void testForLoop() {
+        // a := "Hello World"
+        VarDec varDec = new VarDec();
+        varDec.tyId = new Token("string");
+        varDec.exp = new StringLit("Hello World");
+        varDec.id = new Token("a");
+
+        VarDec repeat = new VarDec();
+        repeat.tyId = new Token("int");
+        repeat.exp = new IntLit(new Token("5"));
+        repeat.id = new Token("repeat");
+
+        // print(a)
+        Call call = new Call();
+        call.id = new Token("print");
+        call.type = Type.VOID;
+        call.exps.add(new IdOnlyLvalue(new Token("a")));
+
+        // for i:= 0 to repeat
+        //      print(a)
+        ForExp forExp = new ForExp();
+        forExp.id = new Token("i");
+        forExp.fromExp = new IntLit(new Token("0"));
+        forExp.toExp = new IdOnlyLvalue(new Token("repeat"));
+        forExp.doExp = call;
+        forExp.type = Type.VOID;
+
+        LetExp letExp = new LetExp();
+        letExp.decs.add(varDec);
+        letExp.decs.add(repeat);
+        letExp.exps.add(forExp);
+        letExp.type = Type.VOID;
+
+        Program p = new Program();
+        p.exp = letExp;
+
+
+        ProgramMainGen.gen(p, "TestForLoop");
+
     }
 
 
