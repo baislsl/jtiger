@@ -133,6 +133,7 @@ public class TigerVisitorImpl implements TigerVisitor {
     @Override
     public void visit(ForExp e) {
         LocalVariableGen lg = mg.addLocalVariable(e.id.name, Type.INT, null, null);
+        fieldTable.put(e.id.name, new LocalFieldSymbol(lg));
         lg.setStart(il.append(InstructionConst.NOP));
         e.fromExp.accept(this);
         il.append(InstructionFactory.createStore(Type.INT, lg.getIndex()));
@@ -197,6 +198,8 @@ public class TigerVisitorImpl implements TigerVisitor {
         BranchInstruction br = InstructionFactory.createBranchInstruction(Const.IFEQ, null);
         il.append(br);
         e.thenExp.accept(this);
+        if(e.thenExp.type() != Type.VOID)
+            il.append(InstructionConst.POP);
         br.setTarget(il.append(InstructionConst.NOP));
     }
 

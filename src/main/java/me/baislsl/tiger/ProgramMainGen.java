@@ -15,8 +15,13 @@ import java.io.IOException;
  *
  * public class Tiger{
  * public static void main(String[] args) {
- * // exp
+ *   new Tiger().invoke();
  * }
+ *
+ * public void invoke(){
+ *
+ * }
+ *
  * }
  */
 

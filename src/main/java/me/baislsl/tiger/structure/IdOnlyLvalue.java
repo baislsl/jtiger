@@ -13,7 +13,7 @@ public class IdOnlyLvalue extends Lvalue {
 
     @Override
     public Type type() {
-        return null;
+        return type;
     }
 
     @Override
