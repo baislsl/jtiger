@@ -5,7 +5,6 @@ import org.apache.bcel.generic.Type;
 public class TyDec extends Dec {
     public Token type;
     public Token tyId;
-  //  public Token equal;
     public Ty ty;
 
     @Override

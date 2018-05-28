@@ -46,17 +46,20 @@ public class TypeClassGen {
     public static void generateClass(TigerEnv env, TyDec tyDec) {
         Map<String, String> fields = new HashMap<>();
         if (tyDec.ty instanceof IdOnlyTy) {
+            // TODO: test  for type a = b
             IdOnlyTy idty = (IdOnlyTy)tyDec.ty;
-            fields.put(idty.id.name, env.getTypeTable().query(idty.id.name).symbol.name());
+            env.getTypeTable().put(tyDec.tyId.name, env.getTypeTable().query(idty.id.name).symbol);
         } else {
             if (tyDec.ty instanceof RecTy) {
                 RecTy recTy = (RecTy) tyDec.ty;
                 for (FieldDec f : recTy.decs) {
                     fields.put(f.id.name, f.tyId.name);
                 }
+                generateClass(tyDec.tyId.name, fields);
+            } else {
+                throw new CompileException("Unsupported to compile arrTy");
             }
         }
-        generateClass(tyDec.tyId.name, fields);
     }
 
     /**

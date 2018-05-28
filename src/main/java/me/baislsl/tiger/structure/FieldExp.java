@@ -4,7 +4,6 @@ import org.apache.bcel.generic.Type;
 
 public class FieldExp extends Lvalue {
     public Lvalue lvalue;
-   // public Token point;
     public Token id;
 
     @Override

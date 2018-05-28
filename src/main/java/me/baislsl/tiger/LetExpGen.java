@@ -61,6 +61,7 @@ public class LetExpGen {
     private void updateEnv() {
         env.getTypeTable().put(className, new GenerateTypeSymbol(letExp));
         for (TyDec d : tyDecs) {
+            // TODO: for array type
             env.getTypeTable().put(d.tyId.name, new UserTypeSymbol(d));
             TypeClassGen.generateClass(env, d);
         }

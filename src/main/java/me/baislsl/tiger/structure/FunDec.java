@@ -8,14 +8,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class FunDec extends Dec implements Tiger {
-    public Token function;
     public Token id;
     public List<FieldDec> decs = new ArrayList<>();
 
     @Nullable
     public Token tyid;
 
-    public Token equal;
     public Exp exp;
 
     // this should be fill after generate func class
