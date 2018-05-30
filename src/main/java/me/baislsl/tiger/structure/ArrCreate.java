@@ -5,8 +5,8 @@ import org.apache.bcel.generic.Type;
 public class ArrCreate extends Exp {
     // tyId [ exp1 ] of exp2
     public Token tyId;
-    public Token exp;
-    public Token exp1;
+    public Exp exp1;
+    public Exp exp2;
 
     @Override
     public Type type() {

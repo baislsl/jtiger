@@ -21,15 +21,15 @@ class TigerVisitorImplTest {
 
     /**
      * let
-     * a := "Hello World"
-     * in
-     * let
-     * function printa(){
-     * print(a)
-     * }
-     * in
-     * printa()
-     * end
+     *  a := "Hello World"
+     *  in
+     *  let
+     *       function printa(){
+     *       print(a)
+     *      }
+     *  in
+     *      printa()
+     *  end
      * end
      */
     @Test
