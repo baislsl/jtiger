@@ -4,6 +4,7 @@ public interface TigerVisitor {
     void visit(ArrCreate e);
     void visit(ArrTy e);
     void visit(Assignment e);
+    void visit(BreakExp e);
     void visit(Call e);
     void visit(FieldCreate e);
     void visit(FieldDec e);

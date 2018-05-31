@@ -49,6 +49,11 @@ public class TypeVisitor implements TigerVisitor {
     }
 
     @Override
+    public void visit(BreakExp e) {
+        e.type = Type.VOID;
+    }
+
+    @Override
     public void visit(Call e) {
         for (Exp exp : e.exps) {
             accept(exp);
@@ -211,7 +216,7 @@ public class TypeVisitor implements TigerVisitor {
     public void visit(TyDec e) {
         if (e.ty instanceof IdOnlyTy) {
             e.ty.accept(this);
-            Type t = typeTable.get(((IdOnlyTy)e.ty).id.name);
+            Type t = typeTable.get(((IdOnlyTy) e.ty).id.name);
             typeTable.put(e.tyId.name, t);
         } else if (e.ty instanceof RecTy) {
             RecTy rt = (RecTy) e.ty;

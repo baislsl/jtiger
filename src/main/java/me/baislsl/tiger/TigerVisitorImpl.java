@@ -76,6 +76,11 @@ public class TigerVisitorImpl implements TigerVisitor {
     }
 
     @Override
+    public void visit(BreakExp e) {
+        // TODO:
+    }
+
+    @Override
     public void visit(Call e) {
         SymbolTable.QueryResult<FunSymbol> r = funcTable.query(e.id.name);
         if (r == null) {
