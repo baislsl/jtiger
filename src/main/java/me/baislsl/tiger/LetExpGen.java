@@ -35,7 +35,7 @@ public class LetExpGen {
         gen.generateConstructor();
         gen.generateInvoke();
         try {
-            gen.cg.getJavaClass().dump(Util.classPath + letExp.className + ".class");
+            gen.cg.getJavaClass().dump(JVMSpec.classPath + letExp.className + ".class");
         } catch (IOException e) {
             throw new CompileException(e);
         }
@@ -79,7 +79,7 @@ public class LetExpGen {
 
     private void generateParentField() {
         FieldGen fg = new FieldGen(Const.ACC_PUBLIC, env.getTypeTable().query(parent).symbol.type(),
-                Util.parentFieldName, cp);
+                JVMSpec.parentFieldName, cp);
         cg.addField(fg.getField());
     }
 
@@ -96,7 +96,7 @@ public class LetExpGen {
         InstructionList il = new InstructionList();
         MethodGen mg = new MethodGen(Const.ACC_PUBLIC, Type.VOID,
                 new Type[]{env.getTypeTable().query(parent).symbol.type()},
-                new String[]{Util.parentFieldName},
+                new String[]{JVMSpec.parentFieldName},
                 "<init>", cg.getClassName(), il, cp);
 
         InstructionFactory factory = new InstructionFactory(cp);
@@ -112,7 +112,7 @@ public class LetExpGen {
         Type parentType = env.getTypeTable().query(parent).symbol.type();
         il.append(InstructionConst.THIS);
         il.append(InstructionFactory.createLoad(parentType, 1));
-        il.append(factory.createPutField(className, Util.parentFieldName, parentType));
+        il.append(factory.createPutField(className, JVMSpec.parentFieldName, parentType));
 
         // vardec init
         for (VarDec v : varDecs) {
@@ -133,7 +133,7 @@ public class LetExpGen {
                 letExp.type(),  // ret
                 Type.NO_ARGS,   // arg
                 new String[0],  // arg name
-                Util.invokeFuncName, cg.getClassName(), il, cp);
+                JVMSpec.invokeFuncName, cg.getClassName(), il, cp);
 
         TigerVisitorImpl visitor = new TigerVisitorImpl(env, cg, mg, il);
         for (int i = 0; i < letExp.exps.size(); i++) {

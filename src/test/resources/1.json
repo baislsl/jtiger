@@ -18,7 +18,14 @@
           "value" : "1235"
         },
         "doExp": {
-          "class" : "Nil"
+          "class" : "Call",
+          "id" : "print",
+          "exps" : [
+            {
+              "class" : "StringLit",
+              "value" : "Hello World"
+            }
+          ]
         }
 
       }

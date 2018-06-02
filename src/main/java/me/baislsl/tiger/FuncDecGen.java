@@ -38,7 +38,7 @@ public class FuncDecGen {
         gen.generateConstructor();
         gen.generateInvoke();
         try{
-            gen.cg.getJavaClass().dump(Util.classPath + gen.cg.getClassName() + ".class");
+            gen.cg.getJavaClass().dump(JVMSpec.classPath + gen.cg.getClassName() + ".class");
         } catch (IOException e) {
             throw new CompileException(e);
         }
@@ -52,7 +52,7 @@ public class FuncDecGen {
 
     private void generateParentField() {
         FieldGen fg = new FieldGen(Const.ACC_PUBLIC, env.getTypeTable().query(parent).symbol.type(),
-                Util.parentFieldName, cp);
+                JVMSpec.parentFieldName, cp);
         cg.addField(fg.getField());
     }
 
@@ -70,7 +70,7 @@ public class FuncDecGen {
         List<Type> argType = new ArrayList<>();
         argType.add(env.getTypeTable().query(parent).symbol.type());
         List<String> argName = new ArrayList<>();
-        argName.add(Util.parentFieldName);
+        argName.add(JVMSpec.parentFieldName);
         for(FieldDec fd : funDec.decs) {
             argName.add(fd.id.toString());
             argType.add(env.getTypeTable().query(fd.tyId.name).symbol.type());
@@ -103,7 +103,7 @@ public class FuncDecGen {
                 funDec.type(),  // ret
                 Type.NO_ARGS,   // arg
                 new String[0],  // arg name
-                Util.invokeFuncName, cg.getClassName(), il, cp);
+                JVMSpec.invokeFuncName, cg.getClassName(), il, cp);
 
         TigerVisitorImpl visitor = new TigerVisitorImpl(env, cg, mg, il);
         funDec.exp.accept(visitor);

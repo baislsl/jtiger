@@ -76,7 +76,7 @@ public class TypeClassGen {
         factory.addInit();
         JavaClass javaClass = factory.cg.getJavaClass();
         try {
-            javaClass.dump(Util.classPath + name + ".class");
+            javaClass.dump(JVMSpec.classPath + name + ".class");
         } catch (IOException e) {
             throw new CompileException(e);
         }

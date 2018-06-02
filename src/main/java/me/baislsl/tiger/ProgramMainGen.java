@@ -1,7 +1,6 @@
 package me.baislsl.tiger;
 
 import me.baislsl.tiger.structure.Program;
-import me.baislsl.tiger.structure.Ty;
 import me.baislsl.tiger.symbol.GenerateTypeSymbol;
 import org.apache.bcel.Const;
 import org.apache.bcel.generic.*;
@@ -58,7 +57,7 @@ public class ProgramMainGen {
         il.append(InstructionConst.DUP);
         il.append(factory.createInvoke(className, "<init>", Type.VOID, Type.NO_ARGS,
                 Const.INVOKESPECIAL));
-        il.append(factory.createInvoke(className, Util.invokeFuncName, Type.VOID, Type.NO_ARGS,
+        il.append(factory.createInvoke(className, JVMSpec.invokeFuncName, Type.VOID, Type.NO_ARGS,
                 Const.INVOKEVIRTUAL));
         il.append(InstructionConst.RETURN);
         mg.setMaxStack();
@@ -67,7 +66,7 @@ public class ProgramMainGen {
         // invoke()
         il = new InstructionList();
         mg = new MethodGen(Const.ACC_PUBLIC, Type.VOID, Type.NO_ARGS, new String[]{},
-                Util.invokeFuncName, className, il, cp);
+                JVMSpec.invokeFuncName, className, il, cp);
         TigerEnv env = new TigerEnv();
         env.getTypeTable().put(className, new GenerateTypeSymbol(className));
         TigerVisitorImpl visitor = new TigerVisitorImpl(env, cg, mg, il);
@@ -80,7 +79,7 @@ public class ProgramMainGen {
         cg.addMethod(mg.getMethod());
         il.dispose();
         try {
-            cg.getJavaClass().dump(Util.classPath + className + ".class");
+            cg.getJavaClass().dump(JVMSpec.classPath + className + ".class");
         } catch (IOException e) {
             e.printStackTrace();
         }
