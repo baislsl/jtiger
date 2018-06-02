@@ -1,4 +1,4 @@
-package me.baislsl.tiger;
+package me.baislsl.tiger.sample;
 
 /**
  * function id(fieldDec*) : tyId = exp
