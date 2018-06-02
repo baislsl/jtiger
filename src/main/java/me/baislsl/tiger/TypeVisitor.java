@@ -1,6 +1,7 @@
 package me.baislsl.tiger;
 
 import me.baislsl.tiger.structure.*;
+import me.baislsl.tiger.symbol.SystemFunSymbol;
 import org.apache.bcel.generic.ArrayType;
 import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.Type;
@@ -18,6 +19,9 @@ public class TypeVisitor implements TigerVisitor {
     public TypeVisitor() {
         typeTable.put("int", Type.INT);
         typeTable.put("string", Type.STRING);
+        for (SystemFunSymbol s : SystemFunSymbol.symbols) {
+            funcRetTable.put(s.name(), s.retType());
+        }
     }
 
     private Type accept(Exp e) {
