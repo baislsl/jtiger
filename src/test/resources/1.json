@@ -1,0 +1,27 @@
+{
+  "class" : "Program", // 类名称 Program.java
+  "exp": {            // 成员名称 Program类成员exp
+    "class" : "LetExp", // 类名称 LetExp.java
+    "decs" :[ // 成员名称 LetExp类成员decs
+              // 数组
+    ],
+    "exps" : [
+      {
+        "class" : "ForExp",
+        "id" : "i",
+        "fromExp" : {
+          "class": "IntLit",
+          "value" : "1234"
+        },
+        "toExp" : {
+          "class" : "IntLit",
+          "value" : "1235"
+        },
+        "doExp": {
+          "class" : "Nil"
+        }
+
+      }
+    ]
+  }
+}
