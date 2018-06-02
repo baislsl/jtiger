@@ -18,8 +18,7 @@ public class TypeClassGen {
     private TypeClassGen(String name, Map<String, String> fields) {
         this.fields = fields;
         cg = new ClassGen(name,
-                // "java.lang.Object",
-                TigerObject.class.getName(),
+                "java.lang.Object",
                 name + ".class",
                 Const.ACC_PUBLIC,
                 new String[]{}

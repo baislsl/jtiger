@@ -1,4 +1,4 @@
-package me.baislsl.tiger;
+package me.baislsl.tiger.sample;
 
 /**
  * type any = {any : int}
