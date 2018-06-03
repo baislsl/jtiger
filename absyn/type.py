@@ -41,10 +41,6 @@ list2 = ['tyDec', 'arrTy', 'fieldDec',
 'nilExp', 'intLitExp', 'stringLitExp', 'seqExp', 'negation', 'recTy', 'idSubscript', 'lValueSubscript', 'fieldExp', 'void_varDec', 'type_varDec', 'void_funDec', 'type_funDec', 'callExp', 'arrCreate', 'recCreate', 'fieldCreate',  'assignment', 'ifThenElse', 'ifThen', 'whileExp', 'forExp', 'letExp', 'idlValue', 'tyIdTy', 'breakExp']
 
 list3 = ['infixExp']
-infixExp_member = ['exp', 'infixOp', 'exp']
-infixExp = ['plusExp', 'minusExp', 'timesExp', 'divExp', 'andExp', 'orExp', 'eqExp', 'neqExp', 'gtExp', 'ltExp', 'geExp', 'leExp']
-
-list4 = ['plusExp', 'minusExp', 'timesExp', 'divExp', 'andExp', 'orExp', 'eqExp', 'neqExp', 'gtExp', 'ltExp', 'geExp', 'leExp']
 
 dict = {}
 
@@ -113,15 +109,22 @@ dict['type_funDec'] = ['FUNCTION ID LPAREN fieldDec_list RPAREN COLON ID EQ exp'
 callExp = ['id', 'comma_exp_list']
 dict['callExp'] = ['ID LPAREN comma_exp_list RPAREN', 1, 3]
 
-plusExp = ['exp', 'infixOp', 'exp']
-dict['plusExp'] = ['exp PLUS exp', 1, 2, 3]
-minusExp = ['exp', 'infixOp', 'exp']
-dict['minusExp'] = ['exp MINUS exp', 1, 2, 3]
-timesExp = ['exp', 'infixOp', 'exp']
-dict['timesExp'] = ['exp TIMES exp', 1, 2, 3]
-divExp = ['exp', 'infixOp', 'exp']
-dict['divExp'] = ['exp DIV exp', 1, 2, 3]
-andExp = ['exp', 'infixOp', 'exp']
+infixExp = ['exp', 'infixOp', 'exp']
+dict['infixExp'] = [
+['exp PLUS exp', 1, 2, 3],
+['exp MINUS exp', 1, 2, 3],
+['exp TIMES exp', 1, 2, 3],
+['exp DIV exp', 1, 2, 3],
+['exp AND exp', 1, 2, 3],
+['exp OR exp', 1, 2, 3],
+['exp EQ exp', 1, 2, 3],
+['exp NEQ exp', 1, 2, 3],
+['exp GT exp', 1, 2, 3],
+['exp LT exp', 1, 2, 3],
+['exp GE exp', 1, 2, 3],
+['exp LE exp', 1, 2, 3],
+]
+
 dict['andExp'] = ['exp AND exp', 1, 2, 3]
 orExp = ['exp', 'infixOp', 'exp']
 dict['orExp'] = ['exp OR exp', 1, 2, 3]
@@ -201,10 +204,6 @@ for item in list3:
 	print('const int ' + item + '_label = ' + str(cnt) + ';', file=f)
 	cnt = cnt + 1
 	
-for item in list4:
-	print('const int ' + item + '_label = ' + str(cnt) + ';', file=f)
-	cnt = cnt + 1
-	
 print(file=f)
 	
 # base class is Type
@@ -232,31 +231,12 @@ for listname in list1:
 		fatherclassname = 'Type'
 	for item in locals()[listname]:
 		classname = item + '_Type'
-		if item in list3:
-			print('struct', classname, ': public', fatherclassname, '{', file=f)
-			# members
-			for index in range(len(locals()[item+'_member'])):
-				t = locals()[item+'_member'][index] + '_Type'
-				print('\t' + t + ' *child' + str(index) + ';', file=f)
-			print('};', file=f)
-		elif item in list2:
+		if (item in list3) or (item in list2):
 			print('struct', classname, ': public', fatherclassname, '{', file=f)
 			# members
 			for index in range(len(locals()[item])):
 				t = locals()[item][index] + '_Type'
 				print('\t' + t + ' *child' + str(index) + ';', file=f)
-			# constructor
-			print('\t' + classname + '(', file=f)
-			for index in range(len(locals()[item])):
-				t = locals()[item][index] + '_Type'
-				if index < len(locals()[item])-1:
-					print('\t\t' + t + ' *p' + str(index) + ',', file=f)
-				else:
-					print('\t\t' + t + ' *p' + str(index), file=f)
-			print('\t);', file=f)
-			print('};', file=f)
-		elif item in list4:
-			print('struct', classname, ': public', fatherclassname, '{', file=f)
 			# constructor
 			print('\t' + classname + '(', file=f)
 			for index in range(len(locals()[item])):
@@ -269,22 +249,6 @@ for listname in list1:
 			print('};', file=f)
 		else:
 			print('struct', classname, ': public', fatherclassname, '{};', file=f)
-
-for listname in list3:
-	fatherclassname = listname + '_Type'
-	for item in locals()[listname]:
-		classname = item + '_Type'
-		print('struct', classname, ': public', fatherclassname, '{', file=f)
-		# constructor
-		print('\t' + classname + '(', file=f)
-		for index in range(len(locals()[item])):
-			t = locals()[item][index] + '_Type'
-			if index < len(locals()[item])-1:
-				print('\t\t' + t + ' *p' + str(index) + ',', file=f)
-			else:
-				print('\t\t' + t + ' *p' + str(index), file=f)
-		print('\t);', file=f)
-		print('};', file=f)	
 
 print('#endif', file=f)
 f.close()
@@ -324,8 +288,8 @@ for item in list2:
 		t = locals()[item][index] + '_Type'
 		print('\t' + t + ' *child' + str(index) + ' = p' + str(index) + ';', file=f)
 	print('}\n', file=f)
-	
-for item in list4:
+
+for item in list3:
 	classname = item + '_Type'
 	print(classname + '::' + classname + '(', file=f)
 	for index in range(len(locals()[item])):
@@ -342,8 +306,6 @@ for item in list4:
 	print('}\n', file=f)
 	
 f.close()
-
-
 
 # Yacc file
 f = open('tiger.y', 'w')
@@ -399,18 +361,6 @@ for item in list1:
 				print(':', i, '{$$ = $1;}', file=f)
 				flag = True
 		print(file=f)
-
-for item in list3:
-	if item != 'Type': 
-		print(item, file=f)
-		flag = False
-		for i in locals()[item]:
-			if flag:
-				print('|', i, '{$$ = $1;}', file=f)
-			else:
-				print(':', i, '{$$ = $1;}', file=f)
-				flag = True
-		print(file=f)
 		
 # grammar
 for item in list2:
@@ -428,19 +378,19 @@ for item in list2:
 			print('\t\t' + '(' + t +' *)$' + str(dict[item][i+1]), file=f)
 	print('\t);', file=f)
 	print('}', file=f)
-
-for item in list4:
-	print(item + ':', dict[item][0], '{', file=f)
-	# print('\t', '''cout << "''' + item + '''"<< endl;''', file=f)
-	print('\t' + '$$ = new ' + item + '_Type(', file=f)
-	for i in range(len(locals()[item])):
-		t = locals()[item][i] + '_Type'
-		if i < len(locals()[item])-1:
-			print('\t\t' + '(' + t +' *)$' + str(dict[item][i+1]) + ',', file=f)
-		else:
-			print('\t\t' + '(' + t +' *)$' + str(dict[item][i+1]), file=f)
-	print('\t);', file=f)
-	print('}', file=f)
+	
+for item in list3:
+	for l in dict[item]:
+		print(item + ':', l[0], '{', file=f)
+		print('\t' + '$$ = new ' + item + '_Type(', file=f)
+		for i in range(len(locals()[item])):
+			t = locals()[item][i] + '_Type'
+			if i < len(locals()[item])-1:
+				print('\t\t' + '(' + t +' *)$' + str(l[i+1]) + ',', file=f)
+			else:
+				print('\t\t' + '(' + t +' *)$' + str(l[i+1]), file=f)
+		print('\t);', file=f)
+		print('}', file=f)
 	
 # Part 3
 print(
