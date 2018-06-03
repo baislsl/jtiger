@@ -1,0 +1,50 @@
+(
+identifier;
+
+identifier.identifier;
+
+nil;
+/* this is a comment */
+1234;
+
+/* this is 
+
+also a comment */
+
+"a string";
+"a 
+
+string";
+
+-(123);
+
+f(1,2,3,4);
+
+res := 1+2*3+4*5+6/7;
+
+identifier[1] of 1;
+
+zoo {a=1,b=2,c=nil};
+
+a := -b+c;
+if (a := -b+c;a := -b+c;a := -b+c) then a := -b+c;
+if (a := -b+c;a := -b+c;a := -b+c) then a := -b+c else a := -b+c;
+for i:=123 to 1234 do a := -b+c;
+while 1 do 2;
+
+let
+	type zoo = tyid
+	type zoo = array of animals
+	type zoo = {a:int, b:double, c:char}
+	function id ( a:int, b:double, c:char ) = exp
+	function id ( a:int, b:double, c:char ) : tyid = exp
+	var id := exp
+ 	var id : tyId := exp
+in
+	a := -b+c;
+	if (a := -b+c;a := -b+c;a := -b+c) then a := -b+c;
+	if (a := -b+c;a := -b+c;a := -b+c) then a := -b+c else a := -b+c;
+	for i:=123 to 1234 do a := -b+c
+end
+
+)
