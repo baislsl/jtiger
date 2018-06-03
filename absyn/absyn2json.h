@@ -155,11 +155,11 @@ void ProcessNonemptySemiExpList(Value& obj, nonempty_semicolon_exp_list_Type* st
 	{
 	case single_semicolon_exp_list_label:
 		ProcessExp(expObj, ((single_semicolon_exp_list_Type *)structPtr)->child0);
-		obj.AddMember("", expObj, doc.GetAllocator());
+		obj.PushBack(expObj, doc.GetAllocator());
 		break;
 	case multi_semicolon_exp_list_label:
 		ProcessExp(expObj, ((multi_semicolon_exp_list_Type *)structPtr)->child0);
-		obj.AddMember("", expObj, doc.GetAllocator());
+		obj.PushBack(expObj, doc.GetAllocator());
 		ProcessNonemptySemiExpList(obj, ((multi_semicolon_exp_list_Type *)structPtr)->child1);
 		break;
 	}
@@ -201,11 +201,11 @@ void ProcessNonemptyCommaExpList(Value& obj, nonempty_comma_exp_list_Type* struc
 	{
 	case single_comma_exp_list_label:
 		ProcessExp(expObj, ((single_comma_exp_list_Type *)structPtr)->child0);
-		obj.AddMember("", expObj, doc.GetAllocator());
+		obj.PushBack(expObj, doc.GetAllocator());
 		break;
 	case multi_comma_exp_list_label:
 		ProcessExp(expObj, ((multi_comma_exp_list_Type *)structPtr)->child0);
-		obj.AddMember("", expObj, doc.GetAllocator());
+		obj.PushBack(expObj, doc.GetAllocator());
 		ProcessNonemptyCommaExpList(obj, ((multi_comma_exp_list_Type *)structPtr)->child1);
 		break;
 	}
@@ -261,11 +261,11 @@ void ProcessNonemptyFieldCrtList(Value& obj, nonempty_fieldCreate_list_Type* str
 	{
 	case single_fieldCreate_list_label:
 		ProcessFieldCrt(fieldCrtObj, ((single_fieldCreate_list_Type *)structPtr)->child0);
-		obj.AddMember("", fieldCrtObj, doc.GetAllocator());
+		obj.PushBack(fieldCrtObj, doc.GetAllocator());
 		break;
 	case multi_fieldCreate_list_label:
 		ProcessFieldCrt(fieldCrtObj, ((multi_fieldCreate_list_Type *)structPtr)->child0);
-		obj.AddMember("", fieldCrtObj, doc.GetAllocator());
+		obj.PushBack(fieldCrtObj, doc.GetAllocator());
 		ProcessNonemptyFieldCrtList(obj, ((multi_fieldCreate_list_Type *)structPtr)->child1);
 		break;
 	}
@@ -347,7 +347,7 @@ void ProcessLet(Value& obj, letExp_Type* structPtr)
 	Value decArr(kArrayType), expArr(kArrayType);
 	Value decObj(kObjectType);
 	ProcessDec(decObj, structPtr->child0);
-	decArr.AddMember("", decObj, doc.GetAllocator());
+	decArr.PushBack(decObj, doc.GetAllocator());
 	ProcessDecList(decArr, structPtr->child1);
 	obj.AddMember("decs", decArr, doc.GetAllocator());
 	ProcessSemiExpList(expArr, structPtr->child2);
@@ -358,9 +358,7 @@ void ProcessDec(Value& obj, dec_Type* structPtr)
 {
 	switch (structPtr->label)
 	{
-	case tyIdTy_label:
-	case arrTy_label:
-	case recTy_label:
+	case tyDec_label:
 		ProcessTyDec(obj, (tyDec_Type *)structPtr);
 		break;
 	case void_varDec_label:
@@ -423,11 +421,11 @@ void ProcessNonemptyFieldDecList(Value& obj, nonempty_fieldDec_list_Type* struct
 	{
 	case single_fieldDec_list_label:
 		ProcessFieldDec(fieldDecObj, ((single_fieldDec_list_Type *)structPtr)->child0);
-		obj.AddMember("", fieldDecObj, doc.GetAllocator());
+		obj.PushBack(fieldDecObj, doc.GetAllocator());
 		break;
 	case multi_fieldDec_list_label:
 		ProcessFieldDec(fieldDecObj, ((multi_fieldDec_list_Type *)structPtr)->child0);
-		obj.AddMember("", fieldDecObj, doc.GetAllocator());
+		obj.PushBack(fieldDecObj, doc.GetAllocator());
 		ProcessNonemptyFieldDecList(obj, ((multi_fieldDec_list_Type *)structPtr)->child1);
 		break;
 	}
@@ -495,15 +493,15 @@ void ProcessDecList(Value& obj, dec_list_Type* structPtr)
 		break;
 	case nonempty_dec_list_label:
 		ProcessDec(decObj, ((nonempty_dec_list_Type *)structPtr)->child0);
-		obj.AddMember("", decObj, doc.GetAllocator());
-		ProcessDecList(decArr, ((nonempty_dec_list_Type *)structPtr)->child1);
+		obj.PushBack(decObj, doc.GetAllocator());
+		ProcessDecList(obj, ((nonempty_dec_list_Type *)structPtr)->child1);
 		break;
 	}
 }
 
 void ProcessExp(Value& obj, exp_Type* structPtr)
 {
-	Value lvalueObj(kObjectType);
+ 	Value lvalueObj(kObjectType);
 	Value seqArr(kArrayType);
 	switch (structPtr->label)
 	{
@@ -533,18 +531,7 @@ void ProcessExp(Value& obj, exp_Type* structPtr)
 	case callExp_label:
 		ProcessCall(obj, (callExp_Type *)structPtr);
 		break;
-	case plusExp_label:
-	case minusExp_label:
-	case timesExp_label:
-	case divExp_label:
-	case eqExp_label:
-	case neqExp_label:
-	case andExp_label:
-	case orExp_label:
-	case gtExp_label:
-	case ltExp_label:
-	case geExp_label:
-	case leExp_label:
+	case infixExp_label:
 		ProcessInfixExp(obj, (infixExp_Type *)structPtr);
 		break;
 	case arrCreate_label:
