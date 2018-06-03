@@ -1,0 +1,73 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "LetExp",
+        "decs": [
+            {
+                "class": "FunDec",
+                "id": "nfactor",
+                "decs": [
+                    {
+                        "class": "FieldDec",
+                        "id": "n",
+                        "tyid": "int"
+                    }
+                ],
+                "tyid": "int",
+                "exp": {
+                    "class": "IfThenElse",
+                    "ifExp": {
+                        "class": "FieldCreate",
+                        "id": "n",
+                        "exp": {
+                            "class": "IntLit",
+                            "value": 0
+                        }
+                    },
+                    "thenExp": {
+                        "class": "IntLit",
+                        "value": 1
+                    },
+                    "elseExp": {
+                        "class": "InfixExp",
+                        "exp1": {
+                            "class": "IDOnlyLvalue",
+                            "id": "n"
+                        },
+                        "exp2": {
+                            "class": "Call",
+                            "id": "nfactor",
+                            "exps": [
+                                {
+                                    "class": "InfixExp",
+                                    "exp1": {
+                                        "class": "IDOnlyLvalue",
+                                        "id": "n"
+                                    },
+                                    "exp2": {
+                                        "class": "IntLit",
+                                        "value": 1
+                                    },
+                                    "infixOp": "-"
+                                }
+                            ]
+                        },
+                        "infixOp": "*"
+                    }
+                }
+            }
+        ],
+        "exps": [
+            {
+                "class": "Call",
+                "id": "nfactor",
+                "exps": [
+                    {
+                        "class": "IntLit",
+                        "value": 10
+                    }
+                ]
+            }
+        ]
+    }
+}
