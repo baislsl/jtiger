@@ -7,7 +7,7 @@ OBJECT = main.o lex.yy.o tiger.tab.o datatype.o
 main: $(OBJECT)
 	$(CC) -o main $(OBJECT)
 
-main.o: main.cpp tiger.h
+main.o: main.cpp tiger.h absyn2json.h
 	$(CC) -c main.cpp
 
 datatype.o: datatype.cpp datatype.h
