@@ -414,7 +414,10 @@ for item in list3:
 		
 # grammar
 for item in list2:
-	print(item + ':', dict[item][0], '{', file=f)
+	if item == 'negation':
+		print(item + ':', dict[item][0], '%prec UMINUS {', file=f)
+	else:	
+		print(item + ':', dict[item][0], '{', file=f)
 	# print('\t', '''cout << "''' + item + '''"<< endl;''', file=f)
 	print('\t' + '$$ = new ' + item + '_Type(', file=f)
 	for i in range(len(locals()[item])):
