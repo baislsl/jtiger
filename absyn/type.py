@@ -4,7 +4,7 @@ token_types = ['std::string', 'std::string', '', 'int', 'std::string', 'std::str
 
 # branches ==================================================
 
-list1 = ['Type', 'dec', 'varDec', 'funDec', 'ty', 'exp', 'lValue', 'infixExp', 'dec_list', 'comma_exp_list', 'nonempty_comma_exp_list', 'semicolon_exp_list', 'nonempty_semicolon_exp_list', 'fieldDec_list', 'nonempty_fieldDec_list', 'fieldCreate_list', 'nonempty_fieldCreate_list', 'subscript']
+list1 = ['Type', 'dec', 'varDec', 'funDec', 'ty', 'exp', 'lValue', 'dec_list', 'comma_exp_list', 'nonempty_comma_exp_list', 'semicolon_exp_list', 'nonempty_semicolon_exp_list', 'fieldDec_list', 'nonempty_fieldDec_list', 'fieldCreate_list', 'nonempty_fieldCreate_list', 'subscript']
 
 Type = ['dec', 'dec_list', 'ty', 'exp', 'comma_exp_list', 'semicolon_exp_list', 'fieldDec_list', 'fieldCreate_list', 'fieldDec']
 
@@ -15,7 +15,6 @@ funDec = ['void_funDec', 'type_funDec']
 ty = ['tyIdTy', 'arrTy', 'recTy']
 exp = ['lValue', 'nilExp', 'intLitExp', 'stringLitExp', 'seqExp', 'negation', 'callExp', 'infixExp', 'arrCreate', 'recCreate', 'assignment', 'ifThenElse', 'ifThen', 'whileExp', 'forExp', 'letExp', 'breakExp', 'fieldCreate']
 lValue = ['idlValue', 'subscript', 'fieldExp']
-infixExp = ['plusExp', 'minusExp', 'timesExp', 'divExp', 'andExp', 'orExp', 'eqExp', 'neqExp', 'gtExp', 'ltExp', 'geExp', 'leExp']
 subscript = ['idSubscript', 'lValueSubscript']
 
 dec_list = ['empty_dec_list', 'nonempty_dec_list']
@@ -39,7 +38,13 @@ list2 = ['tyDec', 'arrTy', 'fieldDec',
 'empty_comma_exp_list', 'single_comma_exp_list', 'multi_comma_exp_list', 
 'empty_semicolon_exp_list', 'single_semicolon_exp_list', 'multi_semicolon_exp_list', 
 'empty_fieldCreate_list', 'single_fieldCreate_list', 'multi_fieldCreate_list',
-'nilExp', 'intLitExp', 'stringLitExp', 'seqExp', 'negation', 'recTy', 'idSubscript', 'lValueSubscript', 'fieldExp', 'void_varDec', 'type_varDec', 'void_funDec', 'type_funDec', 'callExp', 'plusExp', 'minusExp', 'timesExp', 'divExp', 'andExp', 'orExp', 'eqExp', 'neqExp', 'gtExp', 'ltExp', 'geExp', 'leExp', 'arrCreate', 'recCreate', 'fieldCreate',  'assignment', 'ifThenElse', 'ifThen', 'whileExp', 'forExp', 'letExp', 'idlValue', 'tyIdTy', 'breakExp']
+'nilExp', 'intLitExp', 'stringLitExp', 'seqExp', 'negation', 'recTy', 'idSubscript', 'lValueSubscript', 'fieldExp', 'void_varDec', 'type_varDec', 'void_funDec', 'type_funDec', 'callExp', 'arrCreate', 'recCreate', 'fieldCreate',  'assignment', 'ifThenElse', 'ifThen', 'whileExp', 'forExp', 'letExp', 'idlValue', 'tyIdTy', 'breakExp']
+
+list3 = ['infixExp']
+infixExp_member = ['exp', 'infixOp', 'exp']
+infixExp = ['plusExp', 'minusExp', 'timesExp', 'divExp', 'andExp', 'orExp', 'eqExp', 'neqExp', 'gtExp', 'ltExp', 'geExp', 'leExp']
+
+list4 = ['plusExp', 'minusExp', 'timesExp', 'divExp', 'andExp', 'orExp', 'eqExp', 'neqExp', 'gtExp', 'ltExp', 'geExp', 'leExp']
 
 dict = {}
 
@@ -108,30 +113,30 @@ dict['type_funDec'] = ['FUNCTION ID LPAREN fieldDec_list RPAREN COLON ID EQ exp'
 callExp = ['id', 'comma_exp_list']
 dict['callExp'] = ['ID LPAREN comma_exp_list RPAREN', 1, 3]
 
-plusExp = ['exp', 'exp']
-dict['plusExp'] = ['exp PLUS exp', 1, 3]
-minusExp = ['exp', 'exp']
-dict['minusExp'] = ['exp MINUS exp', 1, 3]
-timesExp = ['exp', 'exp']
-dict['timesExp'] = ['exp TIMES exp', 1, 3]
-divExp = ['exp', 'exp']
-dict['divExp'] = ['exp DIV exp', 1, 3]
-andExp = ['exp', 'exp']
-dict['andExp'] = ['exp AND exp', 1, 3]
-orExp = ['exp', 'exp']
-dict['orExp'] = ['exp OR exp', 1, 3]
-eqExp = ['exp', 'exp']
-dict['eqExp'] = ['exp EQ exp', 1, 3]
-neqExp = ['exp', 'exp']
-dict['neqExp'] = ['exp NEQ exp', 1, 3]
-gtExp = ['exp', 'exp']
-dict['gtExp'] = ['exp GT exp', 1, 3]
-ltExp = ['exp', 'exp']
-dict['ltExp'] = ['exp LT exp', 1, 3]
-geExp = ['exp', 'exp']
-dict['geExp'] = ['exp GE exp', 1, 3]
-leExp = ['exp', 'exp']
-dict['leExp'] = ['exp LE exp', 1, 3]
+plusExp = ['exp', 'infixOp', 'exp']
+dict['plusExp'] = ['exp PLUS exp', 1, 2, 3]
+minusExp = ['exp', 'infixOp', 'exp']
+dict['minusExp'] = ['exp MINUS exp', 1, 2, 3]
+timesExp = ['exp', 'infixOp', 'exp']
+dict['timesExp'] = ['exp TIMES exp', 1, 2, 3]
+divExp = ['exp', 'infixOp', 'exp']
+dict['divExp'] = ['exp DIV exp', 1, 2, 3]
+andExp = ['exp', 'infixOp', 'exp']
+dict['andExp'] = ['exp AND exp', 1, 2, 3]
+orExp = ['exp', 'infixOp', 'exp']
+dict['orExp'] = ['exp OR exp', 1, 2, 3]
+eqExp = ['exp', 'infixOp', 'exp']
+dict['eqExp'] = ['exp EQ exp', 1, 2, 3]
+neqExp = ['exp', 'infixOp', 'exp']
+dict['neqExp'] = ['exp NEQ exp', 1, 2, 3]
+gtExp = ['exp', 'infixOp', 'exp']
+dict['gtExp'] = ['exp GT exp', 1, 2, 3]
+ltExp = ['exp', 'infixOp', 'exp']
+dict['ltExp'] = ['exp LT exp', 1, 2, 3]
+geExp = ['exp', 'infixOp', 'exp']
+dict['geExp'] = ['exp GE exp', 1, 2, 3]
+leExp = ['exp', 'infixOp', 'exp']
+dict['leExp'] = ['exp LE exp', 1, 2, 3]
 
 
 arrCreate = ['tyId', 'exp', 'exp']
@@ -167,37 +172,42 @@ dict['breakExp'] = ['']
 
 
 # -------------------------------------------------
-# Head File print the structures' definition code
+# ==========Head File print the structures' definition code===========
 f = open('datatype.h', 'w')
 
+# includes
 print(
 '''#ifndef DATATYPE_H
 #define DATATYPE_H
 #include <string>
 ''', file=f)
 
-# defines
+# define the labels
 cnt = 0
-print('const int token_min = ' + str(cnt) + ';', file=f)
-cnt = cnt + 1
+
 for item in token_labels:
 	print('const int ' + item + '_label = ' + str(cnt) + ';', file=f)
 	cnt = cnt + 1
-print('const int token_max = ' + str(cnt) + ';', file=f)
-cnt = cnt + 1
+
+for item in list1:
+	print('const int ' + item + '_label = ' + str(cnt) + ';', file=f)
+	cnt = cnt + 1
+
 for item in list2:
 	print('const int ' + item + '_label = ' + str(cnt) + ';', file=f)
 	cnt = cnt + 1
-print(file=f)
 
-# forward declaration
-# for item in list1:
-	# if item == 'Type':
-		# print('struct Type;', file=f)
-	# else:
-		# print('struct', item + '_Type;', file=f)
+for item in list3:
+	print('const int ' + item + '_label = ' + str(cnt) + ';', file=f)
+	cnt = cnt + 1
 	
-# base class
+for item in list4:
+	print('const int ' + item + '_label = ' + str(cnt) + ';', file=f)
+	cnt = cnt + 1
+	
+print(file=f)
+	
+# base class is Type
 print(
 '''struct Type {
 	int label;
@@ -222,9 +232,14 @@ for listname in list1:
 		fatherclassname = 'Type'
 	for item in locals()[listname]:
 		classname = item + '_Type'
-		if item not in list2:
-			print('struct', classname, ': public', fatherclassname, '{};', file=f)
-		else:
+		if item in list3:
+			print('struct', classname, ': public', fatherclassname, '{', file=f)
+			# members
+			for index in range(len(locals()[item+'_member'])):
+				t = locals()[item+'_member'][index] + '_Type'
+				print('\t' + t + ' *child' + str(index) + ';', file=f)
+			print('};', file=f)
+		elif item in list2:
 			print('struct', classname, ': public', fatherclassname, '{', file=f)
 			# members
 			for index in range(len(locals()[item])):
@@ -240,11 +255,41 @@ for listname in list1:
 					print('\t\t' + t + ' *p' + str(index), file=f)
 			print('\t);', file=f)
 			print('};', file=f)
+		elif item in list4:
+			print('struct', classname, ': public', fatherclassname, '{', file=f)
+			# constructor
+			print('\t' + classname + '(', file=f)
+			for index in range(len(locals()[item])):
+				t = locals()[item][index] + '_Type'
+				if index < len(locals()[item])-1:
+					print('\t\t' + t + ' *p' + str(index) + ',', file=f)
+				else:
+					print('\t\t' + t + ' *p' + str(index), file=f)
+			print('\t);', file=f)
+			print('};', file=f)
+		else:
+			print('struct', classname, ': public', fatherclassname, '{};', file=f)
+
+for listname in list3:
+	fatherclassname = listname + '_Type'
+	for item in locals()[listname]:
+		classname = item + '_Type'
+		print('struct', classname, ': public', fatherclassname, '{', file=f)
+		# constructor
+		print('\t' + classname + '(', file=f)
+		for index in range(len(locals()[item])):
+			t = locals()[item][index] + '_Type'
+			if index < len(locals()[item])-1:
+				print('\t\t' + t + ' *p' + str(index) + ',', file=f)
+			else:
+				print('\t\t' + t + ' *p' + str(index), file=f)
+		print('\t);', file=f)
+		print('};', file=f)	
 
 print('#endif', file=f)
 f.close()
 
-# CPP File print the constructors' definition code
+# ==============CPP File print the constructors' definition code==============
 f = open('datatype.cpp', 'w')	
 print(
 '''#include "datatype.h"
@@ -279,8 +324,26 @@ for item in list2:
 		t = locals()[item][index] + '_Type'
 		print('\t' + t + ' *child' + str(index) + ' = p' + str(index) + ';', file=f)
 	print('}\n', file=f)
-
+	
+for item in list4:
+	classname = item + '_Type'
+	print(classname + '::' + classname + '(', file=f)
+	for index in range(len(locals()[item])):
+		t = locals()[item][index] + '_Type'
+		if index < len(locals()[item])-1:
+			print('\t' + t + ' *p' + str(index) + ',', file=f)
+		else:
+			print('\t' + t + ' *p' + str(index), file=f)
+	print(') {', file=f)
+	print('\t' + 'label = ' + item + '_label;', file=f)
+	for index in range(len(locals()[item])):
+		t = locals()[item][index] + '_Type'
+		print('\t' + t + ' *child' + str(index) + ' = p' + str(index) + ';', file=f)
+	print('}\n', file=f)
+	
 f.close()
+
+
 
 # Yacc file
 f = open('tiger.y', 'w')
@@ -337,6 +400,18 @@ for item in list1:
 				flag = True
 		print(file=f)
 
+for item in list3:
+	if item != 'Type': 
+		print(item, file=f)
+		flag = False
+		for i in locals()[item]:
+			if flag:
+				print('|', i, '{$$ = $1;}', file=f)
+			else:
+				print(':', i, '{$$ = $1;}', file=f)
+				flag = True
+		print(file=f)
+		
 # grammar
 for item in list2:
 	print(item + ':', dict[item][0], '{', file=f)
@@ -351,6 +426,19 @@ for item in list2:
 	print('\t);', file=f)
 	print('}', file=f)
 
+for item in list4:
+	print(item + ':', dict[item][0], '{', file=f)
+	# print('\t', '''cout << "''' + item + '''"<< endl;''', file=f)
+	print('\t' + '$$ = new ' + item + '_Type(', file=f)
+	for i in range(len(locals()[item])):
+		t = locals()[item][i] + '_Type'
+		if i < len(locals()[item])-1:
+			print('\t\t' + '(' + t +' *)$' + str(dict[item][i+1]) + ',', file=f)
+		else:
+			print('\t\t' + '(' + t +' *)$' + str(dict[item][i+1]), file=f)
+	print('\t);', file=f)
+	print('}', file=f)
+	
 # Part 3
 print(
 '''%% /*------------------------------------------*/
