@@ -286,7 +286,7 @@ for item in list2:
 	print('\t' + 'label = ' + item + '_label;', file=f)
 	for index in range(len(locals()[item])):
 		t = locals()[item][index] + '_Type'
-		print('\t' + t + ' *child' + str(index) + ' = p' + str(index) + ';', file=f)
+		print('\t' + 'child' + str(index) + ' = p' + str(index) + ';', file=f)
 	print('}\n', file=f)
 
 for item in list3:
@@ -302,7 +302,7 @@ for item in list3:
 	print('\t' + 'label = ' + item + '_label;', file=f)
 	for index in range(len(locals()[item])):
 		t = locals()[item][index] + '_Type'
-		print('\t' + t + ' *child' + str(index) + ' = p' + str(index) + ';', file=f)
+		print('\t' + 'child' + str(index) + ' = p' + str(index) + ';', file=f)
 	print('}\n', file=f)
 	
 f.close()
