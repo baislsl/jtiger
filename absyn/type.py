@@ -90,7 +90,7 @@ dict['seqExp'] = ['LPAREN semicolon_exp_list RPAREN', 2]
 negation = ['exp']
 dict['negation'] = ['MINUS exp', 2]
 recTy = ['fieldDec_list']
-dict['recTy'] = ['LBRACE fieldDec_list RBRACE', 1]
+dict['recTy'] = ['LBRACE fieldDec_list RBRACE', 2]
 
 idSubscript = ['id', 'exp']
 dict['idSubscript'] = ['ID LBRACK exp RBRACK', 1, 3]
@@ -124,23 +124,6 @@ dict['infixExp'] = [
 ['exp GE exp', 1, 2, 3],
 ['exp LE exp', 1, 2, 3],
 ]
-
-dict['andExp'] = ['exp AND exp', 1, 2, 3]
-orExp = ['exp', 'infixOp', 'exp']
-dict['orExp'] = ['exp OR exp', 1, 2, 3]
-eqExp = ['exp', 'infixOp', 'exp']
-dict['eqExp'] = ['exp EQ exp', 1, 2, 3]
-neqExp = ['exp', 'infixOp', 'exp']
-dict['neqExp'] = ['exp NEQ exp', 1, 2, 3]
-gtExp = ['exp', 'infixOp', 'exp']
-dict['gtExp'] = ['exp GT exp', 1, 2, 3]
-ltExp = ['exp', 'infixOp', 'exp']
-dict['ltExp'] = ['exp LT exp', 1, 2, 3]
-geExp = ['exp', 'infixOp', 'exp']
-dict['geExp'] = ['exp GE exp', 1, 2, 3]
-leExp = ['exp', 'infixOp', 'exp']
-dict['leExp'] = ['exp LE exp', 1, 2, 3]
-
 
 arrCreate = ['tyId', 'exp', 'exp']
 dict['arrCreate'] = ['ID LBRACK exp RBRACK OF exp', 1, 3, 6]
@@ -369,6 +352,10 @@ for item in list2:
 	else:	
 		print(item + ':', dict[item][0], '{', file=f)
 	# print('\t', '''cout << "''' + item + '''"<< endl;''', file=f)
+	for i in range(len(locals()[item])):
+		if locals()[item][i] == 'tyId':
+			print('\t' + '$' + str(dict[item][i+1]) + '->label = tyId_label;', file=f)
+			
 	print('\t' + '$$ = new ' + item + '_Type(', file=f)
 	for i in range(len(locals()[item])):
 		t = locals()[item][i] + '_Type'
