@@ -8,7 +8,7 @@ public class FieldCreate implements Tiger {
 
     @Override
     public Type type() {
-        return null;
+        return exp.type();
     }
 
     @Override

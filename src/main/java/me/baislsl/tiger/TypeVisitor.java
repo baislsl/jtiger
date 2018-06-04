@@ -130,7 +130,16 @@ public class TypeVisitor implements TigerVisitor {
         accept(e.ifExp);
         accept(e.elseExp);
         accept(e.thenExp);
+        // for nil
+        if(e.elseExp.type == null) e.elseExp.type = e.thenExp.type;
+        if(e.thenExp.type == null) e.thenExp.type = e.elseExp.type;
+
+        if(e.elseExp.type == null) {
+            throw new CompileException("If Else then type can not be nil both");
+        }
         e.type = e.elseExp.type();
+
+
     }
 
     @Override
