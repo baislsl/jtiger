@@ -105,7 +105,7 @@ dict['type_varDec'] = ['VAR ID COLON ID ASSIGN exp', 2, 4, 6]
 void_funDec = ['id', 'fieldDec_list', 'exp']
 dict['void_funDec'] = ['FUNCTION ID LPAREN fieldDec_list RPAREN EQ exp', 2, 4, 7]
 type_funDec = ['id', 'fieldDec_list', 'tyId', 'exp']
-dict['type_funDec'] = ['FUNCTION ID LPAREN fieldDec_list RPAREN COLON ID EQ exp', 2, 4, 6, 9]
+dict['type_funDec'] = ['FUNCTION ID LPAREN fieldDec_list RPAREN COLON ID EQ exp', 2, 4, 7, 9]
 callExp = ['id', 'comma_exp_list']
 dict['callExp'] = ['ID LPAREN comma_exp_list RPAREN', 1, 3]
 
