@@ -68,6 +68,9 @@ void ProcessLvalue(Value& obj, lValue_Type* structPtr)
 {
 	switch (structPtr->label)
 	{
+	case idlValue_label:
+		ProcessIDLvalue(obj, (idlValue_Type *)structPtr);
+		break;
 	case lValueSubscript_label:
 	case idSubscript_label:
 		ProcessSubscript(obj, (subscript_Type *)structPtr);
