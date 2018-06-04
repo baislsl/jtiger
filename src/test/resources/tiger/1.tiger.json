@@ -1,0 +1,255 @@
+{
+  "class": "Program",
+  "exp": {
+    "class": "LetExp",
+    "decs": [
+      {
+        "class": "FunDec",
+        "id": "printint",
+        "decs": [
+          {
+            "class": "FieldDec",
+            "id": "i",
+            "tyid": "int"
+          }
+        ],
+        "exp": {
+          "class": "LetExp",
+          "decs": [
+            {
+              "class": "FunDec",
+              "id": "f",
+              "decs": [
+                {
+                  "class": "FieldDec",
+                  "id": "i",
+                  "tyid": "int"
+                }
+              ],
+              "exp": {
+                "class": "IfThen",
+                "ifExp": {
+                  "class": "InfixExp",
+                  "exp1": {
+                    "class": "IDOnlyLvalue",
+                    "id": "i"
+                  },
+                  "exp2": {
+                    "class": "IntLit",
+                    "value": 0
+                  },
+                  "infixOp": ">"
+                },
+                "thenExp": {
+                  "class": "SeqExp",
+                  "exps": [
+                    {
+                      "class": "Call",
+                      "id": "f",
+                      "exps": [
+                        {
+                          "class": "InfixExp",
+                          "exp1": {
+                            "class": "IDOnlyLvalue",
+                            "id": "i"
+                          },
+                          "exp2": {
+                            "class": "IntLit",
+                            "value": 10
+                          },
+                          "infixOp": "/"
+                        }
+                      ]
+                    },
+                    {
+                      "class": "Call",
+                      "id": "print",
+                      "exps": [
+                        {
+                          "class": "Call",
+                          "id": "chr",
+                          "exps": [
+                            {
+                              "class": "InfixExp",
+                              "exp1": {
+                                "class": "InfixExp",
+                                "exp1": {
+                                  "class": "IDOnlyLvalue",
+                                  "id": "i"
+                                },
+                                "exp2": {
+                                  "class": "InfixExp",
+                                  "exp1": {
+                                    "class": "InfixExp",
+                                    "exp1": {
+                                      "class": "IDOnlyLvalue",
+                                      "id": "i"
+                                    },
+                                    "exp2": {
+                                      "class": "IntLit",
+                                      "value": 10
+                                    },
+                                    "infixOp": "/"
+                                  },
+                                  "exp2": {
+                                    "class": "IntLit",
+                                    "value": 10
+                                  },
+                                  "infixOp": "*"
+                                },
+                                "infixOp": "-"
+                              },
+                              "exp2": {
+                                "class": "Call",
+                                "id": "ord",
+                                "exps": [
+                                  {
+                                    "class": "StringLit",
+                                    "value": "0"
+                                  }
+                                ]
+                              },
+                              "infixOp": "+"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "exps": [
+            {
+              "class": "IfThenElse",
+              "ifExp": {
+                "class": "InfixExp",
+                "exp1": {
+                  "class": "IDOnlyLvalue",
+                  "id": "i"
+                },
+                "exp2": {
+                  "class": "IntLit",
+                  "value": 0
+                },
+                "infixOp": "<"
+              },
+              "thenExp": {
+                "class": "SeqExp",
+                "exps": [
+                  {
+                    "class": "Call",
+                    "id": "print",
+                    "exps": [
+                      {
+                        "class": "StringLit",
+                        "value": "-"
+                      }
+                    ]
+                  },
+                  {
+                    "class": "Call",
+                    "id": "f",
+                    "exps": [
+                      {
+                        "class": "Negation",
+                        "exp": {
+                          "class": "IDOnlyLvalue",
+                          "id": "i"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "elseExp": {
+                "class": "IfThenElse",
+                "ifExp": {
+                  "class": "InfixExp",
+                  "exp1": {
+                    "class": "IDOnlyLvalue",
+                    "id": "i"
+                  },
+                  "exp2": {
+                    "class": "IntLit",
+                    "value": 0
+                  },
+                  "infixOp": ">"
+                },
+                "thenExp": {
+                  "class": "Call",
+                  "id": "f",
+                  "exps": [
+                    {
+                      "class": "IDOnlyLvalue",
+                      "id": "i"
+                    }
+                  ]
+                },
+                "elseExp": {
+                  "class": "Call",
+                  "id": "print",
+                  "exps": [
+                    {
+                      "class": "StringLit",
+                      "value": "0"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "class": "VarDec",
+        "id": "N",
+        "exp": {
+          "class": "IntLit",
+          "value": 10
+        }
+      }
+    ],
+    "exps": [
+      {
+        "class": "ForExp",
+        "id": "i",
+        "fromExp": {
+          "class": "IntLit",
+          "value": 0
+        },
+        "toExp": {
+          "class": "InfixExp",
+          "exp1": {
+            "class": "IDOnlyLvalue",
+            "id": "N"
+          },
+          "exp2": {
+            "class": "IntLit",
+            "value": 1
+          },
+          "infixOp": "-"
+        },
+        "doExp": {
+          "class": "Call",
+          "id": "printint",
+          "exps": [
+            {
+              "class": "InfixExp",
+              "exp1": {
+                "class": "IDOnlyLvalue",
+                "id": "i"
+              },
+              "exp2": {
+                "class": "IntLit",
+                "value": 2
+              },
+              "infixOp": "*"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

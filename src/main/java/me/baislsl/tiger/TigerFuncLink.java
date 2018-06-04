@@ -15,7 +15,7 @@ public class TigerFuncLink {
     }
 
     public static void print(String s) {
-        System.out.println(s);
+        System.out.print(s);
     }
 
 

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class TypeVisitor implements TigerVisitor {
     private final static Logger logger = LoggerFactory.getLogger(TypeVisitor.class);
@@ -85,6 +86,7 @@ public class TypeVisitor implements TigerVisitor {
         accept(e.lvalue);
         ObjectType ot = (ObjectType) e.lvalue.type;
         e.type = typeDecTable.get(ot.getClassName()).get(e.id.name);
+        Objects.requireNonNull(e.type, e.id.name);
     }
 
     @Override

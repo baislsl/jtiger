@@ -18,7 +18,7 @@ public class ClassFieldSymbol implements FieldSymbol {
         this.dec = dec;
         this.name = dec.id.name;
         this.type = dec.type();
-        Objects.requireNonNull(type);
+        Objects.requireNonNull(type, dec.id.name);
     }
 
     public ClassFieldSymbol(VarDec dec) {

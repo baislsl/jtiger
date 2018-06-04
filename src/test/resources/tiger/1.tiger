@@ -1,0 +1,14 @@
+let
+ function printint(i: int) =
+  let function f(i:int) = if i>0
+	     then (f(i/10); print(chr(i-i/10*10+ord("0"))))
+   in if i<0 then (print("-"); f(-i))
+      else if i>0 then f(i)
+      else print("0")
+  end
+ var N := 10
+ in
+    for i := 0 to N - 1
+        do printint(i * 2)
+end
+

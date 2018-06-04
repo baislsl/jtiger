@@ -40,6 +40,25 @@ public class TigerVisitorImpl implements TigerVisitor {
         throw new CompileException("Unsupported to compile " + e.getClass().getSimpleName());
     }
 
+    /**
+     * this.parent.parent. ... .parent
+     *      depth 个 parent
+     * @param depth 深度
+     * @return 返回最后的类型类名
+     */
+    private String pushLink(int depth) {
+        il.append(InstructionConst.THIS);
+        int stackSize = env.getParentStack().size();
+        for(int i = 0; i < depth; i ++) {
+            String className = (i == 0) ? cg.getClassName() : env.getParentStack().get(stackSize - i);
+            Type type = new ObjectType(env.getParentStack().get(stackSize - i - 1));
+            il.append(factory.createGetField(className, JVMSpec.parentFieldName, type));
+        }
+        String className = (depth == 0) ? cg.getClassName()
+                : env.getParentStack().get(stackSize - depth);
+        return className;
+    }
+
     @Override
     public void visit(Assignment e) {
         if (e.lvalue instanceof IdOnlyLvalue) {  // Lvalue -> id
@@ -51,15 +70,7 @@ public class TigerVisitorImpl implements TigerVisitor {
                 il.append(InstructionFactory.createStore(symbol.type(), symbol.index()));
             } else {    // field of class
                 ClassFieldSymbol symbol = (ClassFieldSymbol) r.symbol;
-                il.append(InstructionConst.THIS);
-                int stackSize = env.getParentStack().size();
-                for (int i = 0; i < r.depth; i++) {
-                    String className = (i == 0) ? cg.getClassName() : env.getParentStack().get(stackSize - i);
-                    Type type = new ObjectType(env.getParentStack().get(stackSize - i - 1));
-                    il.append(factory.createGetField(className, JVMSpec.parentFieldName, type));
-                }
-                String className = (r.depth == 0) ? cg.getClassName()
-                        : env.getParentStack().get(stackSize - r.depth);
+                String className = pushLink(r.depth);
                 il.append(factory.createPutField(className, symbol.name(), symbol.type()));
             }
         } else if (e.lvalue instanceof Subscript) {  // Lvalue -> Subsript
@@ -96,16 +107,18 @@ public class TigerVisitorImpl implements TigerVisitor {
             il.append(factory.createInvoke(TigerFuncLink.class.getName(), f.name(),
                     f.retType(), f.paramsType().toArray(new Type[0]), Const.INVOKESTATIC));
         } else {
-            // func(params) -> new func(params).invoke()
+            // func(params) -> new func(parent, params).invoke()
             il.append(factory.createNew(new ObjectType(f.name())));
             il.append(InstructionConst.DUP);
-            List<Type> params = new ArrayList<>();
-            params.add(env.getTypeTable().query(cg.getClassName()).symbol.type());
-            params.addAll(f.paramsType());
-            il.append(InstructionConst.THIS);
+            // il.append(InstructionConst.THIS);   // call parent
+            String className = pushLink(r.depth);
             for (Exp param : e.exps) {
                 param.accept(this);
             }
+            List<Type> params = new ArrayList<>();
+            params.add(new ObjectType(className));
+            params.addAll(f.paramsType());
+
             il.append(factory.createInvoke(f.name(), "<init>",
                     Type.VOID, params.toArray(new Type[0]), Const.INVOKESPECIAL));
 
@@ -146,7 +159,7 @@ public class TigerVisitorImpl implements TigerVisitor {
         InstructionHandle loop = il.append(InstructionConst.DUP);
         il.append(InstructionFactory.createLoad(Type.INT, lg.getIndex()));
         il.append(InstructionFactory.createBinaryOperation("-", Type.INT));
-        BranchInstruction br = InstructionFactory.createBranchInstruction(Const.IFLE, null);
+        BranchInstruction br = InstructionFactory.createBranchInstruction(Const.IFLT, null);
         il.append(br);
         e.doExp.accept(this);
         if (e.doExp.type() != Type.VOID && e.doExp.type() != null) {
@@ -183,15 +196,7 @@ public class TigerVisitorImpl implements TigerVisitor {
             ClassFieldSymbol symbol = (ClassFieldSymbol) r.symbol;
             // this.parent.parent ...  .parent.(e)
             // depth 个 parent
-            il.append(InstructionConst.THIS);
-            int stackSize = env.getParentStack().size();
-            for (int i = 0; i < r.depth; i++) {
-                String className = (i == 0) ? cg.getClassName() : env.getParentStack().get(stackSize - i);
-                Type type = new ObjectType(env.getParentStack().get(stackSize - i - 1));
-                il.append(factory.createGetField(className, JVMSpec.parentFieldName, type));
-            }
-            String className = (r.depth == 0) ? cg.getClassName()
-                    : env.getParentStack().get(stackSize - r.depth);
+            String className = pushLink(r.depth);
             il.append(factory.createGetField(className,
                     symbol.name(), symbol.type()));
         }
@@ -203,7 +208,7 @@ public class TigerVisitorImpl implements TigerVisitor {
         BranchInstruction br = InstructionFactory.createBranchInstruction(Const.IFEQ, null);
         il.append(br);
         e.thenExp.accept(this);
-        if (e.thenExp.type() != Type.VOID)
+        if (e.thenExp.type() != Type.VOID && e.thenExp.type() != null)
             il.append(InstructionConst.POP);
         br.setTarget(il.append(InstructionConst.NOP));
     }
@@ -348,7 +353,8 @@ public class TigerVisitorImpl implements TigerVisitor {
     public void visit(SeqExp e) {
         for (int i = 0; i < e.exps.size(); i++) {
             e.exps.get(i).accept(this);
-            if (i != e.exps.size() - 1 && e.exps.get(i).type != Type.VOID) {
+            Type t = e.exps.get(i).type;
+            if (i != e.exps.size() - 1 && t != null && !t.equals(Type.VOID)) {
                 il.append(InstructionConst.POP);
             }
         }
