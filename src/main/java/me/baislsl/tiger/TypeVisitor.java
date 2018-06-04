@@ -5,10 +5,13 @@ import me.baislsl.tiger.symbol.SystemFunSymbol;
 import org.apache.bcel.generic.ArrayType;
 import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 
 public class TypeVisitor implements TigerVisitor {
+    private final static Logger logger = LoggerFactory.getLogger(TypeVisitor.class);
 
     private HashMap<String, Type> typeTable = new HashMap<>();
     private HashMap<String, Type> funcRetTable = new HashMap<>();
@@ -74,6 +77,7 @@ public class TypeVisitor implements TigerVisitor {
     @Override
     public void visit(FieldDec e) {
         varTypeTable.put(e.id.name, typeTable.get(e.tyId.name));
+        e.type = typeTable.get(e.tyId.name);
     }
 
     @Override

@@ -66,10 +66,7 @@ public class LetExpGen {
             TypeClassGen.generateClass(env, d);
         }
         for (VarDec v : varDecs) {
-            FieldDec fieldDec = new FieldDec();
-            fieldDec.id = v.id;
-            fieldDec.tyId = v.tyId;
-            env.getFieldTable().put(v.id.name, new ClassFieldSymbol(fieldDec, v.type()));
+            env.getFieldTable().put(v.id.name, new ClassFieldSymbol(v));
         }
         for (FunDec f : funDecs) {
             env.getFuncTable().put(f.id.name, new DecFunSymbol(f));
