@@ -1,0 +1,23 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "LetExp",
+        "decs": [
+            {
+                "class": "VarDec",
+                "id": "a",
+                "exp": {
+                    "class": "RecCreate",
+                    "tyId": "rectype",
+                    "fieldCreates": []
+                }
+            }
+        ],
+        "exps": [
+            {
+                "class": "IntLit",
+                "value": 0
+            }
+        ]
+    }
+}

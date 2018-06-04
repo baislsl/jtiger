@@ -1,0 +1,46 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "LetExp",
+        "decs": [
+            {
+                "class": "TyDec",
+                "tyId": "a",
+                "ty": {
+                    "class": "IdOnlyTy",
+                    "id": "c"
+                }
+            },
+            {
+                "class": "TyDec",
+                "tyId": "b",
+                "ty": {
+                    "class": "IdOnlyTy",
+                    "id": "a"
+                }
+            },
+            {
+                "class": "TyDec",
+                "tyId": "c",
+                "ty": {
+                    "class": "IdOnlyTy",
+                    "id": "d"
+                }
+            },
+            {
+                "class": "TyDec",
+                "tyId": "d",
+                "ty": {
+                    "class": "IdOnlyTy",
+                    "id": "a"
+                }
+            }
+        ],
+        "exps": [
+            {
+                "class": "StringLit",
+                "value": ""
+            }
+        ]
+    }
+}

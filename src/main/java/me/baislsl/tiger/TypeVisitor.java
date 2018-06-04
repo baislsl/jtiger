@@ -44,10 +44,10 @@ public class TypeVisitor implements TigerVisitor {
 
     @Override
     public void visit(Assignment e) {
-        accept(e.lv);
+        accept(e.lvalue);
         accept(e.exp);
         if (e.exp.type == null) {
-            e.exp.type = e.lv.type;
+            e.exp.type = e.lvalue.type;
         }
         e.type = Type.VOID;
     }

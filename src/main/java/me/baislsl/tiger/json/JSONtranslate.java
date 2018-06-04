@@ -59,13 +59,6 @@ public class JSONtranslate {
     private static Object loadJSONObject(JSONObject object)
             throws ReflectiveOperationException {
         String name = (String) object.get("class");
-        logger.info("Loading {}", name);
-        if (name == null) {
-            for(Object k : object.keySet() ){
-                System.out.println(k);
-            }
-        }
-
         for (Class<?> clazz : clazzes) {
             if (stringCompare(clazz.getSimpleName(), name)) {
                 return loadJSONObject(object, clazz);

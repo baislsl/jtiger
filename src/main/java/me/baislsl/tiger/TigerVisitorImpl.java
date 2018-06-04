@@ -42,8 +42,8 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(Assignment e) {
-        if (e.lv instanceof IdOnlyLvalue) {  // Lvalue -> id
-            IdOnlyLvalue lv = (IdOnlyLvalue) e.lv;
+        if (e.lvalue instanceof IdOnlyLvalue) {  // Lvalue -> id
+            IdOnlyLvalue lv = (IdOnlyLvalue) e.lvalue;
             SymbolTable.QueryResult<FieldSymbol> r = fieldTable.query(lv.id.name);
             if (r.symbol.isLocalVariable()) {    // local value
                 LocalFieldSymbol symbol = (LocalFieldSymbol) r.symbol;
@@ -62,11 +62,11 @@ public class TigerVisitorImpl implements TigerVisitor {
                         : env.getParentStack().get(stackSize - r.depth);
                 il.append(factory.createPutField(className, symbol.name(), symbol.type()));
             }
-        } else if (e.lv instanceof Subscript) {  // Lvalue -> Subsript
+        } else if (e.lvalue instanceof Subscript) {  // Lvalue -> Subsript
             throw new CompileException("Unsupported for Subscript");
         } else {    //  Lvalue -> FieldExp
             // lvalue.id
-            FieldExp exp = (FieldExp) e.lv;
+            FieldExp exp = (FieldExp) e.lvalue;
             exp.lvalue.accept(this);
             // should get the type of return value
             e.exp.accept(this);

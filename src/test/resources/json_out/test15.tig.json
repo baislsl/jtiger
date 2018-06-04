@@ -1,0 +1,14 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "IfThen",
+        "ifExp": {
+            "class": "IntLit",
+            "value": 20
+        },
+        "thenExp": {
+            "class": "IntLit",
+            "value": 3
+        }
+    }
+}

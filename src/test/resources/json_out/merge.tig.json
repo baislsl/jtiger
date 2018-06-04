@@ -1,0 +1,851 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "LetExp",
+        "decs": [
+            {
+                "class": "TyDec",
+                "tyId": "any",
+                "ty": {
+                    "class": "RecTy",
+                    "decs": []
+                }
+            },
+            {
+                "class": "VarDec",
+                "id": "buffer",
+                "exp": {
+                    "class": "Call",
+                    "id": "getchar",
+                    "exps": []
+                }
+            },
+            {
+                "class": "FunDec",
+                "id": "readint",
+                "decs": [
+                    {
+                        "class": "FieldDec",
+                        "id": "any",
+                        "tyid": "any"
+                    }
+                ],
+                "tyid": "any",
+                "exp": {
+                    "class": "LetExp",
+                    "decs": [
+                        {
+                            "class": "VarDec",
+                            "id": "i",
+                            "exp": {
+                                "class": "IntLit",
+                                "value": 0
+                            }
+                        },
+                        {
+                            "class": "FunDec",
+                            "id": "isdigit",
+                            "decs": [
+                                {
+                                    "class": "FieldDec",
+                                    "id": "s",
+                                    "tyid": "string"
+                                }
+                            ],
+                            "tyid": "string",
+                            "exp": {
+                                "class": "InfixExp",
+                                "exp1": {
+                                    "class": "InfixExp",
+                                    "exp1": {
+                                        "class": "Call",
+                                        "id": "ord",
+                                        "exps": [
+                                            {
+                                                "class": "IDOnlyLvalue",
+                                                "id": "buffer"
+                                            }
+                                        ]
+                                    },
+                                    "exp2": {
+                                        "class": "Call",
+                                        "id": "ord",
+                                        "exps": [
+                                            {
+                                                "class": "StringLit",
+                                                "value": "0"
+                                            }
+                                        ]
+                                    },
+                                    "infixOp": ">="
+                                },
+                                "exp2": {
+                                    "class": "InfixExp",
+                                    "exp1": {
+                                        "class": "Call",
+                                        "id": "ord",
+                                        "exps": [
+                                            {
+                                                "class": "IDOnlyLvalue",
+                                                "id": "buffer"
+                                            }
+                                        ]
+                                    },
+                                    "exp2": {
+                                        "class": "Call",
+                                        "id": "ord",
+                                        "exps": [
+                                            {
+                                                "class": "StringLit",
+                                                "value": "9"
+                                            }
+                                        ]
+                                    },
+                                    "infixOp": "<="
+                                },
+                                "infixOp": "&"
+                            }
+                        },
+                        {
+                            "class": "FunDec",
+                            "id": "skipto",
+                            "decs": [],
+                            "exp": {
+                                "class": "While",
+                                "whileExp": {
+                                    "class": "InfixExp",
+                                    "exp1": {
+                                        "class": "InfixExp",
+                                        "exp1": {
+                                            "class": "IDOnlyLvalue",
+                                            "id": "buffer"
+                                        },
+                                        "exp2": {
+                                            "class": "StringLit",
+                                            "value": " "
+                                        },
+                                        "infixOp": "="
+                                    },
+                                    "exp2": {
+                                        "class": "InfixExp",
+                                        "exp1": {
+                                            "class": "IDOnlyLvalue",
+                                            "id": "buffer"
+                                        },
+                                        "exp2": {
+                                            "class": "StringLit",
+                                            "value": "\n"
+                                        },
+                                        "infixOp": "="
+                                    },
+                                    "infixOp": "|"
+                                },
+                                "doExp": {
+                                    "class": "Assignment",
+                                    "Lvalue": {
+                                        "class": "IDOnlyLvalue",
+                                        "id": "buffer"
+                                    },
+                                    "exp": {
+                                        "class": "Call",
+                                        "id": "getchar",
+                                        "exps": []
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "exps": [
+                        {
+                            "class": "Call",
+                            "id": "skipto",
+                            "exps": []
+                        },
+                        {
+                            "class": "Assignment",
+                            "Lvalue": {
+                                "class": "FieldExp",
+                                "Lvalue": {
+                                    "class": "IDOnlyLvalue",
+                                    "id": "any"
+                                },
+                                "id": "any"
+                            },
+                            "exp": {
+                                "class": "Call",
+                                "id": "isdigit",
+                                "exps": [
+                                    {
+                                        "class": "IDOnlyLvalue",
+                                        "id": "buffer"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "class": "While",
+                            "whileExp": {
+                                "class": "Call",
+                                "id": "isdigit",
+                                "exps": [
+                                    {
+                                        "class": "IDOnlyLvalue",
+                                        "id": "buffer"
+                                    }
+                                ]
+                            },
+                            "doExp": {
+                                "class": "SeqExp",
+                                "exps": [
+                                    {
+                                        "class": "Assignment",
+                                        "Lvalue": {
+                                            "class": "IDOnlyLvalue",
+                                            "id": "i"
+                                        },
+                                        "exp": {
+                                            "class": "InfixExp",
+                                            "exp1": {
+                                                "class": "InfixExp",
+                                                "exp1": {
+                                                    "class": "InfixExp",
+                                                    "exp1": {
+                                                        "class": "IDOnlyLvalue",
+                                                        "id": "i"
+                                                    },
+                                                    "exp2": {
+                                                        "class": "IntLit",
+                                                        "value": 10
+                                                    },
+                                                    "infixOp": "*"
+                                                },
+                                                "exp2": {
+                                                    "class": "Call",
+                                                    "id": "ord",
+                                                    "exps": [
+                                                        {
+                                                            "class": "IDOnlyLvalue",
+                                                            "id": "buffer"
+                                                        }
+                                                    ]
+                                                },
+                                                "infixOp": "+"
+                                            },
+                                            "exp2": {
+                                                "class": "Call",
+                                                "id": "ord",
+                                                "exps": [
+                                                    {
+                                                        "class": "StringLit",
+                                                        "value": "0"
+                                                    }
+                                                ]
+                                            },
+                                            "infixOp": "-"
+                                        }
+                                    },
+                                    {
+                                        "class": "Assignment",
+                                        "Lvalue": {
+                                            "class": "IDOnlyLvalue",
+                                            "id": "buffer"
+                                        },
+                                        "exp": {
+                                            "class": "Call",
+                                            "id": "getchar",
+                                            "exps": []
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "class": "IDOnlyLvalue",
+                            "id": "i"
+                        }
+                    ]
+                }
+            },
+            {
+                "class": "TyDec",
+                "tyId": "list",
+                "ty": {
+                    "class": "RecTy",
+                    "decs": []
+                }
+            },
+            {
+                "class": "FunDec",
+                "id": "readlist",
+                "decs": [],
+                "tyid": "readlist",
+                "exp": {
+                    "class": "LetExp",
+                    "decs": [
+                        {
+                            "class": "VarDec",
+                            "id": "any",
+                            "exp": {
+                                "class": "RecCreate",
+                                "tyId": "any",
+                                "fieldCreates": [
+                                    {
+                                        "class": "FieldCreate",
+                                        "id": "any",
+                                        "exp": {
+                                            "class": "IntLit",
+                                            "value": 0
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "class": "VarDec",
+                            "id": "i",
+                            "exp": {
+                                "class": "Call",
+                                "id": "readint",
+                                "exps": [
+                                    {
+                                        "class": "IDOnlyLvalue",
+                                        "id": "any"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "exps": [
+                        {
+                            "class": "IfThenElse",
+                            "ifExp": {
+                                "class": "FieldExp",
+                                "Lvalue": {
+                                    "class": "IDOnlyLvalue",
+                                    "id": "any"
+                                },
+                                "id": "any"
+                            },
+                            "thenExp": {
+                                "class": "RecCreate",
+                                "tyId": "list",
+                                "fieldCreates": [
+                                    {
+                                        "class": "FieldCreate",
+                                        "id": "first",
+                                        "exp": {
+                                            "class": "IDOnlyLvalue",
+                                            "id": "i"
+                                        }
+                                    },
+                                    {
+                                        "class": "FieldCreate",
+                                        "id": "rest",
+                                        "exp": {
+                                            "class": "Call",
+                                            "id": "readlist",
+                                            "exps": []
+                                        }
+                                    }
+                                ]
+                            },
+                            "elseExp": {
+                                "class": "Nil"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "class": "FunDec",
+                "id": "merge",
+                "decs": [
+                    {
+                        "class": "FieldDec",
+                        "id": "a",
+                        "tyid": "list"
+                    },
+                    {
+                        "class": "FieldDec",
+                        "id": "b",
+                        "tyid": "list"
+                    }
+                ],
+                "tyid": "list",
+                "exp": {
+                    "class": "IfThenElse",
+                    "ifExp": {
+                        "class": "InfixExp",
+                        "exp1": {
+                            "class": "IDOnlyLvalue",
+                            "id": "a"
+                        },
+                        "exp2": {
+                            "class": "Nil"
+                        },
+                        "infixOp": "="
+                    },
+                    "thenExp": {
+                        "class": "IDOnlyLvalue",
+                        "id": "b"
+                    },
+                    "elseExp": {
+                        "class": "IfThenElse",
+                        "ifExp": {
+                            "class": "InfixExp",
+                            "exp1": {
+                                "class": "IDOnlyLvalue",
+                                "id": "b"
+                            },
+                            "exp2": {
+                                "class": "Nil"
+                            },
+                            "infixOp": "="
+                        },
+                        "thenExp": {
+                            "class": "IDOnlyLvalue",
+                            "id": "a"
+                        },
+                        "elseExp": {
+                            "class": "IfThenElse",
+                            "ifExp": {
+                                "class": "InfixExp",
+                                "exp1": {
+                                    "class": "FieldExp",
+                                    "Lvalue": {
+                                        "class": "IDOnlyLvalue",
+                                        "id": "a"
+                                    },
+                                    "id": "first"
+                                },
+                                "exp2": {
+                                    "class": "FieldExp",
+                                    "Lvalue": {
+                                        "class": "IDOnlyLvalue",
+                                        "id": "b"
+                                    },
+                                    "id": "first"
+                                },
+                                "infixOp": "<"
+                            },
+                            "thenExp": {
+                                "class": "RecCreate",
+                                "tyId": "list",
+                                "fieldCreates": [
+                                    {
+                                        "class": "FieldCreate",
+                                        "id": "first",
+                                        "exp": {
+                                            "class": "FieldExp",
+                                            "Lvalue": {
+                                                "class": "IDOnlyLvalue",
+                                                "id": "a"
+                                            },
+                                            "id": "first"
+                                        }
+                                    },
+                                    {
+                                        "class": "FieldCreate",
+                                        "id": "rest",
+                                        "exp": {
+                                            "class": "Call",
+                                            "id": "merge",
+                                            "exps": [
+                                                {
+                                                    "class": "FieldExp",
+                                                    "Lvalue": {
+                                                        "class": "IDOnlyLvalue",
+                                                        "id": "a"
+                                                    },
+                                                    "id": "rest"
+                                                },
+                                                {
+                                                    "class": "IDOnlyLvalue",
+                                                    "id": "b"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            },
+                            "elseExp": {
+                                "class": "RecCreate",
+                                "tyId": "list",
+                                "fieldCreates": [
+                                    {
+                                        "class": "FieldCreate",
+                                        "id": "first",
+                                        "exp": {
+                                            "class": "FieldExp",
+                                            "Lvalue": {
+                                                "class": "IDOnlyLvalue",
+                                                "id": "b"
+                                            },
+                                            "id": "first"
+                                        }
+                                    },
+                                    {
+                                        "class": "FieldCreate",
+                                        "id": "rest",
+                                        "exp": {
+                                            "class": "Call",
+                                            "id": "merge",
+                                            "exps": [
+                                                {
+                                                    "class": "IDOnlyLvalue",
+                                                    "id": "a"
+                                                },
+                                                {
+                                                    "class": "FieldExp",
+                                                    "Lvalue": {
+                                                        "class": "IDOnlyLvalue",
+                                                        "id": "b"
+                                                    },
+                                                    "id": "rest"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "class": "FunDec",
+                "id": "printint",
+                "decs": [
+                    {
+                        "class": "FieldDec",
+                        "id": "i",
+                        "tyid": "int"
+                    }
+                ],
+                "exp": {
+                    "class": "LetExp",
+                    "decs": [
+                        {
+                            "class": "FunDec",
+                            "id": "f",
+                            "decs": [
+                                {
+                                    "class": "FieldDec",
+                                    "id": "i",
+                                    "tyid": "int"
+                                }
+                            ],
+                            "exp": {
+                                "class": "IfThen",
+                                "ifExp": {
+                                    "class": "InfixExp",
+                                    "exp1": {
+                                        "class": "IDOnlyLvalue",
+                                        "id": "i"
+                                    },
+                                    "exp2": {
+                                        "class": "IntLit",
+                                        "value": 0
+                                    },
+                                    "infixOp": ">"
+                                },
+                                "thenExp": {
+                                    "class": "SeqExp",
+                                    "exps": [
+                                        {
+                                            "class": "Call",
+                                            "id": "f",
+                                            "exps": [
+                                                {
+                                                    "class": "InfixExp",
+                                                    "exp1": {
+                                                        "class": "IDOnlyLvalue",
+                                                        "id": "i"
+                                                    },
+                                                    "exp2": {
+                                                        "class": "IntLit",
+                                                        "value": 10
+                                                    },
+                                                    "infixOp": "/"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "class": "Call",
+                                            "id": "print",
+                                            "exps": [
+                                                {
+                                                    "class": "Call",
+                                                    "id": "chr",
+                                                    "exps": [
+                                                        {
+                                                            "class": "InfixExp",
+                                                            "exp1": {
+                                                                "class": "InfixExp",
+                                                                "exp1": {
+                                                                    "class": "IDOnlyLvalue",
+                                                                    "id": "i"
+                                                                },
+                                                                "exp2": {
+                                                                    "class": "InfixExp",
+                                                                    "exp1": {
+                                                                        "class": "InfixExp",
+                                                                        "exp1": {
+                                                                            "class": "IDOnlyLvalue",
+                                                                            "id": "i"
+                                                                        },
+                                                                        "exp2": {
+                                                                            "class": "IntLit",
+                                                                            "value": 10
+                                                                        },
+                                                                        "infixOp": "/"
+                                                                    },
+                                                                    "exp2": {
+                                                                        "class": "IntLit",
+                                                                        "value": 10
+                                                                    },
+                                                                    "infixOp": "*"
+                                                                },
+                                                                "infixOp": "-"
+                                                            },
+                                                            "exp2": {
+                                                                "class": "Call",
+                                                                "id": "ord",
+                                                                "exps": [
+                                                                    {
+                                                                        "class": "StringLit",
+                                                                        "value": "0"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "infixOp": "+"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "exps": [
+                        {
+                            "class": "IfThenElse",
+                            "ifExp": {
+                                "class": "InfixExp",
+                                "exp1": {
+                                    "class": "IDOnlyLvalue",
+                                    "id": "i"
+                                },
+                                "exp2": {
+                                    "class": "IntLit",
+                                    "value": 0
+                                },
+                                "infixOp": "<"
+                            },
+                            "thenExp": {
+                                "class": "SeqExp",
+                                "exps": [
+                                    {
+                                        "class": "Call",
+                                        "id": "print",
+                                        "exps": [
+                                            {
+                                                "class": "StringLit",
+                                                "value": "-"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "class": "Call",
+                                        "id": "f",
+                                        "exps": [
+                                            {
+                                                "class": "Negation",
+                                                "exp": {
+                                                    "class": "IDOnlyLvalue",
+                                                    "id": "i"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            "elseExp": {
+                                "class": "IfThenElse",
+                                "ifExp": {
+                                    "class": "InfixExp",
+                                    "exp1": {
+                                        "class": "IDOnlyLvalue",
+                                        "id": "i"
+                                    },
+                                    "exp2": {
+                                        "class": "IntLit",
+                                        "value": 0
+                                    },
+                                    "infixOp": ">"
+                                },
+                                "thenExp": {
+                                    "class": "Call",
+                                    "id": "f",
+                                    "exps": [
+                                        {
+                                            "class": "IDOnlyLvalue",
+                                            "id": "i"
+                                        }
+                                    ]
+                                },
+                                "elseExp": {
+                                    "class": "Call",
+                                    "id": "print",
+                                    "exps": [
+                                        {
+                                            "class": "StringLit",
+                                            "value": "0"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "class": "FunDec",
+                "id": "printlist",
+                "decs": [
+                    {
+                        "class": "FieldDec",
+                        "id": "l",
+                        "tyid": "list"
+                    }
+                ],
+                "exp": {
+                    "class": "IfThenElse",
+                    "ifExp": {
+                        "class": "InfixExp",
+                        "exp1": {
+                            "class": "IDOnlyLvalue",
+                            "id": "l"
+                        },
+                        "exp2": {
+                            "class": "Nil"
+                        },
+                        "infixOp": "="
+                    },
+                    "thenExp": {
+                        "class": "Call",
+                        "id": "print",
+                        "exps": [
+                            {
+                                "class": "StringLit",
+                                "value": "\n"
+                            }
+                        ]
+                    },
+                    "elseExp": {
+                        "class": "SeqExp",
+                        "exps": [
+                            {
+                                "class": "Call",
+                                "id": "printint",
+                                "exps": [
+                                    {
+                                        "class": "FieldExp",
+                                        "Lvalue": {
+                                            "class": "IDOnlyLvalue",
+                                            "id": "l"
+                                        },
+                                        "id": "first"
+                                    }
+                                ]
+                            },
+                            {
+                                "class": "Call",
+                                "id": "print",
+                                "exps": [
+                                    {
+                                        "class": "StringLit",
+                                        "value": " "
+                                    }
+                                ]
+                            },
+                            {
+                                "class": "Call",
+                                "id": "printlist",
+                                "exps": [
+                                    {
+                                        "class": "FieldExp",
+                                        "Lvalue": {
+                                            "class": "IDOnlyLvalue",
+                                            "id": "l"
+                                        },
+                                        "id": "rest"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "class": "VarDec",
+                "id": "list1",
+                "exp": {
+                    "class": "Call",
+                    "id": "readlist",
+                    "exps": []
+                }
+            },
+            {
+                "class": "VarDec",
+                "id": "list2",
+                "exp": {
+                    "class": "SeqExp",
+                    "exps": [
+                        {
+                            "class": "Assignment",
+                            "Lvalue": {
+                                "class": "IDOnlyLvalue",
+                                "id": "buffer"
+                            },
+                            "exp": {
+                                "class": "Call",
+                                "id": "getchar",
+                                "exps": []
+                            }
+                        },
+                        {
+                            "class": "Call",
+                            "id": "readlist",
+                            "exps": []
+                        }
+                    ]
+                }
+            }
+        ],
+        "exps": [
+            {
+                "class": "Call",
+                "id": "printlist",
+                "exps": [
+                    {
+                        "class": "Call",
+                        "id": "merge",
+                        "exps": [
+                            {
+                                "class": "IDOnlyLvalue",
+                                "id": "list1"
+                            },
+                            {
+                                "class": "IDOnlyLvalue",
+                                "id": "list2"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

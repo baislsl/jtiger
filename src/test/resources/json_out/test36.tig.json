@@ -1,0 +1,49 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "LetExp",
+        "decs": [
+            {
+                "class": "FunDec",
+                "id": "g",
+                "decs": [
+                    {
+                        "class": "FieldDec",
+                        "id": "a",
+                        "tyid": "int"
+                    },
+                    {
+                        "class": "FieldDec",
+                        "id": "b",
+                        "tyid": "string"
+                    }
+                ],
+                "tyid": "string",
+                "exp": {
+                    "class": "IDOnlyLvalue",
+                    "id": "a"
+                }
+            }
+        ],
+        "exps": [
+            {
+                "class": "Call",
+                "id": "g",
+                "exps": [
+                    {
+                        "class": "IntLit",
+                        "value": 3
+                    },
+                    {
+                        "class": "StringLit",
+                        "value": "one"
+                    },
+                    {
+                        "class": "IntLit",
+                        "value": 5
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,30 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "LetExp",
+        "decs": [
+            {
+                "class": "VarDec",
+                "id": "a",
+                "exp": {
+                    "class": "IntLit",
+                    "value": 12
+                }
+            }
+        ],
+        "exps": [
+            {
+                "class": "InfixExp",
+                "exp1": {
+                    "class": "IDOnlyLvalue",
+                    "id": "a"
+                },
+                "exp2": {
+                    "class": "IntLit",
+                    "value": 3
+                },
+                "infixOp": "+"
+            }
+        ]
+    }
+}

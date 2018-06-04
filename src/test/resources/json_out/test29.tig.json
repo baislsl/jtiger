@@ -1,0 +1,47 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "LetExp",
+        "decs": [
+            {
+                "class": "TyDec",
+                "tyId": "arrtype1",
+                "ty": {
+                    "class": "ArrTy",
+                    "tyid": "int"
+                }
+            },
+            {
+                "class": "TyDec",
+                "tyId": "arrtype2",
+                "ty": {
+                    "class": "ArrTy",
+                    "tyid": "int"
+                }
+            },
+            {
+                "class": "VarDec",
+                "id": "arr1",
+                "tyId": "arrtype1",
+                "exp": {
+                    "class": "ArrCreate",
+                    "tyId": "arrtype2",
+                    "exp1": {
+                        "class": "IntLit",
+                        "value": 10
+                    },
+                    "exp2": {
+                        "class": "IntLit",
+                        "value": 0
+                    }
+                }
+            }
+        ],
+        "exps": [
+            {
+                "class": "IDOnlyLvalue",
+                "id": "arr1"
+            }
+        ]
+    }
+}

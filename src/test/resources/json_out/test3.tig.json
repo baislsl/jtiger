@@ -1,0 +1,64 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "LetExp",
+        "decs": [
+            {
+                "class": "TyDec",
+                "tyId": "rectype",
+                "ty": {
+                    "class": "RecTy",
+                    "decs": []
+                }
+            },
+            {
+                "class": "VarDec",
+                "id": "rec1",
+                "tyId": "rectype",
+                "exp": {
+                    "class": "RecCreate",
+                    "tyId": "rectype",
+                    "fieldCreates": [
+                        {
+                            "class": "FieldCreate",
+                            "id": "name",
+                            "exp": {
+                                "class": "StringLit",
+                                "value": "Nobody"
+                            }
+                        },
+                        {
+                            "class": "FieldCreate",
+                            "id": "age",
+                            "exp": {
+                                "class": "IntLit",
+                                "value": 1000
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "exps": [
+            {
+                "class": "Assignment",
+                "Lvalue": {
+                    "class": "FieldExp",
+                    "Lvalue": {
+                        "class": "IDOnlyLvalue",
+                        "id": "rec1"
+                    },
+                    "id": "name"
+                },
+                "exp": {
+                    "class": "StringLit",
+                    "value": "Somebody"
+                }
+            },
+            {
+                "class": "IDOnlyLvalue",
+                "id": "rec1"
+            }
+        ]
+    }
+}

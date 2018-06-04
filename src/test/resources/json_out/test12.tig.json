@@ -1,0 +1,58 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "LetExp",
+        "decs": [
+            {
+                "class": "VarDec",
+                "id": "a",
+                "exp": {
+                    "class": "IntLit",
+                    "value": 0
+                }
+            }
+        ],
+        "exps": [
+            {
+                "class": "ForExp",
+                "id": "i",
+                "fromExp": {
+                    "class": "IntLit",
+                    "value": 0
+                },
+                "toExp": {
+                    "class": "IntLit",
+                    "value": 100
+                },
+                "doExp": {
+                    "class": "SeqExp",
+                    "exps": [
+                        {
+                            "class": "Assignment",
+                            "Lvalue": {
+                                "class": "IDOnlyLvalue",
+                                "id": "a"
+                            },
+                            "exp": {
+                                "class": "InfixExp",
+                                "exp1": {
+                                    "class": "IDOnlyLvalue",
+                                    "id": "a"
+                                },
+                                "exp2": {
+                                    "class": "IntLit",
+                                    "value": 1
+                                },
+                                "infixOp": "+"
+                            }
+                        },
+                        {
+                            "class": "SeqExp",
+                            "exps": []
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

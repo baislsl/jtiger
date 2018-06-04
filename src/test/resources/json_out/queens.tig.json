@@ -172,16 +172,14 @@
                                                     "ifExp": {
                                                         "class": "InfixExp",
                                                         "exp1": {
+                                                            "class": "Subscript",
                                                             "Lvalue": {
-                                                                "class": "Subscript",
-                                                                "Lvalue": {
-                                                                    "class": "IDOnlyLvalue",
-                                                                    "id": "col"
-                                                                },
-                                                                "exp": {
-                                                                    "class": "IDOnlyLvalue",
-                                                                    "id": "i"
-                                                                }
+                                                                "class": "IDOnlyLvalue",
+                                                                "id": "col"
+                                                            },
+                                                            "exp": {
+                                                                "class": "IDOnlyLvalue",
+                                                                "id": "i"
                                                             }
                                                         },
                                                         "exp2": {
@@ -288,16 +286,14 @@
                                             "exp1": {
                                                 "class": "InfixExp",
                                                 "exp1": {
+                                                    "class": "Subscript",
                                                     "Lvalue": {
-                                                        "class": "Subscript",
-                                                        "Lvalue": {
-                                                            "class": "IDOnlyLvalue",
-                                                            "id": "row"
-                                                        },
-                                                        "exp": {
-                                                            "class": "IDOnlyLvalue",
-                                                            "id": "r"
-                                                        }
+                                                        "class": "IDOnlyLvalue",
+                                                        "id": "row"
+                                                    },
+                                                    "exp": {
+                                                        "class": "IDOnlyLvalue",
+                                                        "id": "r"
                                                     }
                                                 },
                                                 "exp2": {
@@ -309,24 +305,22 @@
                                             "exp2": {
                                                 "class": "InfixExp",
                                                 "exp1": {
+                                                    "class": "Subscript",
                                                     "Lvalue": {
-                                                        "class": "Subscript",
-                                                        "Lvalue": {
+                                                        "class": "IDOnlyLvalue",
+                                                        "id": "diag1"
+                                                    },
+                                                    "exp": {
+                                                        "class": "InfixExp",
+                                                        "exp1": {
                                                             "class": "IDOnlyLvalue",
-                                                            "id": "diag1"
+                                                            "id": "r"
                                                         },
-                                                        "exp": {
-                                                            "class": "InfixExp",
-                                                            "exp1": {
-                                                                "class": "IDOnlyLvalue",
-                                                                "id": "r"
-                                                            },
-                                                            "exp2": {
-                                                                "class": "IDOnlyLvalue",
-                                                                "id": "c"
-                                                            },
-                                                            "infixOp": "+"
-                                                        }
+                                                        "exp2": {
+                                                            "class": "IDOnlyLvalue",
+                                                            "id": "c"
+                                                        },
+                                                        "infixOp": "+"
                                                     }
                                                 },
                                                 "exp2": {
@@ -340,32 +334,30 @@
                                         "exp2": {
                                             "class": "InfixExp",
                                             "exp1": {
+                                                "class": "Subscript",
                                                 "Lvalue": {
-                                                    "class": "Subscript",
-                                                    "Lvalue": {
-                                                        "class": "IDOnlyLvalue",
-                                                        "id": "diag2"
-                                                    },
-                                                    "exp": {
+                                                    "class": "IDOnlyLvalue",
+                                                    "id": "diag2"
+                                                },
+                                                "exp": {
+                                                    "class": "InfixExp",
+                                                    "exp1": {
                                                         "class": "InfixExp",
                                                         "exp1": {
-                                                            "class": "InfixExp",
-                                                            "exp1": {
-                                                                "class": "IDOnlyLvalue",
-                                                                "id": "r"
-                                                            },
-                                                            "exp2": {
-                                                                "class": "IntLit",
-                                                                "value": 7
-                                                            },
-                                                            "infixOp": "+"
+                                                            "class": "IDOnlyLvalue",
+                                                            "id": "r"
                                                         },
                                                         "exp2": {
-                                                            "class": "IDOnlyLvalue",
-                                                            "id": "c"
+                                                            "class": "IntLit",
+                                                            "value": 7
                                                         },
-                                                        "infixOp": "-"
-                                                    }
+                                                        "infixOp": "+"
+                                                    },
+                                                    "exp2": {
+                                                        "class": "IDOnlyLvalue",
+                                                        "id": "c"
+                                                    },
+                                                    "infixOp": "-"
                                                 }
                                             },
                                             "exp2": {

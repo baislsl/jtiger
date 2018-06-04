@@ -1,0 +1,35 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "While",
+        "whileExp": {
+            "class": "SeqExp",
+            "exps": [
+                {
+                    "class": "InfixExp",
+                    "exp1": {
+                        "class": "IntLit",
+                        "value": 10
+                    },
+                    "exp2": {
+                        "class": "IntLit",
+                        "value": 5
+                    },
+                    "infixOp": ">"
+                }
+            ]
+        },
+        "doExp": {
+            "class": "InfixExp",
+            "exp1": {
+                "class": "IntLit",
+                "value": 5
+            },
+            "exp2": {
+                "class": "IntLit",
+                "value": 6
+            },
+            "infixOp": "+"
+        }
+    }
+}

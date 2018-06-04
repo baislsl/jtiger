@@ -1,0 +1,103 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "LetExp",
+        "decs": [
+            {
+                "class": "FunDec",
+                "id": "do_nothing1",
+                "decs": [
+                    {
+                        "class": "FieldDec",
+                        "id": "a",
+                        "tyid": "int"
+                    },
+                    {
+                        "class": "FieldDec",
+                        "id": "b",
+                        "tyid": "string"
+                    }
+                ],
+                "tyid": "string",
+                "exp": {
+                    "class": "SeqExp",
+                    "exps": [
+                        {
+                            "class": "Call",
+                            "id": "do_nothing2",
+                            "exps": [
+                                {
+                                    "class": "InfixExp",
+                                    "exp1": {
+                                        "class": "IDOnlyLvalue",
+                                        "id": "a"
+                                    },
+                                    "exp2": {
+                                        "class": "IntLit",
+                                        "value": 1
+                                    },
+                                    "infixOp": "+"
+                                }
+                            ]
+                        },
+                        {
+                            "class": "IntLit",
+                            "value": 0
+                        }
+                    ]
+                }
+            },
+            {
+                "class": "FunDec",
+                "id": "do_nothing2",
+                "decs": [
+                    {
+                        "class": "FieldDec",
+                        "id": "d",
+                        "tyid": "int"
+                    }
+                ],
+                "tyid": "int",
+                "exp": {
+                    "class": "SeqExp",
+                    "exps": [
+                        {
+                            "class": "Call",
+                            "id": "do_nothing1",
+                            "exps": [
+                                {
+                                    "class": "IDOnlyLvalue",
+                                    "id": "a"
+                                },
+                                {
+                                    "class": "StringLit",
+                                    "value": "str"
+                                }
+                            ]
+                        },
+                        {
+                            "class": "StringLit",
+                            "value": " "
+                        }
+                    ]
+                }
+            }
+        ],
+        "exps": [
+            {
+                "class": "Call",
+                "id": "do_nothing1",
+                "exps": [
+                    {
+                        "class": "IntLit",
+                        "value": 0
+                    },
+                    {
+                        "class": "StringLit",
+                        "value": "str2"
+                    }
+                ]
+            }
+        ]
+    }
+}
