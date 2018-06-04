@@ -73,7 +73,7 @@ public class TypeVisitor implements TigerVisitor {
 
     @Override
     public void visit(FieldDec e) {
-        typeTable.put(e.id.name, typeTable.get(e.tyId.name));
+        varTypeTable.put(e.id.name, typeTable.get(e.tyId.name));
     }
 
     @Override
