@@ -229,6 +229,7 @@ public class TigerVisitorImpl implements TigerVisitor {
     }
 
     private static Map<String, Short> branchMap = new HashMap<>();
+    private static Map<String, Short> intBranchMap = new HashMap<>();
 
     static {
         branchMap.put("<", Const.IFLT);
@@ -237,6 +238,13 @@ public class TigerVisitorImpl implements TigerVisitor {
         branchMap.put(">=", Const.IFGE);
         branchMap.put("=", Const.IFEQ);
         branchMap.put("<>", Const.IFNE);
+
+        intBranchMap.put("<", Const.IF_ICMPLT);
+        intBranchMap.put(">", Const.IF_ICMPGT);
+        intBranchMap.put("<=", Const.IF_ICMPLE);
+        intBranchMap.put(">=", Const.IF_ICMPGE);
+        intBranchMap.put("=", Const.IF_ICMPEQ);
+        intBranchMap.put("<>", Const.IF_ICMPNE);
     }
 
     @Override
@@ -250,16 +258,17 @@ public class TigerVisitorImpl implements TigerVisitor {
             e.exp1.accept(this);
             e.exp2.accept(this);
             il.append(InstructionFactory.createBinaryOperation(oper, Type.INT));
-        } else if (Arrays.asList("=", "<>", ">", "<", ">=", "<=").contains(oper)) {
+        } else if (Arrays.asList(">", "<", ">=", "<=").contains(oper)) {
             e.exp1.accept(this);
             e.exp2.accept(this);
+            BranchInstruction br;
             if (e.exp1.type().equals(Type.INT)) {
-                il.append(InstructionFactory.createBinaryOperation("-", Type.INT));
+                br = InstructionFactory.createBranchInstruction(intBranchMap.get(oper), null);
             } else {    //  invoke String::compareTo
                 il.append(factory.createInvoke("java.lang.String",
                         "compareTo", Type.INT, new Type[]{Type.STRING}, Const.INVOKEVIRTUAL));
+                br = InstructionFactory.createBranchInstruction(branchMap.get(oper), null);
             }
-            BranchInstruction br = InstructionFactory.createBranchInstruction(branchMap.get(oper), null);
             il.append(br);
             il.append(factory.createConstant(0));
             GOTO g = new GOTO(null);
@@ -276,7 +285,7 @@ public class TigerVisitorImpl implements TigerVisitor {
             br.setTarget(il.append(factory.createConstant(0)));
             InstructionHandle ih = il.append(InstructionConst.NOP);
             gt.setTarget(ih);
-        } else {    // "|"
+        } else if(oper.equals("|")) {    // "|"
             e.exp1.accept(this);
             BranchInstruction br = InstructionFactory.createBranchInstruction(Const.IFNE, null);
             il.append(br);
@@ -286,6 +295,28 @@ public class TigerVisitorImpl implements TigerVisitor {
             br.setTarget(il.append(factory.createConstant(1)));
             InstructionHandle ih = il.append(InstructionConst.NOP);
             gt.setTarget(ih);
+        } else if(oper.equals("=")) {
+            e.exp1.accept(this);
+            e.exp2.accept(this);
+            BranchInstruction br;
+            if(Type.INT.equals(e.exp1.type())) {
+                br = InstructionFactory.createBranchInstruction(intBranchMap.get(oper), null);
+            } else if (Type.STRING.equals(e.exp1.type())) {
+                il.append(factory.createInvoke("java.lang.String",
+                        "compareTo", Type.INT, new Type[]{Type.STRING}, Const.INVOKEVIRTUAL));
+                br = InstructionFactory.createBranchInstruction(branchMap.get(oper), null);
+            } else {    // reference
+                short instr = oper.equals("=") ? Const.IF_ACMPEQ : Const.IF_ACMPNE;
+                br = InstructionFactory.createBranchInstruction(instr, null);
+            }
+            il.append(br);
+            il.append(factory.createConstant(0));
+            GOTO g = new GOTO(null);
+            il.append(g);
+            br.setTarget(il.append(factory.createConstant(1)));
+            g.setTarget(il.append(InstructionConst.NOP));
+        } else {
+            throw new CompileException("Illegal operator as " + oper);
         }
     }
 
