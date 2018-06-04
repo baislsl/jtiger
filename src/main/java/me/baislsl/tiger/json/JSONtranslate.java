@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class JSONtranslate {
@@ -48,11 +49,15 @@ public class JSONtranslate {
         }
     }
 
+    private static boolean stringCompare(String s1, String s2) {
+        return Objects.equals(s1.toLowerCase(), s2.toLowerCase());
+    }
+
     private static Object loadJSONObject(JSONObject object)
             throws ReflectiveOperationException {
         String name = (String) object.get("class");
         for (Class<?> clazz : clazzes) {
-            if (clazz.getSimpleName().equals(name)) {
+            if (stringCompare(clazz.getSimpleName(), name)) {
                 return loadJSONObject(object, clazz);
             }
         }
@@ -69,14 +74,14 @@ public class JSONtranslate {
             boolean flag = false;
             for (Field f : clazz.getFields()) {
                 f.setAccessible(true);
-                if (f.getName().equals(key)) {
+                if (stringCompare(f.getName(), key)) {
                     Class<?> fc = f.getType();
                     if (fc.isAssignableFrom(List.class)) {
                         ParameterizedType parameterizedType = (ParameterizedType) f.getGenericType();
                         Class<?> elementType = (Class<?>) parameterizedType.getActualTypeArguments()[0];
                         f.set(ans, loadJSONArray((JSONArray) object.get(key), elementType));
                     } else if (fc == Token.class) {
-                        f.set(ans, new Token((String) object.get(key)));
+                        f.set(ans, new Token(object.get(key).toString()));
                     } else {
                         f.set(ans, loadJSONObject((JSONObject) object.get(key)));
                     }
