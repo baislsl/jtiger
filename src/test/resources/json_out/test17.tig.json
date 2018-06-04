@@ -1,0 +1,39 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "LetExp",
+        "decs": [
+            {
+                "class": "TyDec",
+                "tyId": "tree",
+                "ty": {
+                    "class": "RecTy",
+                    "decs": []
+                }
+            },
+            {
+                "class": "VarDec",
+                "id": "d",
+                "tyId": "int",
+                "exp": {
+                    "class": "IntLit",
+                    "value": 0
+                }
+            },
+            {
+                "class": "TyDec",
+                "tyId": "treelist",
+                "ty": {
+                    "class": "RecTy",
+                    "decs": []
+                }
+            }
+        ],
+        "exps": [
+            {
+                "class": "IDOnlyLvalue",
+                "id": "d"
+            }
+        ]
+    }
+}

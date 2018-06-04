@@ -1,0 +1,38 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "LetExp",
+        "decs": [
+            {
+                "class": "TyDec",
+                "tyId": "arrayty",
+                "ty": {
+                    "class": "ArrTy",
+                    "tyid": "int"
+                }
+            },
+            {
+                "class": "VarDec",
+                "id": "a",
+                "exp": {
+                    "class": "ArrCreate",
+                    "tyId": "arrayty",
+                    "exp1": {
+                        "class": "IntLit",
+                        "value": 10
+                    },
+                    "exp2": {
+                        "class": "StringLit",
+                        "value": " "
+                    }
+                }
+            }
+        ],
+        "exps": [
+            {
+                "class": "IntLit",
+                "value": 0
+            }
+        ]
+    }
+}

@@ -1,0 +1,48 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "LetExp",
+        "decs": [
+            {
+                "class": "TyDec",
+                "tyId": "rectype",
+                "ty": {
+                    "class": "RecTy",
+                    "decs": []
+                }
+            },
+            {
+                "class": "VarDec",
+                "id": "b",
+                "tyId": "rectype",
+                "exp": {
+                    "class": "Nil"
+                }
+            }
+        ],
+        "exps": [
+            {
+                "class": "InfixExp",
+                "exp1": {
+                    "class": "IDOnlyLvalue",
+                    "id": "b"
+                },
+                "exp2": {
+                    "class": "Nil"
+                },
+                "infixOp": "="
+            },
+            {
+                "class": "InfixExp",
+                "exp1": {
+                    "class": "IDOnlyLvalue",
+                    "id": "b"
+                },
+                "exp2": {
+                    "class": "Nil"
+                },
+                "infixOp": "<>"
+            }
+        ]
+    }
+}

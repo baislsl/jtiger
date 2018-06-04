@@ -17,12 +17,16 @@
                 "exp": {
                     "class": "IfThenElse",
                     "ifExp": {
-                        "class": "FieldCreate",
-                        "id": "n",
-                        "exp": {
+                        "class": "InfixExp",
+                        "exp1": {
+                            "class": "IDOnlyLvalue",
+                            "id": "n"
+                        },
+                        "exp2": {
                             "class": "IntLit",
                             "value": 0
-                        }
+                        },
+                        "infixOp": "="
                     },
                     "thenExp": {
                         "class": "IntLit",

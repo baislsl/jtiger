@@ -1,0 +1,31 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "IfThenElse",
+        "ifExp": {
+            "class": "SeqExp",
+            "exps": [
+                {
+                    "class": "InfixExp",
+                    "exp1": {
+                        "class": "IntLit",
+                        "value": 10
+                    },
+                    "exp2": {
+                        "class": "IntLit",
+                        "value": 20
+                    },
+                    "infixOp": ">"
+                }
+            ]
+        },
+        "thenExp": {
+            "class": "IntLit",
+            "value": 30
+        },
+        "elseExp": {
+            "class": "IntLit",
+            "value": 40
+        }
+    }
+}

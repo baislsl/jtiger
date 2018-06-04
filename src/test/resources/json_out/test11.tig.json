@@ -1,0 +1,34 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "ForExp",
+        "id": "i",
+        "fromExp": {
+            "class": "IntLit",
+            "value": 10
+        },
+        "toExp": {
+            "class": "StringLit",
+            "value": " "
+        },
+        "doExp": {
+            "class": "Assignment",
+            "Lvalue": {
+                "class": "IDOnlyLvalue",
+                "id": "i"
+            },
+            "exp": {
+                "class": "InfixExp",
+                "exp1": {
+                    "class": "IDOnlyLvalue",
+                    "id": "i"
+                },
+                "exp2": {
+                    "class": "IntLit",
+                    "value": 1
+                },
+                "infixOp": "-"
+            }
+        }
+    }
+}

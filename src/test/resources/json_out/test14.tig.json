@@ -1,0 +1,91 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "LetExp",
+        "decs": [
+            {
+                "class": "TyDec",
+                "tyId": "arrtype",
+                "ty": {
+                    "class": "ArrTy",
+                    "tyid": "int"
+                }
+            },
+            {
+                "class": "TyDec",
+                "tyId": "rectype",
+                "ty": {
+                    "class": "RecTy",
+                    "decs": []
+                }
+            },
+            {
+                "class": "VarDec",
+                "id": "rec",
+                "exp": {
+                    "class": "RecCreate",
+                    "tyId": "rectype",
+                    "fieldCreates": [
+                        {
+                            "class": "FieldCreate",
+                            "id": "name",
+                            "exp": {
+                                "class": "StringLit",
+                                "value": "aname"
+                            }
+                        },
+                        {
+                            "class": "FieldCreate",
+                            "id": "id",
+                            "exp": {
+                                "class": "IntLit",
+                                "value": 0
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "class": "VarDec",
+                "id": "arr",
+                "exp": {
+                    "class": "ArrCreate",
+                    "tyId": "arrtype",
+                    "exp1": {
+                        "class": "IntLit",
+                        "value": 3
+                    },
+                    "exp2": {
+                        "class": "IntLit",
+                        "value": 0
+                    }
+                }
+            }
+        ],
+        "exps": [
+            {
+                "class": "IfThenElse",
+                "ifExp": {
+                    "class": "InfixExp",
+                    "exp1": {
+                        "class": "IDOnlyLvalue",
+                        "id": "rec"
+                    },
+                    "exp2": {
+                        "class": "IDOnlyLvalue",
+                        "id": "arr"
+                    },
+                    "infixOp": "<>"
+                },
+                "thenExp": {
+                    "class": "IntLit",
+                    "value": 3
+                },
+                "elseExp": {
+                    "class": "IntLit",
+                    "value": 4
+                }
+            }
+        ]
+    }
+}

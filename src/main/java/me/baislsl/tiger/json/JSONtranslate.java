@@ -5,6 +5,8 @@ import me.baislsl.tiger.CompileException;
 import me.baislsl.tiger.structure.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -15,6 +17,7 @@ import java.util.Objects;
 
 
 public class JSONtranslate {
+    private final static Logger logger = LoggerFactory.getLogger(JSONtranslate.class);
 
     private final static Class<?>[] clazzes = new Class[]{
             ArrCreate.class, ArrTy.class, Assignment.class, BreakExp.class,
@@ -90,6 +93,13 @@ public class JSONtranslate {
                 }
             }
             if (!flag && !key.equals("class")) {
+                if (object.get(key) instanceof JSONArray) {
+                    if (key.equals("exps")) {
+                        SeqExp seqExp = new SeqExp();
+                        seqExp.exps.addAll(loadJSONArray((JSONArray) object.get(key), Exp.class));
+                        return clazz.cast(seqExp);
+                    }
+                }
                 throw new RuntimeException("Error parse for " + key);
             }
         }

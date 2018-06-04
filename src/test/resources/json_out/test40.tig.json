@@ -1,0 +1,35 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "LetExp",
+        "decs": [
+            {
+                "class": "FunDec",
+                "id": "g",
+                "decs": [
+                    {
+                        "class": "FieldDec",
+                        "id": "a",
+                        "tyid": "int"
+                    }
+                ],
+                "exp": {
+                    "class": "IDOnlyLvalue",
+                    "id": "a"
+                }
+            }
+        ],
+        "exps": [
+            {
+                "class": "Call",
+                "id": "g",
+                "exps": [
+                    {
+                        "class": "IntLit",
+                        "value": 2
+                    }
+                ]
+            }
+        ]
+    }
+}

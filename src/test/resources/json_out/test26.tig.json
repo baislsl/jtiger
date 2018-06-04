@@ -1,0 +1,15 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "InfixExp",
+        "exp1": {
+            "class": "IntLit",
+            "value": 3
+        },
+        "exp2": {
+            "class": "StringLit",
+            "value": "var"
+        },
+        "infixOp": "+"
+    }
+}

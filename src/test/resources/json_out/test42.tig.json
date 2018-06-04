@@ -1,0 +1,366 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "LetExp",
+        "decs": [
+            {
+                "class": "TyDec",
+                "tyId": "arrtype1",
+                "ty": {
+                    "class": "ArrTy",
+                    "tyid": "int"
+                }
+            },
+            {
+                "class": "TyDec",
+                "tyId": "rectype1",
+                "ty": {
+                    "class": "RecTy",
+                    "decs": []
+                }
+            },
+            {
+                "class": "TyDec",
+                "tyId": "arrtype2",
+                "ty": {
+                    "class": "ArrTy",
+                    "tyid": "rectype1"
+                }
+            },
+            {
+                "class": "TyDec",
+                "tyId": "rectype2",
+                "ty": {
+                    "class": "RecTy",
+                    "decs": []
+                }
+            },
+            {
+                "class": "TyDec",
+                "tyId": "arrtype3",
+                "ty": {
+                    "class": "ArrTy",
+                    "tyid": "string"
+                }
+            },
+            {
+                "class": "VarDec",
+                "id": "arr1",
+                "exp": {
+                    "class": "ArrCreate",
+                    "tyId": "arrtype1",
+                    "exp1": {
+                        "class": "IntLit",
+                        "value": 10
+                    },
+                    "exp2": {
+                        "class": "IntLit",
+                        "value": 0
+                    }
+                }
+            },
+            {
+                "class": "VarDec",
+                "id": "arr2",
+                "exp": {
+                    "class": "ArrCreate",
+                    "tyId": "arrtype2",
+                    "exp1": {
+                        "class": "IntLit",
+                        "value": 5
+                    },
+                    "exp2": {
+                        "class": "RecCreate",
+                        "tyId": "rectype1",
+                        "fieldCreates": [
+                            {
+                                "class": "FieldCreate",
+                                "id": "name",
+                                "exp": {
+                                    "class": "StringLit",
+                                    "value": "aname"
+                                }
+                            },
+                            {
+                                "class": "FieldCreate",
+                                "id": "address",
+                                "exp": {
+                                    "class": "StringLit",
+                                    "value": "somewhere"
+                                }
+                            },
+                            {
+                                "class": "FieldCreate",
+                                "id": "id",
+                                "exp": {
+                                    "class": "IntLit",
+                                    "value": 0
+                                }
+                            },
+                            {
+                                "class": "FieldCreate",
+                                "id": "age",
+                                "exp": {
+                                    "class": "IntLit",
+                                    "value": 0
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "class": "VarDec",
+                "id": "arr3",
+                "tyId": "arrtype3",
+                "exp": {
+                    "class": "ArrCreate",
+                    "tyId": "arrtype3",
+                    "exp1": {
+                        "class": "IntLit",
+                        "value": 100
+                    },
+                    "exp2": {
+                        "class": "StringLit",
+                        "value": ""
+                    }
+                }
+            },
+            {
+                "class": "VarDec",
+                "id": "rec1",
+                "exp": {
+                    "class": "RecCreate",
+                    "tyId": "rectype1",
+                    "fieldCreates": [
+                        {
+                            "class": "FieldCreate",
+                            "id": "name",
+                            "exp": {
+                                "class": "StringLit",
+                                "value": "Kapoios"
+                            }
+                        },
+                        {
+                            "class": "FieldCreate",
+                            "id": "address",
+                            "exp": {
+                                "class": "StringLit",
+                                "value": "Kapou"
+                            }
+                        },
+                        {
+                            "class": "FieldCreate",
+                            "id": "id",
+                            "exp": {
+                                "class": "IntLit",
+                                "value": 2432
+                            }
+                        },
+                        {
+                            "class": "FieldCreate",
+                            "id": "age",
+                            "exp": {
+                                "class": "IntLit",
+                                "value": 44
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "class": "VarDec",
+                "id": "rec2",
+                "exp": {
+                    "class": "RecCreate",
+                    "tyId": "rectype2",
+                    "fieldCreates": [
+                        {
+                            "class": "FieldCreate",
+                            "id": "name",
+                            "exp": {
+                                "class": "StringLit",
+                                "value": "Allos"
+                            }
+                        },
+                        {
+                            "class": "FieldCreate",
+                            "id": "dates",
+                            "exp": {
+                                "class": "ArrCreate",
+                                "tyId": "arrtype1",
+                                "exp1": {
+                                    "class": "IntLit",
+                                    "value": 3
+                                },
+                                "exp2": {
+                                    "class": "IntLit",
+                                    "value": 1900
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "exps": [
+            {
+                "class": "Assignment",
+                "Lvalue": {
+                    "class": "Subscript",
+                    "Lvalue": {
+                        "class": "IDOnlyLvalue",
+                        "id": "arr1"
+                    },
+                    "exp": {
+                        "class": "IntLit",
+                        "value": 0
+                    }
+                },
+                "exp": {
+                    "class": "IntLit",
+                    "value": 1
+                }
+            },
+            {
+                "class": "Assignment",
+                "Lvalue": {
+                    "class": "Subscript",
+                    "Lvalue": {
+                        "class": "IDOnlyLvalue",
+                        "id": "arr1"
+                    },
+                    "exp": {
+                        "class": "IntLit",
+                        "value": 9
+                    }
+                },
+                "exp": {
+                    "class": "IntLit",
+                    "value": 3
+                }
+            },
+            {
+                "class": "Assignment",
+                "Lvalue": {
+                    "class": "FieldExp",
+                    "Lvalue": {
+                        "class": "Subscript",
+                        "Lvalue": {
+                            "class": "IDOnlyLvalue",
+                            "id": "arr2"
+                        },
+                        "exp": {
+                            "class": "IntLit",
+                            "value": 3
+                        }
+                    },
+                    "id": "name"
+                },
+                "exp": {
+                    "class": "StringLit",
+                    "value": "kati"
+                }
+            },
+            {
+                "class": "Assignment",
+                "Lvalue": {
+                    "class": "FieldExp",
+                    "Lvalue": {
+                        "class": "Subscript",
+                        "Lvalue": {
+                            "class": "IDOnlyLvalue",
+                            "id": "arr2"
+                        },
+                        "exp": {
+                            "class": "IntLit",
+                            "value": 1
+                        }
+                    },
+                    "id": "age"
+                },
+                "exp": {
+                    "class": "IntLit",
+                    "value": 23
+                }
+            },
+            {
+                "class": "Assignment",
+                "Lvalue": {
+                    "class": "Subscript",
+                    "Lvalue": {
+                        "class": "IDOnlyLvalue",
+                        "id": "arr3"
+                    },
+                    "exp": {
+                        "class": "IntLit",
+                        "value": 34
+                    }
+                },
+                "exp": {
+                    "class": "StringLit",
+                    "value": "sfd"
+                }
+            },
+            {
+                "class": "Assignment",
+                "Lvalue": {
+                    "class": "FieldExp",
+                    "Lvalue": {
+                        "class": "IDOnlyLvalue",
+                        "id": "rec1"
+                    },
+                    "id": "name"
+                },
+                "exp": {
+                    "class": "StringLit",
+                    "value": "sdf"
+                }
+            },
+            {
+                "class": "Assignment",
+                "Lvalue": {
+                    "class": "Subscript",
+                    "Lvalue": {
+                        "class": "FieldExp",
+                        "Lvalue": {
+                            "class": "IDOnlyLvalue",
+                            "id": "rec2"
+                        },
+                        "id": "dates"
+                    },
+                    "exp": {
+                        "class": "IntLit",
+                        "value": 0
+                    }
+                },
+                "exp": {
+                    "class": "IntLit",
+                    "value": 2323
+                }
+            },
+            {
+                "class": "Assignment",
+                "Lvalue": {
+                    "class": "Subscript",
+                    "Lvalue": {
+                        "class": "FieldExp",
+                        "Lvalue": {
+                            "class": "IDOnlyLvalue",
+                            "id": "rec2"
+                        },
+                        "id": "dates"
+                    },
+                    "exp": {
+                        "class": "IntLit",
+                        "value": 2
+                    }
+                },
+                "exp": {
+                    "class": "IntLit",
+                    "value": 2323
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,30 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "LetExp",
+        "decs": [
+            {
+                "class": "VarDec",
+                "id": "a",
+                "exp": {
+                    "class": "IntLit",
+                    "value": 0
+                }
+            },
+            {
+                "class": "VarDec",
+                "id": "a",
+                "exp": {
+                    "class": "StringLit",
+                    "value": " "
+                }
+            }
+        ],
+        "exps": [
+            {
+                "class": "IntLit",
+                "value": 0
+            }
+        ]
+    }
+}
