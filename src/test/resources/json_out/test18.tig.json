@@ -18,7 +18,7 @@
                         "tyid": "string"
                     }
                 ],
-                "tyid": "string",
+                "tyid": "int",
                 "exp": {
                     "class": "SeqExp",
                     "exps": [
@@ -65,7 +65,7 @@
                         "tyid": "int"
                     }
                 ],
-                "tyid": "int",
+                "tyid": "string",
                 "exp": {
                     "class": "SeqExp",
                     "exps": [

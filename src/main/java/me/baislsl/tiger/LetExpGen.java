@@ -16,7 +16,7 @@ public class LetExpGen {
 
     private TigerEnv env;
     private LetExp letExp;
-    private String parent;
+    private ObjectType parent;
     private String className;
 
     private ClassGen cg;
@@ -27,7 +27,7 @@ public class LetExpGen {
     private List<FunDec> funDecs = new ArrayList<>();
 
     // env parentStack should not contain env
-    public static void generateClass(TigerEnv env, LetExp letExp, String parent) {
+    public static void generateClass(TigerEnv env, LetExp letExp, ObjectType parent) {
         LetExpGen gen = new LetExpGen(env, letExp, parent);
         gen.updateEnv();
         gen.generateParentField();
@@ -41,7 +41,7 @@ public class LetExpGen {
         }
     }
 
-    private LetExpGen(TigerEnv env, LetExp letExp, String parent) {
+    private LetExpGen(TigerEnv env, LetExp letExp, ObjectType parent) {
         this.env = env;
         this.letExp = letExp;
         this.parent = parent;
@@ -70,12 +70,12 @@ public class LetExpGen {
         }
         for (FunDec f : funDecs) {
             env.getFuncTable().put(f.id.name, new DecFunSymbol(f));
-            FuncDecGen.generateClass(new TigerEnv(env, className), f, className);
+            FuncDecGen.generateClass(new TigerEnv(env, className), f, new ObjectType(className));
         }
     }
 
     private void generateParentField() {
-        FieldGen fg = new FieldGen(Const.ACC_PUBLIC, env.getTypeTable().query(parent).symbol.type(),
+        FieldGen fg = new FieldGen(Const.ACC_PUBLIC, parent,
                 JVMSpec.parentFieldName, cp);
         cg.addField(fg.getField());
     }
@@ -92,7 +92,7 @@ public class LetExpGen {
     private void generateConstructor() {
         InstructionList il = new InstructionList();
         MethodGen mg = new MethodGen(Const.ACC_PUBLIC, Type.VOID,
-                new Type[]{env.getTypeTable().query(parent).symbol.type()},
+                new Type[]{parent},
                 new String[]{JVMSpec.parentFieldName},
                 "<init>", cg.getClassName(), il, cp);
 
@@ -106,7 +106,7 @@ public class LetExpGen {
         TigerVisitor visitor = new TigerVisitorImpl(env, cg, mg, il);
 
         // this.parent = parent
-        Type parentType = env.getTypeTable().query(parent).symbol.type();
+        Type parentType = parent;
         il.append(InstructionConst.THIS);
         il.append(InstructionFactory.createLoad(parentType, 1));
         il.append(factory.createPutField(className, JVMSpec.parentFieldName, parentType));

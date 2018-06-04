@@ -281,7 +281,7 @@ public class TigerVisitorImpl implements TigerVisitor {
     @Override
     public void visit(LetExp e) {
         if (e.className == null) e.className = LetNameFactory.newLetName();
-        LetExpGen.generateClass(new TigerEnv(env, cg.getClassName()), e, cg.getClassName());
+        LetExpGen.generateClass(new TigerEnv(env, cg.getClassName()), e, new ObjectType(cg.getClassName()));
         env.getTypeTable().put(e.className, new GenerateTypeSymbol(e));
 
         // let  -> new Let00(parent).invoke()
@@ -290,7 +290,7 @@ public class TigerVisitorImpl implements TigerVisitor {
         il.append(InstructionConst.THIS);
         il.append(factory.createInvoke(e.className, "<init>",
                 Type.VOID,
-                new Type[]{env.getTypeTable().query(cg.getClassName()).symbol.type()},
+                new Type[]{new ObjectType(cg.getClassName())},
                 Const.INVOKESPECIAL));
         il.append(factory.createInvoke(e.className, JVMSpec.invokeFuncName, e.type(), Type.NO_ARGS,
                 Const.INVOKEVIRTUAL));

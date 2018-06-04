@@ -30,7 +30,7 @@
                         "tyid": "any"
                     }
                 ],
-                "tyid": "any",
+                "tyid": "int",
                 "exp": {
                     "class": "LetExp",
                     "decs": [
@@ -52,7 +52,7 @@
                                     "tyid": "string"
                                 }
                             ],
-                            "tyid": "string",
+                            "tyid": "int",
                             "exp": {
                                 "class": "InfixExp",
                                 "exp1": {
@@ -278,7 +278,7 @@
                 "class": "FunDec",
                 "id": "readlist",
                 "decs": [],
-                "tyid": "readlist",
+                "tyid": "list",
                 "exp": {
                     "class": "LetExp",
                     "decs": [

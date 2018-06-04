@@ -13,14 +13,14 @@ import java.util.List;
 public class FuncDecGen {
     private TigerEnv env;
     private FunDec funDec;
-    private String parent;
+    private ObjectType parent;
 
     private ClassGen cg;
     private ConstantPoolGen cp;
 
 
-    private FuncDecGen(TigerEnv env, FunDec funDec, String parent) {
-        funDec.parent = parent;
+    private FuncDecGen(TigerEnv env, FunDec funDec, ObjectType parent) {
+        funDec.parent = parent.getClassName();
         this.funDec = funDec;
         this.env = env;
         this.parent = parent;
@@ -30,7 +30,7 @@ public class FuncDecGen {
     }
 
     // env should not contain func in stack
-    public static void generateClass(TigerEnv env, FunDec funDec, String parent) {
+    public static void generateClass(TigerEnv env, FunDec funDec, ObjectType parent) {
         FuncDecGen gen = new FuncDecGen(env, funDec,  parent);
         gen.updateFieldTable();
         gen.generateParentField();
@@ -51,7 +51,7 @@ public class FuncDecGen {
     }
 
     private void generateParentField() {
-        FieldGen fg = new FieldGen(Const.ACC_PUBLIC, env.getTypeTable().query(parent).symbol.type(),
+        FieldGen fg = new FieldGen(Const.ACC_PUBLIC, parent,
                 JVMSpec.parentFieldName, cp);
         cg.addField(fg.getField());
     }
@@ -68,7 +68,7 @@ public class FuncDecGen {
     private void generateConstructor() {
         InstructionList il = new InstructionList();
         List<Type> argType = new ArrayList<>();
-        argType.add(env.getTypeTable().query(parent).symbol.type());
+        argType.add(parent);
         List<String> argName = new ArrayList<>();
         argName.add(JVMSpec.parentFieldName);
         for(FieldDec fd : funDec.decs) {
