@@ -508,11 +508,18 @@ void ProcessExp(Value& obj, exp_Type* structPtr)
 	case idlValue_label:
         ProcessIDLvalue(obj, (idlValue_Type *)structPtr);
         break;
+//	case lValueSubscript_label:
+//	case idSubscript_label:
+//	case fieldExp_label:
+//		ProcessLvalue(lvalueObj, (lValue_Type *)structPtr);
+//		obj.AddMember("Lvalue", lvalueObj, doc.GetAllocator());
+//		break;
 	case lValueSubscript_label:
 	case idSubscript_label:
+		ProcessSubscript(obj, (subscript_Type *)structPtr);
+		break;
 	case fieldExp_label:
-		ProcessLvalue(lvalueObj, (lValue_Type *)structPtr);
-		obj.AddMember("Lvalue", lvalueObj, doc.GetAllocator());
+		ProcessFieldExp(obj, (fieldExp_Type *)structPtr);
 		break;
 	case nilExp_label:
 		ProcessNil(obj, (nilExp_Type *)structPtr);
@@ -525,6 +532,7 @@ void ProcessExp(Value& obj, exp_Type* structPtr)
 		break;
 	case seqExp_label:
 		ProcessSeqExp(seqArr, (seqExp_Type *)structPtr);
+		obj.AddMember("class", "SeqExp", doc.GetAllocator());
 		obj.AddMember("exps", seqArr, doc.GetAllocator());
 		break;
 	case negation_label:
