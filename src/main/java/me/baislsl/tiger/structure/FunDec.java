@@ -29,5 +29,8 @@ public class FunDec extends Dec implements Tiger {
         visitor.visit(this);
     }
 
-
+    @Override
+    public String toString() {
+        return "Function@" + id.name;
+    }
 }

@@ -1,6 +1,7 @@
 package me.baislsl.tiger;
 
 import me.baislsl.tiger.structure.*;
+import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.Type;
 import org.junit.jupiter.api.Test;
 
@@ -56,7 +57,7 @@ class LetExpGenTest {
         // TODO: use func call instead
         letExp.exps.add(c);
 
-        LetExpGen.generateClass(new TigerEnv(), letExp, "string" );
+        LetExpGen.generateClass(new TigerEnv(), letExp, new ObjectType("StringTestRoot" ));
 
 
 

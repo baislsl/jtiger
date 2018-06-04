@@ -23,7 +23,7 @@ public class TigerFuncLink {
         System.out.flush();
     }
 
-    public static String getChar() {
+    public static String getchar() {
         return scanner.next();
     }
 
@@ -43,7 +43,7 @@ public class TigerFuncLink {
         return s.length();
     }
 
-    public static String subString(String s, int first, int n) {
+    public static String substring(String s, int first, int n) {
         return s.substring(first, first + n);
     }
 

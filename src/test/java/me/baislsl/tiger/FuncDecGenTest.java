@@ -1,6 +1,7 @@
 package me.baislsl.tiger;
 
 import me.baislsl.tiger.structure.*;
+import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.Type;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +23,7 @@ class FuncDecGenTest {
         c.type = Type.VOID;
         funDec.exp = c;
         TigerEnv env = new TigerEnv();
-        FuncDecGen.generateClass(env, funDec, "string");
+        FuncDecGen.generateClass(env, funDec, new ObjectType("StringTestRoot"));
 
     }
 }

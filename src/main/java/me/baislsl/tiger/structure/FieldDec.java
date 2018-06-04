@@ -2,9 +2,10 @@ package me.baislsl.tiger.structure;
 
 import org.apache.bcel.generic.Type;
 
-public class FieldDec implements Tiger {
+public class FieldDec extends Dec implements Tiger {
     public Token id;
     public Token tyId;
+    public Type type;
 
     public FieldDec(){}
 
@@ -15,8 +16,7 @@ public class FieldDec implements Tiger {
 
     @Override
     public Type type() {
-        // TODO
-        return null;
+        return type;
     }
 
     @Override

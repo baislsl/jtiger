@@ -1,22 +1,31 @@
 package me.baislsl.tiger.symbol;
 
+import me.baislsl.tiger.structure.Dec;
 import me.baislsl.tiger.structure.FieldDec;
 import me.baislsl.tiger.structure.FieldExp;
+import me.baislsl.tiger.structure.VarDec;
 import org.apache.bcel.generic.Type;
+
+import java.util.Objects;
 
 public class ClassFieldSymbol implements FieldSymbol {
 
-    private FieldDec dec;
+    private Dec dec;
     private Type type;
+    private String name;
 
     public ClassFieldSymbol(FieldDec dec) {
         this.dec = dec;
+        this.name = dec.id.name;
         this.type = dec.type();
+        Objects.requireNonNull(type);
     }
 
-    public ClassFieldSymbol(FieldDec dec, Type type) {
+    public ClassFieldSymbol(VarDec dec) {
         this.dec = dec;
-        this.type = type;
+        this.type = dec.type();
+        this.name = dec.id.name;
+        Objects.requireNonNull(type, name);
     }
 
     @Override
@@ -30,6 +39,6 @@ public class ClassFieldSymbol implements FieldSymbol {
 
     @Override
     public String name() {
-        return dec.id.name;
+        return name;
     }
 }
