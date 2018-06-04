@@ -1,5 +1,6 @@
 package me.baislsl.tiger;
 
+import com.sun.corba.se.impl.naming.namingutil.INSURLHandler;
 import me.baislsl.tiger.structure.*;
 import me.baislsl.tiger.symbol.*;
 import org.apache.bcel.Const;
@@ -243,6 +244,7 @@ public class TigerVisitorImpl implements TigerVisitor {
         // *, /, +, -,
         // =, <>, >, <, >=, <=,
         // &, |
+        // TODO: nil compare
         String oper = e.infixOp.name;
         if (Arrays.asList("*", "/", "+", "-").contains(oper)) {
             e.exp1.accept(this);
@@ -269,13 +271,21 @@ public class TigerVisitorImpl implements TigerVisitor {
             BranchInstruction br = InstructionFactory.createBranchInstruction(Const.IFEQ, null);
             il.append(br);
             e.exp2.accept(this);
-            br.setTarget(il.append(InstructionConst.NOP));
+            BranchInstruction gt = new GOTO(null);
+            il.append(gt);
+            br.setTarget(il.append(factory.createConstant(0)));
+            InstructionHandle ih = il.append(InstructionConst.NOP);
+            gt.setTarget(ih);
         } else {    // "|"
             e.exp1.accept(this);
             BranchInstruction br = InstructionFactory.createBranchInstruction(Const.IFNE, null);
             il.append(br);
             e.exp2.accept(this);
-            br.setTarget(il.append(InstructionConst.NOP));
+            BranchInstruction gt = new GOTO(null);
+            il.append(gt);
+            br.setTarget(il.append(factory.createConstant(1)));
+            InstructionHandle ih = il.append(InstructionConst.NOP);
+            gt.setTarget(ih);
         }
     }
 
@@ -385,6 +395,7 @@ public class TigerVisitorImpl implements TigerVisitor {
         InstructionHandle begin = il.append(InstructionConst.NOP);
         e.whileExp.accept(this);
         BranchInstruction br = InstructionFactory.createBranchInstruction(Const.IFEQ, null);
+        il.append(br);
         e.doExp.accept(this);
         BranchInstruction gt = InstructionFactory.createBranchInstruction(Const.GOTO, begin);
         il.append(gt);
