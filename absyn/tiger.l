@@ -91,7 +91,7 @@ nil       {return NIL;}
 
 \"  {
     BEGIN(STRING_STATE);
-	str = ""
+	str = "";
 }
 
 <STRING_STATE>{
