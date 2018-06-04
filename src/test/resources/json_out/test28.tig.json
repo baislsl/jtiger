@@ -8,7 +8,18 @@
                 "tyId": "rectype1",
                 "ty": {
                     "class": "RecTy",
-                    "decs": []
+                    "decs": [
+                        {
+                            "class": "FieldDec",
+                            "id": "name",
+                            "tyid": "string"
+                        },
+                        {
+                            "class": "FieldDec",
+                            "id": "id",
+                            "tyid": "int"
+                        }
+                    ]
                 }
             },
             {
@@ -16,7 +27,18 @@
                 "tyId": "rectype2",
                 "ty": {
                     "class": "RecTy",
-                    "decs": []
+                    "decs": [
+                        {
+                            "class": "FieldDec",
+                            "id": "name",
+                            "tyid": "string"
+                        },
+                        {
+                            "class": "FieldDec",
+                            "id": "id",
+                            "tyid": "int"
+                        }
+                    ]
                 }
             },
             {

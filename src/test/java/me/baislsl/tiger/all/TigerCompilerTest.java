@@ -15,7 +15,7 @@ class TigerCompilerTest {
 
     @Test
     void compileMerge() {
-        TigerCompiler.compile(this.getClass().getResourceAsStream("/json_out/merge.tig.json")
+        TigerCompiler.compile(this.getClass().getResourceAsStream("/tiger/merge.tig.json")
                 , "Merge");
     }
 

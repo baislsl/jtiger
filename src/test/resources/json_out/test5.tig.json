@@ -8,7 +8,18 @@
                 "tyId": "intlist",
                 "ty": {
                     "class": "RecTy",
-                    "decs": []
+                    "decs": [
+                        {
+                            "class": "FieldDec",
+                            "id": "hd",
+                            "tyid": "int"
+                        },
+                        {
+                            "class": "FieldDec",
+                            "id": "tl",
+                            "tyid": "intlist"
+                        }
+                    ]
                 }
             },
             {
@@ -16,7 +27,18 @@
                 "tyId": "tree",
                 "ty": {
                     "class": "RecTy",
-                    "decs": []
+                    "decs": [
+                        {
+                            "class": "FieldDec",
+                            "id": "key",
+                            "tyid": "int"
+                        },
+                        {
+                            "class": "FieldDec",
+                            "id": "children",
+                            "tyid": "treelist"
+                        }
+                    ]
                 }
             },
             {
@@ -24,7 +46,18 @@
                 "tyId": "treelist",
                 "ty": {
                     "class": "RecTy",
-                    "decs": []
+                    "decs": [
+                        {
+                            "class": "FieldDec",
+                            "id": "hd",
+                            "tyid": "tree"
+                        },
+                        {
+                            "class": "FieldDec",
+                            "id": "tl",
+                            "tyid": "treelist"
+                        }
+                    ]
                 }
             },
             {

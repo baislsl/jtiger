@@ -16,7 +16,28 @@
                 "tyId": "rectype1",
                 "ty": {
                     "class": "RecTy",
-                    "decs": []
+                    "decs": [
+                        {
+                            "class": "FieldDec",
+                            "id": "name",
+                            "tyid": "string"
+                        },
+                        {
+                            "class": "FieldDec",
+                            "id": "address",
+                            "tyid": "string"
+                        },
+                        {
+                            "class": "FieldDec",
+                            "id": "id",
+                            "tyid": "int"
+                        },
+                        {
+                            "class": "FieldDec",
+                            "id": "age",
+                            "tyid": "int"
+                        }
+                    ]
                 }
             },
             {
@@ -32,7 +53,18 @@
                 "tyId": "rectype2",
                 "ty": {
                     "class": "RecTy",
-                    "decs": []
+                    "decs": [
+                        {
+                            "class": "FieldDec",
+                            "id": "name",
+                            "tyid": "string"
+                        },
+                        {
+                            "class": "FieldDec",
+                            "id": "dates",
+                            "tyid": "arrtype1"
+                        }
+                    ]
                 }
             },
             {

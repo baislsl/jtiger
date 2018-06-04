@@ -99,14 +99,17 @@ public class TypeVisitor implements TigerVisitor {
 
     @Override
     public void visit(FunDec e) {
+        if(e.tyid != null ){
+            funcRetTable.put(e.id.name, typeTable.get(e.tyid.name));
+        }
+
         for (FieldDec f : e.decs) {
             f.accept(this);
         }
         Type retType = accept(e.exp);
-        if (e.tyid != null) {
-            retType = typeTable.get(e.tyid.name);
+        if (e.tyid == null) {
+            funcRetTable.put(e.id.name, retType);
         }
-        funcRetTable.put(e.id.name, retType);
 
     }
 
@@ -238,13 +241,13 @@ public class TypeVisitor implements TigerVisitor {
             Type t = typeTable.get(((IdOnlyTy) e.ty).id.name);
             typeTable.put(e.tyId.name, t);
         } else if (e.ty instanceof RecTy) {
+            typeTable.put(e.tyId.name, new ObjectType(e.tyId.name));
             RecTy rt = (RecTy) e.ty;
             HashMap<String, Type> value = new HashMap<>();
             for (FieldDec fe : rt.decs) {
                 value.put(fe.id.name, typeTable.get(fe.tyId.name));
             }
             typeDecTable.put(e.tyId.name, value);
-            typeTable.put(e.tyId.name, new ObjectType(e.tyId.name));
         } else {
             typeTable.put(e.tyId.name, new ArrayType(new ObjectType(e.tyId.name), 1));
         }

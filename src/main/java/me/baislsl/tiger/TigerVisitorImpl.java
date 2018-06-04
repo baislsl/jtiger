@@ -71,6 +71,7 @@ public class TigerVisitorImpl implements TigerVisitor {
             } else {    // field of class
                 ClassFieldSymbol symbol = (ClassFieldSymbol) r.symbol;
                 String className = pushLink(r.depth);
+                e.exp.accept(this);
                 il.append(factory.createPutField(className, symbol.name(), symbol.type()));
             }
         } else if (e.lvalue instanceof Subscript) {  // Lvalue -> Subsript
@@ -332,16 +333,15 @@ public class TigerVisitorImpl implements TigerVisitor {
         // new TypeObject();
         il.append(factory.createNew(new ObjectType(e.tyId.name)));
         il.append(InstructionConst.DUP);
-        List<Type> types = new ArrayList<>();
-        for (FieldCreate fc : e.fieldCreates) {
-            // 这里位置需要已经对上
-            fc.exp.accept(this);
-            types.add(fc.type());
-        }
         il.append(factory.createInvoke(e.tyId.name, "<init>",
                 Type.VOID,
-                types.toArray(new Type[0]),
+                Type.NO_ARGS,
                 Const.INVOKESPECIAL));
+        for (FieldCreate fc : e.fieldCreates) {
+            il.append(InstructionConst.DUP);
+            fc.exp.accept(this);
+            il.append(factory.createPutField(e.tyId.name, fc.id.name, fc.type()));
+        }
     }
 
     @Override

@@ -27,10 +27,15 @@ public class TypeClassGen {
         factory = new InstructionFactory(cp);
     }
 
+    private Type getType(String s) {
+        return s.equals("int") ? Type.INT : s.equals("string")
+                ? Type.STRING : new ObjectType(s);
+    }
+
     private void addFieldDeclare() {
         for (Map.Entry<String, String> e : fields.entrySet()) {
             FieldGen fg = new FieldGen(Const.ACC_PUBLIC,
-                    new ObjectType(e.getValue()),
+                    getType(e.getValue()),
                     e.getKey(), cp);
             cg.addField(fg.getField());
         }
