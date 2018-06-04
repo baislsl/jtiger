@@ -6,14 +6,14 @@ token_types = ['std::string', 'std::string', '', 'int', 'std::string', 'std::str
 
 list1 = ['Type', 'dec', 'varDec', 'funDec', 'ty', 'exp', 'lValue', 'dec_list', 'comma_exp_list', 'nonempty_comma_exp_list', 'semicolon_exp_list', 'nonempty_semicolon_exp_list', 'fieldDec_list', 'nonempty_fieldDec_list', 'fieldCreate_list', 'nonempty_fieldCreate_list', 'subscript']
 
-Type = ['dec', 'dec_list', 'ty', 'exp', 'comma_exp_list', 'semicolon_exp_list', 'fieldDec_list', 'fieldCreate_list', 'fieldDec']
+Type = ['dec', 'dec_list', 'ty', 'exp', 'comma_exp_list', 'semicolon_exp_list', 'fieldDec_list', 'fieldCreate_list', 'fieldDec', 'fieldCreate']
 
 dec = ['tyDec', 'varDec', 'funDec']
 varDec = ['void_varDec', 'type_varDec']
 funDec = ['void_funDec', 'type_funDec']
 
 ty = ['tyIdTy', 'arrTy', 'recTy']
-exp = ['lValue', 'nilExp', 'intLitExp', 'stringLitExp', 'seqExp', 'negation', 'callExp', 'infixExp', 'arrCreate', 'recCreate', 'assignment', 'ifThenElse', 'ifThen', 'whileExp', 'forExp', 'letExp', 'breakExp', 'fieldCreate']
+exp = ['lValue', 'nilExp', 'intLitExp', 'stringLitExp', 'seqExp', 'negation', 'callExp', 'infixExp', 'arrCreate', 'recCreate', 'assignment', 'ifThenElse', 'ifThen', 'whileExp', 'forExp', 'letExp', 'breakExp']
 lValue = ['idlValue', 'subscript', 'fieldExp']
 subscript = ['idSubscript', 'lValueSubscript']
 
