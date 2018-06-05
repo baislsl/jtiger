@@ -43,6 +43,7 @@ class TigerVisitorImplTest {
         Lvalue lv = new IdOnlyLvalue(new Token("a"));
         lv.type = Type.STRING;
         ((Call) f.exp).exps.add(lv);
+        f.setRetType(Type.VOID);
 
         Call call = new Call(); // printa();
         call.id = new Token("printa");

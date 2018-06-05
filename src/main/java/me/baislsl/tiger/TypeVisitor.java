@@ -37,8 +37,8 @@ public class TypeVisitor implements TigerVisitor {
     public void visit(ArrCreate e) {
         accept(e.exp1);
         accept(e.exp2);
-        Type t = typeTable.get(e.tyId.name);
-        e.type = new ArrayType(t, 1);
+        e.type = typeTable.get(e.tyId.name);
+        Objects.requireNonNull(e.type);
     }
 
     @Override
@@ -101,16 +101,16 @@ public class TypeVisitor implements TigerVisitor {
     public void visit(FunDec e) {
         if(e.tyid != null ){
             funcRetTable.put(e.id.name, typeTable.get(e.tyid.name));
+            e.setRetType(typeTable.get(e.tyid.name));
+        } else {
+            funcRetTable.put(e.id.name, Type.VOID);
+            e.setRetType(Type.VOID);
         }
 
         for (FieldDec f : e.decs) {
             f.accept(this);
         }
-        Type retType = accept(e.exp);
-        if (e.tyid == null) {
-            funcRetTable.put(e.id.name, retType);
-        }
-
+        e.exp.accept(this);
     }
 
     @Override
@@ -249,7 +249,8 @@ public class TypeVisitor implements TigerVisitor {
             }
             typeDecTable.put(e.tyId.name, value);
         } else {
-            typeTable.put(e.tyId.name, new ArrayType(new ObjectType(e.tyId.name), 1));
+            ArrTy arrTy = (ArrTy)e.ty;
+            typeTable.put(e.tyId.name, new ArrayType(typeTable.get(arrTy.tyId.name), 1));
         }
     }
 

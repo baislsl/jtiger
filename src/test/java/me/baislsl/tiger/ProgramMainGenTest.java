@@ -56,6 +56,7 @@ class ProgramMainGenTest {
         c.exps.add(new StringLit("Hello World"));
         c.type = Type.VOID;
         funDec.exp = c;
+        funDec.setRetType(Type.VOID);
 
         letExp.decs.add(varDec);
         letExp.decs.add(tyDec);

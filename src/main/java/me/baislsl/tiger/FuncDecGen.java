@@ -24,20 +24,20 @@ public class FuncDecGen {
         this.funDec = funDec;
         this.env = env;
         this.parent = parent;
-        cg = new ClassGen( funDec.id.name, "java.lang.Object", "<generated>",
+        cg = new ClassGen(funDec.id.name, "java.lang.Object", "<generated>",
                 Const.ACC_PUBLIC | Const.ACC_SUPER, null);
         cp = cg.getConstantPool();
     }
 
     // env should not contain func in stack
     public static void generateClass(TigerEnv env, FunDec funDec, ObjectType parent) {
-        FuncDecGen gen = new FuncDecGen(env, funDec,  parent);
+        FuncDecGen gen = new FuncDecGen(env, funDec, parent);
         gen.updateFieldTable();
         gen.generateParentField();
         gen.generateParamField();
         gen.generateConstructor();
         gen.generateInvoke();
-        try{
+        try {
             gen.cg.getJavaClass().dump(JVMSpec.classPath + gen.cg.getClassName() + ".class");
         } catch (IOException e) {
             throw new CompileException(e);
@@ -45,7 +45,7 @@ public class FuncDecGen {
     }
 
     private void updateFieldTable() {
-        for(FieldDec f : funDec.decs) {
+        for (FieldDec f : funDec.decs) {
             env.getFieldTable().put(f.id.name, new ClassFieldSymbol(f));
         }
     }
@@ -71,7 +71,7 @@ public class FuncDecGen {
         argType.add(parent);
         List<String> argName = new ArrayList<>();
         argName.add(JVMSpec.parentFieldName);
-        for(FieldDec fd : funDec.decs) {
+        for (FieldDec fd : funDec.decs) {
             argName.add(fd.id.toString());
             argType.add(env.getTypeTable().query(fd.tyId.name).symbol.type());
         }
@@ -108,8 +108,13 @@ public class FuncDecGen {
 
         TigerVisitorImpl visitor = new TigerVisitorImpl(env, cg, mg, il);
         funDec.exp.accept(visitor);
-        if(funDec.exp.type() != Type.VOID) {
-            il.append(InstructionFactory.createReturn(funDec.exp.type()));
+        if (funDec.exp.type() != Type.VOID) {
+            if (funDec.type() != Type.VOID) {
+                il.append(InstructionFactory.createReturn(funDec.exp.type()));
+            } else {
+                il.append(InstructionConst.POP);
+                il.append(InstructionFactory.RETURN);
+            }
         } else {
             il.append(InstructionFactory.RETURN);
         }

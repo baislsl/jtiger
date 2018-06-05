@@ -13,6 +13,7 @@ class FuncDecGenTest {
     void generateClass() {
         FunDec funDec = new FunDec();
         funDec.id = new Token("myprint");
+        funDec.setRetType(Type.VOID);
         FieldDec f1 = new FieldDec(); f1.id = new Token("f1"); f1.tyId = new Token("int");
         f1.type = Type.INT;
         funDec.decs.add(f1);

@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 public class FunDec extends Dec implements Tiger {
     public Token id;
     public List<FieldDec> decs = new ArrayList<>();
+    private Type type;
 
     @Nullable
     public Token tyid;
@@ -21,7 +22,11 @@ public class FunDec extends Dec implements Tiger {
 
     @Override
     public Type type() {
-        return exp.type();
+        return type;
+    }
+
+    public void setRetType(Type type) {
+        this.type = type;
     }
 
     @Override
