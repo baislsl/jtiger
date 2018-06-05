@@ -97,7 +97,6 @@ public class FuncDecGen {
         cg.addMethod(mg.getMethod());
     }
 
-    // TODO: 自己调用自己返回的类型确定
     private void generateInvoke() {
         InstructionList il = new InstructionList();
         MethodGen mg = new MethodGen(Const.ACC_PUBLIC,

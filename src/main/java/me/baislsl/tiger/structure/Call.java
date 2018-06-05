@@ -11,7 +11,6 @@ public class Call extends Exp {
 
     @Override
     public Type type() {
-        // TODO:
         return type;
     }
 

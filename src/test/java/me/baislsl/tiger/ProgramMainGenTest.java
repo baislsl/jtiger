@@ -65,7 +65,6 @@ class ProgramMainGenTest {
         letExp.decs.add(tyDec);
         letExp.decs.add(funDec);
 
-        // TODO: use func call instead
         letExp.exps.add(c);
         p.exp = letExp;
         ProgramMainGen.gen(p, "HelloWorld");

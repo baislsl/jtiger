@@ -6,7 +6,6 @@ package me.baislsl.tiger.sample;
 public class TypeSampleClass {
     //
     public int any;
-    // string init ? TODO:
 
     // empty constructor
 }

@@ -56,7 +56,6 @@ class LetExpGenTest {
         letExp.decs.add(tyDec);
         letExp.decs.add(funDec);
 
-        // TODO: use func call instead
         letExp.exps.add(c);
 
         LetExpGen.generateClass(new TigerEnv(), letExp, new ObjectType("StringTestRoot" ));

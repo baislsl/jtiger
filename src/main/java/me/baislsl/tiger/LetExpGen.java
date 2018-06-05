@@ -128,7 +128,7 @@ public class LetExpGen {
         }
 
         il.append(InstructionConst.RETURN);
-        mg.setMaxStack();   // TODO:
+        mg.setMaxStack();
         cg.addMethod(mg.getMethod());
     }
 
@@ -154,7 +154,7 @@ public class LetExpGen {
             il.append(InstructionConst.RETURN);
         }
 
-        mg.setMaxStack();   // TODO:
+        mg.setMaxStack();
         cg.addMethod(mg.getMethod());
     }
 
