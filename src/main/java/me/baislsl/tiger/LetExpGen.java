@@ -7,6 +7,8 @@ import me.baislsl.tiger.symbol.GenerateTypeSymbol;
 import me.baislsl.tiger.symbol.UserTypeSymbol;
 import org.apache.bcel.Const;
 import org.apache.bcel.generic.*;
+import org.apache.bcel.verifier.Verifier;
+import org.apache.bcel.verifier.VerifierFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -61,9 +63,15 @@ public class LetExpGen {
     private void updateEnv() {
         env.getTypeTable().put(className, new GenerateTypeSymbol(letExp));
         for (TyDec d : tyDecs) {
-            // TODO: for array type
-            env.getTypeTable().put(d.tyId.name, new UserTypeSymbol(d));
-            TypeClassGen.generateClass(env, d);
+            if(d.ty instanceof IdOnlyTy) { // alias
+                env.getTypeTable().put(d.tyId.name,
+                        env.getTypeTable().query(((IdOnlyTy) d.ty).id.name).symbol);
+            } else if(d.ty instanceof RecTy) {  // generate new class for this type
+                env.getTypeTable().put(d.tyId.name, new UserTypeSymbol(d));
+                TypeClassGen.generateClass(env, d);
+            } else {    // arrTy
+                env.getTypeTable().put(d.tyId.name, new UserTypeSymbol(d));
+            }
         }
         for (VarDec v : varDecs) {
             env.getFieldTable().put(v.id.name, new ClassFieldSymbol(v));

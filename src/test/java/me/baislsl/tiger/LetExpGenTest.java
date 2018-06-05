@@ -38,6 +38,7 @@ class LetExpGenTest {
         TyDec tyDec = new TyDec();
         tyDec.tyId = new Token("List");
         tyDec.ty = new RecTy();
+        tyDec.ty.type = new ObjectType("List");
         ((RecTy) tyDec.ty).decs.add(new FieldDec(new Token("a"), new Token("string")));
         ((RecTy) tyDec.ty).decs.add(new FieldDec(new Token("b"), new Token("List")));
 

@@ -247,6 +247,7 @@ public class TypeVisitor implements TigerVisitor {
             for (FieldDec fe : rt.decs) {
                 value.put(fe.id.name, typeTable.get(fe.tyId.name));
             }
+            e.ty.type = new ObjectType(e.tyId.name);
             typeDecTable.put(e.tyId.name, value);
         } else {
             ArrTy arrTy = (ArrTy)e.ty;

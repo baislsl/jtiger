@@ -1,6 +1,7 @@
 package me.baislsl.tiger.all;
 
 import me.baislsl.tiger.TigerCompiler;
+import org.apache.bcel.verifier.VerifyDialog;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,13 +16,14 @@ class TigerCompilerTest {
 
     @Test
     void compileMerge() {
-        TigerCompiler.compile(this.getClass().getResourceAsStream("/tiger/merge.tig.json")
-                , "Merge");
+        TigerCompiler.compile(this.getClass().getResourceAsStream("/tiger/merge.tig.json"),
+                "Merge");
     }
 
     @Test
-    void compileTest6() {
-        TigerCompiler.compile(this.getClass().getResourceAsStream("/json_out/test6.tig.json"));
+    void compileQueens() {
+        TigerCompiler.compile(this.getClass().getResourceAsStream("/tiger/queens.tig.json"),
+                "Queens");
     }
 
 

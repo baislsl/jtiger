@@ -1,6 +1,7 @@
 package me.baislsl.tiger;
 
 import me.baislsl.tiger.structure.*;
+import org.apache.bcel.generic.ObjectType;
 import org.apache.bcel.generic.Type;
 import org.junit.jupiter.api.Test;
 
@@ -44,7 +45,9 @@ class ProgramMainGenTest {
         // type List = {a: string, next: List}
         TyDec tyDec = new TyDec();
         tyDec.tyId = new Token("List");
+        tyDec.type = new Token("List");
         tyDec.ty = new RecTy();
+        tyDec.ty.type = new ObjectType("List");
         ((RecTy) tyDec.ty).decs.add(new FieldDec(new Token("a"), new Token("string")));
         ((RecTy) tyDec.ty).decs.add(new FieldDec(new Token("b"), new Token("List")));
 

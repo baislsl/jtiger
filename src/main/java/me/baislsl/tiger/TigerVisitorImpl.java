@@ -1,6 +1,5 @@
 package me.baislsl.tiger;
 
-import com.sun.corba.se.impl.naming.namingutil.INSURLHandler;
 import me.baislsl.tiger.structure.*;
 import me.baislsl.tiger.symbol.*;
 import org.apache.bcel.Const;
@@ -31,9 +30,77 @@ public class TigerVisitorImpl implements TigerVisitor {
         funcTable = env.getFuncTable();
     }
 
+    /**
+     * ArrCreate init loop:
+     *
+     * set i as local
+     *
+     *  ...,length, value
+     *  ...,value, length
+     *  ...,value, length, length    -> newarray
+     *  ...,value, length, arrRef
+     *  ...,arrRef, value, length, arrRef
+     *  i = 0
+     * loop:
+     *  ...,arrRef, value, length
+     *  ...,length, arrRef, value, length
+     *  ...,length, arrRef, value, length, i    -> branch ? store : exit
+     *
+     * store:
+     *  ...,length, arrRef, value
+     *  ...,arrRef, value, length, arrRef, value
+     *  ...,arrRef, value, length, arrRef, value, i
+     *  ...,arrRef, value, length, arrRef, i, value     -> aastore
+     *  ...,arrRef, value, length
+     *  i += 1
+     *  goto loop
+     *
+     * exit:
+     *  ...,length, arrRef, value
+     *  ...,length, arrRef
+     *  ...,arrRef, length
+     *  ...,arrRef
+     *
+     */
     @Override
     public void visit(ArrCreate e) {
-        throw new CompileException("Unsupported to compile " + e.getClass().getSimpleName());
+        // tyId [ exp1 ] of exp2
+        e.exp1.accept(this);    // length
+        e.exp2.accept(this);    // value
+        Type arrType = e.type();
+        if (!(arrType instanceof ArrayType)) {
+            throw new CompileException(e.tyId.name + " is no a array type");
+        }
+        il.append(InstructionConst.SWAP);
+        il.append(InstructionConst.DUP);
+        Type elementType = ((ArrayType) arrType).getElementType();
+        il.append(factory.createNewArray(elementType, (short) 1));
+        il.append(InstructionConst.DUP_X2);
+        il.append(InstructionConst.POP);
+        LocalVariableGen index = mg.addLocalVariable(JVMSpec.newIndexTemp, Type.INT, null, null);
+        il.append(factory.createConstant(0));
+        il.append(InstructionFactory.createStore(Type.INT, index.getIndex()));
+        InstructionHandle loop = il.append(InstructionConst.DUP_X2);
+        il.append(InstructionFactory.createLoad(Type.INT, index.getIndex()));
+        BranchInstruction br = InstructionFactory.createBranchInstruction(Const.IF_ICMPLE, null);
+        il.append(br);
+        InstructionHandle store = il.append(InstructionConst.DUP2_X1);
+        il.append(InstructionFactory.createLoad(Type.INT, index.getIndex()));
+        il.append(InstructionConst.SWAP);
+        if(elementType.equals(Type.INT)) {
+            il.append(InstructionConst.IASTORE);
+        } else {
+            il.append(InstructionConst.AASTORE);
+        }
+        il.append(InstructionFactory.createLoad(Type.INT, index.getIndex()));
+        il.append(factory.createConstant(1));
+        il.append(InstructionConst.IADD);
+        il.append(InstructionFactory.createStore(Type.INT, index.getIndex()));
+        il.append(new GOTO(loop));
+        InstructionHandle exit = il.append(InstructionConst.POP);
+        br.setTarget(exit);
+        il.append(InstructionConst.SWAP);
+        il.append(InstructionConst.POP);
     }
 
     @Override
@@ -43,14 +110,15 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     /**
      * this.parent.parent. ... .parent
-     *      depth 个 parent
+     * depth 个 parent
+     *
      * @param depth 深度
      * @return 返回最后的类型类名
      */
     private String pushLink(int depth) {
         il.append(InstructionConst.THIS);
         int stackSize = env.getParentStack().size();
-        for(int i = 0; i < depth; i ++) {
+        for (int i = 0; i < depth; i++) {
             String className = (i == 0) ? cg.getClassName() : env.getParentStack().get(stackSize - i);
             Type type = new ObjectType(env.getParentStack().get(stackSize - i - 1));
             il.append(factory.createGetField(className, JVMSpec.parentFieldName, type));
@@ -76,7 +144,15 @@ public class TigerVisitorImpl implements TigerVisitor {
                 il.append(factory.createPutField(className, symbol.name(), symbol.type()));
             }
         } else if (e.lvalue instanceof Subscript) {  // Lvalue -> Subsript
-            throw new CompileException("Unsupported for Subscript");
+            Subscript subscript = (Subscript)e.lvalue;
+            subscript.lvalue.accept(this);
+            subscript.exp.accept(this);
+            e.exp.accept(this);
+            if (e.lvalue.type().equals(Type.INT)) {
+                il.append(InstructionConst.IASTORE);
+            } else {
+                il.append(InstructionConst.AASTORE);
+            }
         } else {    //  Lvalue -> FieldExp
             // lvalue.id
             FieldExp exp = (FieldExp) e.lvalue;
@@ -285,7 +361,7 @@ public class TigerVisitorImpl implements TigerVisitor {
             br.setTarget(il.append(factory.createConstant(0)));
             InstructionHandle ih = il.append(InstructionConst.NOP);
             gt.setTarget(ih);
-        } else if(oper.equals("|")) {    // "|"
+        } else if (oper.equals("|")) {    // "|"
             e.exp1.accept(this);
             BranchInstruction br = InstructionFactory.createBranchInstruction(Const.IFNE, null);
             il.append(br);
@@ -295,11 +371,11 @@ public class TigerVisitorImpl implements TigerVisitor {
             br.setTarget(il.append(factory.createConstant(1)));
             InstructionHandle ih = il.append(InstructionConst.NOP);
             gt.setTarget(ih);
-        } else if(oper.equals("=")) {
+        } else if (oper.equals("=")) {
             e.exp1.accept(this);
             e.exp2.accept(this);
             BranchInstruction br;
-            if(Type.INT.equals(e.exp1.type())) {
+            if (Type.INT.equals(e.exp1.type())) {
                 br = InstructionFactory.createBranchInstruction(intBranchMap.get(oper), null);
             } else if (Type.STRING.equals(e.exp1.type())) {
                 il.append(factory.createInvoke("java.lang.String",
@@ -408,7 +484,13 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(Subscript e) {
-        throw new CompileException(new UnsupportedOperationException());
+        e.lvalue.accept(this);
+        e.exp.accept(this);
+        if(e.type().equals(Type.INT)) {
+            il.append(InstructionConst.IALOAD);
+        } else {
+            il.append(InstructionConst.AALOAD);
+        }
     }
 
     @Override

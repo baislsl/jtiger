@@ -9,7 +9,7 @@ public class TyDec extends Dec {
 
     @Override
     public Type type() {
-        return null;
+        return ty.type();
     }
 
     @Override

@@ -19,7 +19,7 @@ public class UserTypeSymbol implements TypeSymbol {
 
     @Override
     public Type type() {
-        return new ObjectType(dec.tyId.name);
+        return dec.type();
     }
 
     @Override
