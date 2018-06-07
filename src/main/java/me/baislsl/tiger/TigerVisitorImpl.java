@@ -250,12 +250,12 @@ public class TigerVisitorImpl implements TigerVisitor {
         il.append(InstructionFactory.createBinaryOperation("+", Type.INT));
         il.append(InstructionFactory.createStore(Type.INT, lg.getIndex()));
         il.append(new GOTO(loop));
-        br.setTarget(il.append(InstructionConst.POP)); // pop out the "toExp" value
+        InstructionHandle exit = il.append(InstructionConst.POP);
+        br.setTarget(exit); // pop out the "toExp" value
         lg.setEnd(il.getEnd());
 
         List<GOTO> breakGt = env.popBreakStack();
         if (!breakGt.isEmpty()) {
-            InstructionHandle exit = il.append(InstructionConst.NOP);
             for (GOTO gt : breakGt) {
                 gt.setTarget(exit);
             }

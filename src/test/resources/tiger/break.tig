@@ -9,8 +9,10 @@ let
           else print("0")
       end
 in
-    for i := 0 to N - 1 do
-         if i=3 then break
-        /* if i=3 then printint(j) */
-
+   ( for i := 0 to N - 1 do
+          (printint(-i); print("\n"); if i=3 then break)
+        ;
+    while j < 100 do
+          (printint(-j); break)
+)
 end

@@ -7,8 +7,8 @@ class TigerCompilerTest {
 
     @Test
     void compile() {
-        TigerCompiler.compile(this.getClass().getResourceAsStream("/tiger/1.tig.json"),
-                "CompileTest");
+        TigerCompiler.compile(this.getClass().getResourceAsStream("/tiger/break.tig.json"),
+                "Break");
     }
 
     @Test
@@ -24,18 +24,22 @@ class TigerCompilerTest {
     }
 
     @Test
-    void compileQuickSort(){
+    void compileQuickSort() {
         TigerCompiler.compile(this.getClass().getResourceAsStream("/tiger/qsort.tig.json"),
                 "QuickSort");
     }
 
     @Test
-    void compileBinSearch(){
+    void compileBinSearch() {
         TigerCompiler.compile(this.getClass().getResourceAsStream("/tiger/bsearch.tig.json"),
                 "Bsearch");
     }
 
-
+    @Test
+    void comiplePrime(){
+        TigerCompiler.compile(this.getClass().getResourceAsStream("/tiger/prime.tig.json"),
+                "Prime");
+    }
 
 
 }
