@@ -154,7 +154,7 @@ dict['idlValue'] = ['ID', 1]
 tyIdTy = ['tyId']
 dict['tyIdTy'] = ['ID', 1]
 breakExp = []
-dict['breakExp'] = ['']
+dict['breakExp'] = ['BREAK']
 
 
 # -------------------------------------------------
