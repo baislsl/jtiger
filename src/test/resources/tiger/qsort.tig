@@ -1,0 +1,62 @@
+/* Quick Sort*/
+
+let
+	var N := 16
+	type intArray = array of int
+
+	var list := intArray [N] of 0
+
+	function nop() = (print(""))
+	function init() =
+		(for i := 0 to N-1
+				do (list[i]:=N-i;nop())
+		)
+     function printint(i: int) =
+      let function f(i:int) = if i>0
+             then (f(i/10); print(chr(i-i/10*10+ord("0"))))
+       in if i<0 then (print("-"); f(-i))
+          else if i>0 then f(i)
+          else print("0")
+      end
+
+	function quicksort(left:int, right:int) =
+		let var i:= left
+			var j:= right
+			var key : int := 0
+		 in if left < right then
+				(key:=list[left];   /* lazy init to avoid array index out of bounds exception  */
+				while i<j
+				do
+					(
+                    printint(i);
+                    print(" : ");
+                    printint(j);
+                    print("\t");
+					while i<j & key<=list[j]
+                        do j := j-1;
+                    print("j=");
+                    printint(j);
+                    print("\t");
+                    list[i] := list[j];
+
+					while i<j & key>=list[i]
+					    do i := i+1;
+                    print("i=");
+                    printint(i);
+                    print("\t");
+					list[j] := list[i]);
+				list[i] := key;
+				print("\n");
+				quicksort(left,i-1);
+				quicksort(i+1,right))
+		end
+	function dosort() =
+	(
+		init();
+		quicksort(0,N-1);
+		for i:=0 to N-1
+			do (printint(list[i]);print(" "));
+		print("\n")
+	)
+ in dosort()
+end

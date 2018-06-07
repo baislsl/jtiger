@@ -1,0 +1,40 @@
+/* Binary Search */
+
+let
+    var N := 16
+
+    type intArray = array of int
+
+    var list := intArray [N] of 0
+     function printint(i: int) =
+      let function f(i:int) = if i>0
+             then (f(i/10); print(chr(i-i/10*10+ord("0"))))
+       in if i<0 then (print("-"); f(-i))
+          else if i>0 then f(i)
+          else print("0")
+      end
+    function nop() =(print(""))
+    function init() =
+    	(for i := 0 to N-1
+		do (list[i]:=i*2+1;nop())
+	)
+	
+    function bsearch(left:int,right:int,c:int): int=
+	if left=right then left
+	else 
+		let 
+			var mid := (left + right) / 2
+		in 
+			if list[mid]<c then bsearch(mid+1,right,c)
+			else bsearch(left,mid,c)	
+		end
+    
+    function try() = 
+    (
+    	init();
+	printint(bsearch(0,N-1,7)); /*expect: 3*/
+	print("\n")
+    )
+ in try()
+end
+	
