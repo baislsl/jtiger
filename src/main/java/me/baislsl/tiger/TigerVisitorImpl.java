@@ -19,7 +19,6 @@ public class TigerVisitorImpl implements TigerVisitor {
     private SymbolTable<FunSymbol> funcTable;
 
     public TigerVisitorImpl(TigerEnv env, ClassGen cg, MethodGen mg, InstructionList il) {
-        // this.env = new TigerEnv(env, cg.getClassName());
         this.env = env;
         this.cg = cg;
         this.mg = mg;
@@ -32,35 +31,34 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     /**
      * ArrCreate init loop:
-     *
+     * <p>
      * set i as local
-     *
-     *  ...,length, value
-     *  ...,value, length
-     *  ...,value, length, length    -> newarray
-     *  ...,value, length, arrRef
-     *  ...,arrRef, value, length, arrRef
-     *  i = 0
+     * <p>
+     * ...,length, value
+     * ...,value, length
+     * ...,value, length, length    -> newarray
+     * ...,value, length, arrRef
+     * ...,arrRef, value, length, arrRef
+     * i = 0
      * loop:
-     *  ...,arrRef, value, length
-     *  ...,length, arrRef, value, length
-     *  ...,length, arrRef, value, length, i    -> branch ? store : exit
-     *
+     * ...,arrRef, value, length
+     * ...,length, arrRef, value, length
+     * ...,length, arrRef, value, length, i    -> branch ? store : exit
+     * <p>
      * store:
-     *  ...,length, arrRef, value
-     *  ...,arrRef, value, length, arrRef, value
-     *  ...,arrRef, value, length, arrRef, value, i
-     *  ...,arrRef, value, length, arrRef, i, value     -> aastore
-     *  ...,arrRef, value, length
-     *  i += 1
-     *  goto loop
-     *
+     * ...,length, arrRef, value
+     * ...,arrRef, value, length, arrRef, value
+     * ...,arrRef, value, length, arrRef, value, i
+     * ...,arrRef, value, length, arrRef, i, value     -> aastore
+     * ...,arrRef, value, length
+     * i += 1
+     * goto loop
+     * <p>
      * exit:
-     *  ...,length, arrRef, value
-     *  ...,length, arrRef
-     *  ...,arrRef, length
-     *  ...,arrRef
-     *
+     * ...,length, arrRef, value
+     * ...,length, arrRef
+     * ...,arrRef, length
+     * ...,arrRef
      */
     @Override
     public void visit(ArrCreate e) {
@@ -87,7 +85,7 @@ public class TigerVisitorImpl implements TigerVisitor {
         InstructionHandle store = il.append(InstructionConst.DUP2_X1);
         il.append(InstructionFactory.createLoad(Type.INT, index.getIndex()));
         il.append(InstructionConst.SWAP);
-        if(elementType.equals(Type.INT)) {
+        if (elementType.equals(Type.INT)) {
             il.append(InstructionConst.IASTORE);
         } else {
             il.append(InstructionConst.AASTORE);
@@ -144,7 +142,7 @@ public class TigerVisitorImpl implements TigerVisitor {
                 il.append(factory.createPutField(className, symbol.name(), symbol.type()));
             }
         } else if (e.lvalue instanceof Subscript) {  // Lvalue -> Subsript
-            Subscript subscript = (Subscript)e.lvalue;
+            Subscript subscript = (Subscript) e.lvalue;
             subscript.lvalue.accept(this);
             subscript.exp.accept(this);
             e.exp.accept(this);
@@ -166,7 +164,9 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(BreakExp e) {
-        // TODO:
+        GOTO gt = new GOTO(null);
+        il.append(gt);
+        env.addBreakGOTO(gt);
     }
 
     @Override
@@ -228,6 +228,7 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(ForExp e) {
+        env.pushBreakStack();
         LocalVariableGen lg = mg.addLocalVariable(e.id.name, Type.INT, null, null);
         fieldTable.put(e.id.name, new LocalFieldSymbol(lg));
         lg.setStart(il.append(InstructionConst.NOP));
@@ -251,6 +252,15 @@ public class TigerVisitorImpl implements TigerVisitor {
         il.append(new GOTO(loop));
         br.setTarget(il.append(InstructionConst.POP)); // pop out the "toExp" value
         lg.setEnd(il.getEnd());
+
+        List<GOTO> breakGt = env.popBreakStack();
+        if (!breakGt.isEmpty()) {
+            InstructionHandle exit = il.append(InstructionConst.NOP);
+            for (GOTO gt : breakGt) {
+                gt.setTarget(exit);
+            }
+        }
+
     }
 
     @Override
@@ -486,7 +496,7 @@ public class TigerVisitorImpl implements TigerVisitor {
     public void visit(Subscript e) {
         e.lvalue.accept(this);
         e.exp.accept(this);
-        if(e.type().equals(Type.INT)) {
+        if (e.type().equals(Type.INT)) {
             il.append(InstructionConst.IALOAD);
         } else {
             il.append(InstructionConst.AALOAD);
@@ -505,6 +515,7 @@ public class TigerVisitorImpl implements TigerVisitor {
 
     @Override
     public void visit(While e) {
+        env.pushBreakStack();
         InstructionHandle begin = il.append(InstructionConst.NOP);
         e.whileExp.accept(this);
         BranchInstruction br = InstructionFactory.createBranchInstruction(Const.IFEQ, null);
@@ -512,7 +523,12 @@ public class TigerVisitorImpl implements TigerVisitor {
         e.doExp.accept(this);
         BranchInstruction gt = InstructionFactory.createBranchInstruction(Const.GOTO, begin);
         il.append(gt);
-        br.setTarget(il.append(InstructionConst.NOP));
+        InstructionHandle exit = il.append(InstructionConst.NOP);
+        br.setTarget(exit);
+        for(GOTO breakGt : env.popBreakStack()) {
+            breakGt.setTarget(exit);
+        }
+
     }
 
 }

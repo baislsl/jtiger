@@ -1,9 +1,11 @@
 package me.baislsl.tiger;
 
 import me.baislsl.tiger.symbol.*;
+import org.apache.bcel.generic.GOTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class TigerEnv {
 
@@ -11,6 +13,8 @@ public class TigerEnv {
     private SymbolTable<FieldSymbol> fieldTable;
     private SymbolTable<FunSymbol> funcTable;
     private List<String> parentStack;   // store the call link, 不包含当前访问的类名
+    private Stack<List<GOTO>> breakStack = new Stack<>();
+
 
     public TigerEnv() {
         parentStack = new ArrayList<>();
@@ -39,6 +43,22 @@ public class TigerEnv {
         typeTable.put("int", PrimitiveType.INT);
         typeTable.put("string", PrimitiveType.STRING);
     }
+
+    public void pushBreakStack() {
+        breakStack.push(new ArrayList<>());
+    }
+
+    public List<GOTO> popBreakStack() {
+        return breakStack.pop();
+    }
+
+    public void addBreakGOTO(GOTO gt) {
+        if (breakStack.empty()) {
+            throw new CompileException("Can not use break outer loop scope");
+        }
+        breakStack.peek().add(gt);
+    }
+
 
 
     public SymbolTable<TypeSymbol> getTypeTable() {
