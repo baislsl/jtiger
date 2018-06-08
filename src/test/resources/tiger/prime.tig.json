@@ -1,0 +1,616 @@
+{
+    "class": "Program",
+    "exp": {
+        "class": "LetExp",
+        "decs": [
+            {
+                "class": "FunDec",
+                "id": "check",
+                "decs": [
+                    {
+                        "class": "FieldDec",
+                        "id": "num",
+                        "tyid": "int"
+                    }
+                ],
+                "tyid": "int",
+                "exp": {
+                    "class": "LetExp",
+                    "decs": [
+                        {
+                            "class": "VarDec",
+                            "id": "flag",
+                            "exp": {
+                                "class": "IntLit",
+                                "value": 1
+                            }
+                        }
+                    ],
+                    "exps": [
+                        {
+                            "class": "SeqExp",
+                            "exps": [
+                                {
+                                    "class": "ForExp",
+                                    "id": "i",
+                                    "fromExp": {
+                                        "class": "IntLit",
+                                        "value": 2
+                                    },
+                                    "toExp": {
+                                        "class": "InfixExp",
+                                        "exp1": {
+                                            "class": "IDOnlyLvalue",
+                                            "id": "num"
+                                        },
+                                        "exp2": {
+                                            "class": "IntLit",
+                                            "value": 2
+                                        },
+                                        "infixOp": "/"
+                                    },
+                                    "doExp": {
+                                        "class": "IfThen",
+                                        "ifExp": {
+                                            "class": "InfixExp",
+                                            "exp1": {
+                                                "class": "InfixExp",
+                                                "exp1": {
+                                                    "class": "InfixExp",
+                                                    "exp1": {
+                                                        "class": "IDOnlyLvalue",
+                                                        "id": "num"
+                                                    },
+                                                    "exp2": {
+                                                        "class": "IDOnlyLvalue",
+                                                        "id": "i"
+                                                    },
+                                                    "infixOp": "/"
+                                                },
+                                                "exp2": {
+                                                    "class": "IDOnlyLvalue",
+                                                    "id": "i"
+                                                },
+                                                "infixOp": "*"
+                                            },
+                                            "exp2": {
+                                                "class": "IDOnlyLvalue",
+                                                "id": "num"
+                                            },
+                                            "infixOp": "="
+                                        },
+                                        "thenExp": {
+                                            "class": "SeqExp",
+                                            "exps": [
+                                                {
+                                                    "class": "Assignment",
+                                                    "Lvalue": {
+                                                        "class": "IDOnlyLvalue",
+                                                        "id": "flag"
+                                                    },
+                                                    "exp": {
+                                                        "class": "IntLit",
+                                                        "value": 0
+                                                    }
+                                                },
+                                                {
+                                                    "class": "BreakExp"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "class": "IDOnlyLvalue",
+                                    "id": "flag"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "class": "FunDec",
+                "id": "printi",
+                "decs": [
+                    {
+                        "class": "FieldDec",
+                        "id": "i",
+                        "tyid": "int"
+                    }
+                ],
+                "exp": {
+                    "class": "LetExp",
+                    "decs": [
+                        {
+                            "class": "FunDec",
+                            "id": "f",
+                            "decs": [
+                                {
+                                    "class": "FieldDec",
+                                    "id": "i",
+                                    "tyid": "int"
+                                }
+                            ],
+                            "exp": {
+                                "class": "IfThen",
+                                "ifExp": {
+                                    "class": "InfixExp",
+                                    "exp1": {
+                                        "class": "IDOnlyLvalue",
+                                        "id": "i"
+                                    },
+                                    "exp2": {
+                                        "class": "IntLit",
+                                        "value": 0
+                                    },
+                                    "infixOp": ">"
+                                },
+                                "thenExp": {
+                                    "class": "SeqExp",
+                                    "exps": [
+                                        {
+                                            "class": "Call",
+                                            "id": "f",
+                                            "exps": [
+                                                {
+                                                    "class": "InfixExp",
+                                                    "exp1": {
+                                                        "class": "IDOnlyLvalue",
+                                                        "id": "i"
+                                                    },
+                                                    "exp2": {
+                                                        "class": "IntLit",
+                                                        "value": 10
+                                                    },
+                                                    "infixOp": "/"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "class": "Call",
+                                            "id": "print",
+                                            "exps": [
+                                                {
+                                                    "class": "Call",
+                                                    "id": "chr",
+                                                    "exps": [
+                                                        {
+                                                            "class": "InfixExp",
+                                                            "exp1": {
+                                                                "class": "InfixExp",
+                                                                "exp1": {
+                                                                    "class": "IDOnlyLvalue",
+                                                                    "id": "i"
+                                                                },
+                                                                "exp2": {
+                                                                    "class": "InfixExp",
+                                                                    "exp1": {
+                                                                        "class": "InfixExp",
+                                                                        "exp1": {
+                                                                            "class": "IDOnlyLvalue",
+                                                                            "id": "i"
+                                                                        },
+                                                                        "exp2": {
+                                                                            "class": "IntLit",
+                                                                            "value": 10
+                                                                        },
+                                                                        "infixOp": "/"
+                                                                    },
+                                                                    "exp2": {
+                                                                        "class": "IntLit",
+                                                                        "value": 10
+                                                                    },
+                                                                    "infixOp": "*"
+                                                                },
+                                                                "infixOp": "-"
+                                                            },
+                                                            "exp2": {
+                                                                "class": "Call",
+                                                                "id": "ord",
+                                                                "exps": [
+                                                                    {
+                                                                        "class": "StringLit",
+                                                                        "value": "0"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "infixOp": "+"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "exps": [
+                        {
+                            "class": "IfThenElse",
+                            "ifExp": {
+                                "class": "InfixExp",
+                                "exp1": {
+                                    "class": "IDOnlyLvalue",
+                                    "id": "i"
+                                },
+                                "exp2": {
+                                    "class": "IntLit",
+                                    "value": 0
+                                },
+                                "infixOp": "<"
+                            },
+                            "thenExp": {
+                                "class": "SeqExp",
+                                "exps": [
+                                    {
+                                        "class": "Call",
+                                        "id": "print",
+                                        "exps": [
+                                            {
+                                                "class": "StringLit",
+                                                "value": "-"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "class": "Call",
+                                        "id": "f",
+                                        "exps": [
+                                            {
+                                                "class": "Negation",
+                                                "exp": {
+                                                    "class": "IDOnlyLvalue",
+                                                    "id": "i"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            "elseExp": {
+                                "class": "IfThenElse",
+                                "ifExp": {
+                                    "class": "InfixExp",
+                                    "exp1": {
+                                        "class": "IDOnlyLvalue",
+                                        "id": "i"
+                                    },
+                                    "exp2": {
+                                        "class": "IntLit",
+                                        "value": 0
+                                    },
+                                    "infixOp": ">"
+                                },
+                                "thenExp": {
+                                    "class": "Call",
+                                    "id": "f",
+                                    "exps": [
+                                        {
+                                            "class": "IDOnlyLvalue",
+                                            "id": "i"
+                                        }
+                                    ]
+                                },
+                                "elseExp": {
+                                    "class": "Call",
+                                    "id": "print",
+                                    "exps": [
+                                        {
+                                            "class": "StringLit",
+                                            "value": "0"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "class": "FunDec",
+                "id": "try",
+                "decs": [],
+                "exp": {
+                    "class": "SeqExp",
+                    "exps": [
+                        {
+                            "class": "Call",
+                            "id": "printi",
+                            "exps": [
+                                {
+                                    "class": "Call",
+                                    "id": "check",
+                                    "exps": [
+                                        {
+                                            "class": "IntLit",
+                                            "value": 56
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "print",
+                            "exps": [
+                                {
+                                    "class": "StringLit",
+                                    "value": "\n"
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "printi",
+                            "exps": [
+                                {
+                                    "class": "Call",
+                                    "id": "check",
+                                    "exps": [
+                                        {
+                                            "class": "IntLit",
+                                            "value": 23
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "print",
+                            "exps": [
+                                {
+                                    "class": "StringLit",
+                                    "value": "\n"
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "printi",
+                            "exps": [
+                                {
+                                    "class": "Call",
+                                    "id": "check",
+                                    "exps": [
+                                        {
+                                            "class": "IntLit",
+                                            "value": 71
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "print",
+                            "exps": [
+                                {
+                                    "class": "StringLit",
+                                    "value": "\n"
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "printi",
+                            "exps": [
+                                {
+                                    "class": "Call",
+                                    "id": "check",
+                                    "exps": [
+                                        {
+                                            "class": "IntLit",
+                                            "value": 72
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "print",
+                            "exps": [
+                                {
+                                    "class": "StringLit",
+                                    "value": "\n"
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "printi",
+                            "exps": [
+                                {
+                                    "class": "Call",
+                                    "id": "check",
+                                    "exps": [
+                                        {
+                                            "class": "IntLit",
+                                            "value": 173
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "print",
+                            "exps": [
+                                {
+                                    "class": "StringLit",
+                                    "value": "\n"
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "printi",
+                            "exps": [
+                                {
+                                    "class": "Call",
+                                    "id": "check",
+                                    "exps": [
+                                        {
+                                            "class": "IntLit",
+                                            "value": 181
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "print",
+                            "exps": [
+                                {
+                                    "class": "StringLit",
+                                    "value": "\n"
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "printi",
+                            "exps": [
+                                {
+                                    "class": "Call",
+                                    "id": "check",
+                                    "exps": [
+                                        {
+                                            "class": "IntLit",
+                                            "value": 281
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "print",
+                            "exps": [
+                                {
+                                    "class": "StringLit",
+                                    "value": "\n"
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "printi",
+                            "exps": [
+                                {
+                                    "class": "Call",
+                                    "id": "check",
+                                    "exps": [
+                                        {
+                                            "class": "IntLit",
+                                            "value": 659
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "print",
+                            "exps": [
+                                {
+                                    "class": "StringLit",
+                                    "value": "\n"
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "printi",
+                            "exps": [
+                                {
+                                    "class": "Call",
+                                    "id": "check",
+                                    "exps": [
+                                        {
+                                            "class": "IntLit",
+                                            "value": 729
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "print",
+                            "exps": [
+                                {
+                                    "class": "StringLit",
+                                    "value": "\n"
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "printi",
+                            "exps": [
+                                {
+                                    "class": "Call",
+                                    "id": "check",
+                                    "exps": [
+                                        {
+                                            "class": "IntLit",
+                                            "value": 947
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "print",
+                            "exps": [
+                                {
+                                    "class": "StringLit",
+                                    "value": "\n"
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "printi",
+                            "exps": [
+                                {
+                                    "class": "Call",
+                                    "id": "check",
+                                    "exps": [
+                                        {
+                                            "class": "IntLit",
+                                            "value": 945
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "class": "Call",
+                            "id": "print",
+                            "exps": [
+                                {
+                                    "class": "StringLit",
+                                    "value": "\n"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ],
+        "exps": [
+            {
+                "class": "Call",
+                "id": "try",
+                "exps": []
+            }
+        ]
+    }
+}

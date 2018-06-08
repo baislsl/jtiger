@@ -28,25 +28,14 @@ let
 				while i<j
 				do
 					(
-                    printint(i);
-                    print(" : ");
-                    printint(j);
-                    print("\t");
 					while i<j & key<=list[j]
                         do j := j-1;
-                    print("j=");
-                    printint(j);
-                    print("\t");
                     list[i] := list[j];
 
 					while i<j & key>=list[i]
 					    do i := i+1;
-                    print("i=");
-                    printint(i);
-                    print("\t");
 					list[j] := list[i]);
 				list[i] := key;
-				print("\n");
 				quicksort(left,i-1);
 				quicksort(i+1,right))
 		end
