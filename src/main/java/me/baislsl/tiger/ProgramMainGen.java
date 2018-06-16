@@ -29,11 +29,11 @@ public class ProgramMainGen {
 
     private static String DEFAULT_CLASSNAME = "Tiger";
 
-    public static void gen(Program p ){
-        gen(p, DEFAULT_CLASSNAME);
+    public static String gen(Program p){
+        return gen(p, DEFAULT_CLASSNAME);
     }
 
-    public static void gen(Program p, String className) {
+    public static String gen(Program p, String className) {
         ClassGen cg = new ClassGen(className, "java.lang.Object",
                 "<generated>", Const.ACC_PUBLIC |
                 Const.ACC_SUPER,
@@ -79,9 +79,11 @@ public class ProgramMainGen {
         cg.addMethod(mg.getMethod());
         il.dispose();
         try {
-            cg.getJavaClass().dump(JVMSpec.classPath + className + ".class");
+            String classPath = JVMSpec.classPath + className + ".class";
+            cg.getJavaClass().dump(classPath);
+            return classPath;
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new CompileException(e);
         }
     }
 
