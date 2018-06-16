@@ -4,7 +4,7 @@ A naive tiger compiler that compiles tiger code to JVM executable class file.
 
 ## 使用说明
 
-1. 使用提供好的可执行文件
+- 使用提供好的可执行文件
 
 为了使用方便，在absyn中已经有编译好的main，在target目录下已经提供好可执行的jar和运行时系统调用的外部连接TigerFuncLink.class，使用时可直接执行
 
@@ -14,11 +14,12 @@ cd Tiger-jvm
 java -jar target/tiger-1.0-SNAPSHOT-jar-with-dependencies.jar path_to_tiger_source_code
 ```
 
-1. 代码重新编译
+- 代码重新编译
 
 主要分为absyn的编译和java代码编译
 
 absyn编译需要c++和python3，makefile因为不同机器上环境可能有区别，部分地方可能需要根据自己电脑配置
+
 java编译需要jdk1.8+和Maven工具
 
 ```
