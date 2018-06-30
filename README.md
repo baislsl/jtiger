@@ -6,21 +6,21 @@ A naive tiger compiler that compiles tiger code to JVM executable class file.
 
 - 使用提供好的可执行文件
 
-为了使用方便，在absyn中已经有编译好的main，在target目录下已经提供好可执行的jar和运行时系统调用的外部连接TigerFuncLink.class，使用时可直接执行
+为了使用方便，在absyn中已经有编译好的main，在target目录下已经提供好可执行的jar和运行时系统调用的外部连接TigerFuncLink.class，
+使用时可直接执行。注意的是master分支下main是Linux下的可执行文件，如果你是mac用户，需要切换到mac分支或者直接代码重新编译出main，
+windows用户暂时不支持直接使用可执行文件
 
 ```
 git clone git@github.com:baislsl/Tiger-jvm.git
+git checkout origin/mac # 只有mac用户需要执行这步
 cd Tiger-jvm
 java -jar target/tiger-1.0-SNAPSHOT-jar-with-dependencies.jar path_to_tiger_source_code
 ```
 
 - 代码重新编译
 
-主要分为absyn的编译和java代码编译
-
-absyn编译需要c++和python3，makefile因为不同机器上环境可能有区别，部分地方可能需要根据自己电脑配置
-
-java编译需要jdk1.8+和Maven工具
+主要分为absyn的编译和java代码编译, absyn编译需要c++和python3，makefile因为不同机器上环境可能有区别，部分地方请自己配置
+, java编译需要jdk1.8+和Maven工具
 
 ```
 git clone git@github.com:baislsl/Tiger-jvm.git
@@ -237,6 +237,14 @@ public class LetDecTest {
 ### 测试
 
 已经通过虎书附录提供的八皇后问题和合并链表的例程和其他测试程序。
+
+### TODO
+
+- 命名可能会出问题，不同作用域的多个同名函数会出bug，因为现在函数生成的类都是放在同一个目录下，并且直接以函数名作为类名，
+所以后面出现的会覆盖前面的文件
+
+- for里面定义的变量只支持直接在for中访问，如果for语句里面又搞个let或者func，那么let和func里都不支持对for定义的循环变量访问
+
 
 
 

@@ -53,45 +53,45 @@ class TigerCompilerTest {
     @Test
     void compile() throws Exception {
         TigerCompiler.compile(this.getClass().getResourceAsStream("/tiger/break.tig.json"),
-                "Break");
-        testOutput("Break", "", "0\n-1\n-2\n-3\n-4\n");
+                "TigerBreak");
+        testOutput("TigerBreak", "", "0\n-1\n-2\n-3\n-4\n");
     }
 
     @Test
     void compileMerge() throws Exception {
         TigerCompiler.compile(this.getClass().getResourceAsStream("/tiger/merge.tig.json"),
-                "Merge");
-        testOutput("Merge", "4 78 100 347 | 33 99 346 =\n",
+                "TigerMerge");
+        testOutput("TigerMerge", "4 78 100 347 | 33 99 346 =\n",
                 "4 33 78 99 100 346 347");
     }
 
     @Test
     void compileQueens() throws Exception {
         TigerCompiler.compile(this.getClass().getResourceAsStream("/tiger/queens.tig.json"),
-                "Queens");
-        int lineNumber = testOutput("Queens", "", null);
+                "TigerQueens");
+        int lineNumber = testOutput("TigerQueens", "", null);
         assertEquals(828, lineNumber);
     }
 
     @Test
     void compileQuickSort() throws Exception {
         TigerCompiler.compile(this.getClass().getResourceAsStream("/tiger/qsort.tig.json"),
-                "QuickSort");
-        testOutput("QuickSort", "", "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16");
+                "TigerQuickSort");
+        testOutput("TigerQuickSort", "", "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16");
     }
 
     @Test
     void compileBinSearch() throws Exception {
         TigerCompiler.compile(this.getClass().getResourceAsStream("/tiger/bsearch.tig.json"),
-                "Bsearch");
-        testOutput("Bsearch", "", "3");
+                "TigerBsearch");
+        testOutput("TigerBsearch", "", "3");
     }
 
     @Test
     void comiplePrime() throws Exception {
         TigerCompiler.compile(this.getClass().getResourceAsStream("/tiger/prime.tig.json"),
-                "Prime");
-        testOutput("Prime", "", "0\n1\n1\n0\n1\n1\n1\n1\n0\n1\n0\n");
+                "TigerPrime");
+        testOutput("TigerPrime", "", "0\n1\n1\n0\n1\n1\n1\n1\n0\n1\n0\n");
     }
 
 

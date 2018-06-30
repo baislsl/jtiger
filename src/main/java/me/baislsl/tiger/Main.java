@@ -44,7 +44,7 @@ public class Main {
                 return;
             }
 
-            logger.info("程序现在默认被直接执行，请输入（如果有），你也可以在{}中手动执行java Tiger运行程序",
+            logger.info("程序现在默认被直接执行，请输入（如果有），你也可以在{}目录下手动执行java Tiger运行程序",
                     new File(path).getParent());
             try {
                 Process process = new ProcessBuilder("java", DEFAULT_PATH)
