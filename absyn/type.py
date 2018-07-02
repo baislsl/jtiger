@@ -383,6 +383,6 @@ for item in list3:
 print(
 '''%% /*------------------------------------------*/
 void yyerror(const char *s) {
-    cerr << s << endl;
+    cerr << numOfLines + 1 << ":" << numOfChars << ": Syntax Error: " << s << endl;
 }
 ''', file=f)

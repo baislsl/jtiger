@@ -5,7 +5,8 @@
 // from yacc
 #include "tiger.tab.h"
 
-extern semicolon_exp_list_Type *p_start;
+extern int numOfLines;
+extern int numOfChars;
 
 extern "C"
 {

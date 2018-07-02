@@ -33,4 +33,4 @@ tiger.y datatype.h datatype.cpp : type.py
 	
 .PHONY : clean
 clean:
-	rm $(OBJECT)  *.yy.c *.tab.* datatype.* *.y *.output *.exe
+	del $(OBJECT)  *.yy.c *.tab.* datatype.* *.y *.output *.exe
