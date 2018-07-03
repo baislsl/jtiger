@@ -164,7 +164,7 @@ nil       {numOfChars += yyleng; return NIL;}
 
 }
 
-. {numOfChars += yyleng; continue;}
+. {error("Unknown token"); yyterminate();}
 
 %% /* -------------------------------- */
 
