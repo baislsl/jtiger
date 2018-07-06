@@ -4,33 +4,20 @@ A naive tiger compiler that compiles tiger code to JVM executable class file.
 
 ## 使用说明
 
-- 使用提供好的可执行文件
-
-为了使用方便，在absyn中已经有编译好的main，在target目录下已经提供好可执行的jar和运行时系统调用的外部连接TigerFuncLink.class，
-使用时可直接执行。注意的是master分支下main是Linux下的可执行文件，如果你是mac用户，需要切换到mac分支或者直接代码重新编译出main，
-windows用户暂时不支持直接使用可执行文件
+java部分提供可执行的jar包（target/tiger-1.0-SNAPSHOT-jar-with-dependencies.jar), C++代码需要重新编译
 
 ```
-git clone git@github.com:baislsl/Tiger-jvm.git
-git checkout origin/mac # 只有mac用户需要执行这步
-cd Tiger-jvm
-java -jar target/tiger-1.0-SNAPSHOT-jar-with-dependencies.jar path_to_tiger_source_code
-```
-
-- 代码重新编译
-
-主要分为absyn的编译和java代码编译, absyn编译需要c++和python3，makefile因为不同机器上环境可能有区别，部分地方请自己配置
-, java编译需要jdk1.8+和Maven工具
-
-```
-git clone git@github.com:baislsl/Tiger-jvm.git
-cd Tiger-jvm/absyn
-make    # 生成负责语法生成的可执行文件
+git clone git@github.com:baislsl/jtiger.git
+cd jtiger
+cd absyn
+make
 cd ..
-mvn clean compile assembly:single # 生成jar和所有class文件到target目录下
-java -jar target/tiger-1.0-SNAPSHOT-jar-with-dependencies.jar path_to_tiger_source_code # 其中tiger-1.0-SNAPSHOT-jar-with-dependencies.jar是上面生成的jar文件
+mvn clean compile assembly:single # 可跳过，使用提供的jar包
+java -jar target/tiger-1.0-SNAPSHOT-jar-with-dependencies.jar path_to_tiger_source_code
+java -jar tiger.jar # 执行编译出来的jar文件
 ```
-
+需要注意使用tiger-1.0-SNAPSHOT-jar-with-dependencies.jar时的目录，因为这是根据写死的路径来使用absyn/main，所以一定要在项目根目录
+上执行
 
 ## 环境和依赖
 
