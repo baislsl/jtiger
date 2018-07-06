@@ -6,6 +6,7 @@ import me.baislsl.tiger.symbol.ClassFieldSymbol;
 import org.apache.bcel.Const;
 import org.apache.bcel.generic.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,9 @@ public class FuncDecGen {
         gen.generateConstructor();
         gen.generateInvoke();
         try {
-            gen.cg.getJavaClass().dump(JVMSpec.classPath + gen.cg.getClassName() + ".class");
+            String classPath = JVMSpec.classPath + gen.cg.getClassName() + ".class";
+            gen.cg.getJavaClass().dump(classPath);
+            JarBuilder.add(new File(classPath));
         } catch (IOException e) {
             throw new CompileException(e);
         }

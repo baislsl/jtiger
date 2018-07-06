@@ -5,6 +5,7 @@ import org.apache.bcel.Const;
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.generic.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -68,7 +69,9 @@ public class TypeClassGen {
         factory.addInit();
         JavaClass javaClass = factory.cg.getJavaClass();
         try {
-            javaClass.dump(JVMSpec.classPath + name + ".class");
+            String classPath = JVMSpec.classPath + name + ".class";
+            javaClass.dump(classPath);
+            JarBuilder.add(new File(classPath));
         } catch (IOException e) {
             throw new CompileException(e);
         }

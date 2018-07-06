@@ -5,6 +5,7 @@ import me.baislsl.tiger.symbol.GenerateTypeSymbol;
 import org.apache.bcel.Const;
 import org.apache.bcel.generic.*;
 
+import java.io.File;
 import java.io.IOException;
 
 // entry for program
@@ -81,6 +82,8 @@ public class ProgramMainGen {
         try {
             String classPath = JVMSpec.classPath + className + ".class";
             cg.getJavaClass().dump(classPath);
+            JarBuilder.add(new File(classPath));
+            JarBuilder.setMainClass(className);
             return classPath;
         } catch (IOException e) {
             throw new CompileException(e);

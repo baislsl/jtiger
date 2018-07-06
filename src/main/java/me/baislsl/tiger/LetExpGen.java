@@ -10,6 +10,7 @@ import org.apache.bcel.generic.*;
 import org.apache.bcel.verifier.Verifier;
 import org.apache.bcel.verifier.VerifierFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,9 @@ public class LetExpGen {
         gen.generateConstructor();
         gen.generateInvoke();
         try {
-            gen.cg.getJavaClass().dump(JVMSpec.classPath + letExp.className + ".class");
+            String classPath = JVMSpec.classPath + letExp.className + ".class";
+            gen.cg.getJavaClass().dump(classPath);
+            JarBuilder.add(new File(classPath));
         } catch (IOException e) {
             throw new CompileException(e);
         }
