@@ -37,11 +37,6 @@ public class Main {
             } catch (IOException | InterruptedException e) {
                 logger.error("Error parsing code");
             }
-            try {
-                Thread.sleep(100);
-            }catch (InterruptedException e) {
-
-            }
             logger.info("Generating json parse result in " + new File(jsonPath).getAbsolutePath());
             String path;
             try {
