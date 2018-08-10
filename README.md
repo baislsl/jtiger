@@ -1,6 +1,6 @@
 # Compiler
 
-A naive tiger compiler that compiles tiger code to JVM executable jar.
+A naive tiger compiler which compiles tiger code to JVM executable jar.
 
 ## 使用说明
 
@@ -38,7 +38,7 @@ java -jar tiger.jar # 执行编译出来的jar文件
 
 ## 目标代码生成
 
-本编译器按照Modern Compiler Implementation in C（虎书）附录中tiger的语法标准翻译，
+按照Modern Compiler Implementation in C（虎书）附录中tiger的语法标准翻译，
 最终会生成JVM平台可执行的class文件，
 可以直接使用java命令执行，保证输出结果和退出状态正确。
 
