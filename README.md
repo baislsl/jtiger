@@ -1,6 +1,6 @@
 # Compiler
 
-A naive tiger compiler that compiles tiger code to JVM executable class file.
+A naive tiger compiler that compiles tiger code to JVM executable jar.
 
 ## 使用说明
 
@@ -42,83 +42,6 @@ java -jar tiger.jar # 执行编译出来的jar文件
 最终会生成JVM平台可执行的class文件，
 可以直接使用java命令执行，保证输出结果和退出状态正确。
 
-### 语法支持
-
-- 不支持:
-
-    * for 语句定义的id不支持嵌套引用（如果for中定义let，那么let语句块里面无法访问到该id）
-    * 不同作用域的函数重名或者结构类型重名会有问题
-
-- 支持：***其他所有特性***, 包括嵌套函数，数组，结构体等
-
-### 实现
-
-#### 语法树
-
-JVM是基于栈运行的虚拟机，在翻译时直接基于语法树进行翻译。
-
-词法分析和语法分析均使用c++和python编写，经过这两个步骤后得出语法树，将语法树存在json格式文件，再在java中读取json文件重现语法树。
-json数据一个例子如下：
-
-```json
-{
-  "class" : "Program",
-  "exp": {
-    "class" : "LetExp",
-    "decs" :[
-
-    ],
-    "exps" : [
-      {
-        "class" : "ForExp",
-        "id" : "i",
-        "fromExp" : {
-          "class": "IntLit",
-          "value" : "1234"
-        },
-        "toExp" : {
-          "class" : "IntLit",
-          "value" : "1235"
-        },
-        "doExp": {
-          "class" : "Call",
-          "id" : "print",
-          "exps" : [
-            {
-              "class" : "StringLit",
-              "value" : "Hello World"
-            }
-          ]
-        }
-
-      }
-    ]
-  }
-}
-```
-
-这里因为java有反射，只要将名字对上反射的名称，能够比较简单地通过反射读取json文件，所以这个格式是根据me.baislsl.tiger.structure
-包下的数据定义而定下的，和C++代码定义的结构里的稍有不同。
-
-### 关于JVM字节码和执行环境
-
-JVM是基于栈执行的虚拟机，所以翻译时字节在语法树的基础上翻译出最终的字节码，并没有经过中间代码的步骤。
-
-执行环境中与本编译器比较相关的除了方法栈外还有局部变量表（local variable table)，局部变量表主要存放方法参数（包括this引用）和临时定义的变量。虽然JVM提供了局部变量表这种类似与寄存器的结构，但非常不推荐编译器在翻译时无中生有生成额外的局部变量，而是建议一切操作基于栈执行。
-
-本编译器翻译时尽最大程度尊重这个设计原则，比如在for循环中，只有因为代码中显式定义了局部变量，所以才会在局部变量表中生成一个局部变量。唯一一个生成额外局部变量的地方是数组初始化，会额外生成一个```$$$i$$$```的局部变量，这主要是考虑到tiger语言和java的不同，JVM字节码集合中创建新的数组只有newarray指令，new出来的数组初始值默认为该类型的初始值，并没有指定初始值的字节码指令，为了实现tiger中数组整个初始化赋值，需要一个额外的for循环，如果不引入一个新的局部变量，很难利用JVM有限的dup，swap栈顶操作实现for循环赋值。
-
-### 字节码生成
-
-写入二进制文件非常繁琐，JVM8的class文件格式定义可见
-[The Java® Virtual Machine Specification](https://docs.oracle.com/javase/specs/jvms/se8/html/index.html)
-第4章,字节码集定义则见第6章。
-
-本项目依赖bcel（ Byte Code Engineering Library）写入文件，bcel是一个专注与读写、编辑、分析java类文件的三方库，本项目主要
-通过分析语法树得出字节码的基础上使用bcel生成类文件。
-
-该部分生成字节码主要遍历两次语法树，第一次遍历进行类型分析，实现见[TypeVisitor](./src/main/java/me/baislsl//tigerTypeVisitor.java),第二次遍历在类型确定的基础上进行翻译，实现见[TigerVisitorImpl](./src/main/java/me/baislsl/tiger/TigerVisitorImpl.java).
-
 ### java和tiger数据结构的转换
 
 |       | 整形 | 字符串 | 
@@ -152,7 +75,7 @@ public class any {
 
 这样翻译时，调用标准库接口就对应一个invokestatic指令。
 
-### Nested function和let翻译
+### Nested function和Let翻译
 
 会为每个function和let生成一个他们对应的类，类初始化时会保留一个parent的引用
 
